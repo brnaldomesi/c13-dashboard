@@ -6,15 +6,18 @@ import AppContainer from 'components/AppContainer'
 import ConfirmModal from 'components/ConfirmModal'
 import Dashboard from './Dashboard'
 import Login from './Login'
+import MainLayout from 'components/MainLayout'
 
 const routes = ({ history }) => (
   <ConnectedRouter history={history}>
     <AppContainer>
-      <Switch>
-        <Route path="/" exact component={Dashboard} />
-        <Route path="/login" exact component={Login} />
-      </Switch>
-      <ConfirmModal />
+      <MainLayout>
+        <Switch>
+          <Route path="/login" exact component={Login} />
+          <Route path="/" component={Dashboard} />
+        </Switch>
+        <ConfirmModal />
+      </MainLayout>
     </AppContainer>
   </ConnectedRouter>
 )

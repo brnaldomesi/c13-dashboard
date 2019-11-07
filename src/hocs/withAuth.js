@@ -19,3 +19,13 @@ export const isNotAuthenticatedOrRedir = Component => {
   const Wrapper = ({ isAuthenticated, ...props }) => (isAuthenticated ? <Redirect to="/" /> : <Component {...props} />)
   return connect(selector)(Wrapper)
 }
+
+export const userIsAuthenticated = Component => {
+  const Wrapper = ({ isAuthenticated, ...props }) => (isAuthenticated ? <Component {...props} /> : null)
+  return connect(selector)(Wrapper)
+}
+
+export const userIsNotAuthenticated = Component => {
+  const Wrapper = ({ isAuthenticated, ...props }) => (isAuthenticated ? null : <Component {...props} />)
+  return connect(selector)(Wrapper)
+}
