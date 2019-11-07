@@ -9,7 +9,7 @@ import FormInput from 'components/FormInput'
 import LoadingIndicator from 'components/LoadingIndicator'
 import styles from './styles'
 
-const LoginForm = ({ classes, errors, handleSubmit, submitting }) => (
+const LoginForm = ({ classes, errors, handleSubmit, isSubmitting }) => (
   <form onSubmit={handleSubmit}>
     <Field
       name="username"
@@ -37,7 +37,7 @@ const LoginForm = ({ classes, errors, handleSubmit, submitting }) => (
         Login
       </Button>
     </section>
-    {submitting && <LoadingIndicator />}
+    {isSubmitting && <LoadingIndicator />}
   </form>
 )
 
@@ -45,7 +45,7 @@ LoginForm.propTypes = {
   classes: PropTypes.object,
   error: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
   handleSubmit: PropTypes.func,
-  submitting: PropTypes.bool
+  isSubmitting: PropTypes.bool
 }
 
 export default withStyles(styles)(LoginForm)
