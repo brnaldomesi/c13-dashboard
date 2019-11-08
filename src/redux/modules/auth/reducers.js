@@ -23,7 +23,8 @@ export default handleActions(
   {
     [types.AUTH_LOGIN_SUCCESS]: (state, { payload }) => ({
       ...state,
-      ...payload
+      token: payload['x-auth-token'],
+      profile: payload.profile
     }),
     [types.AUTH_LOGOUT_SUCCESS]: (state, { payload }) => ({
       ...state,
