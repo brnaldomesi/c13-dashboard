@@ -1,4 +1,4 @@
-const localStorageName = 'cadence__local_storage'
+const localStorageName = 'cadence__dashboard__local_storage'
 
 export function loadData() {
   try {

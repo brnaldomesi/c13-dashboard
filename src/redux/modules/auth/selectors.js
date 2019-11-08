@@ -6,7 +6,7 @@ export const authSelector = fp.get('auth')
 
 export const tokenSelector = createSelector(
   authSelector,
-  fp.get('x-auth-token')
+  fp.get('token')
 )
 
 export const isAuthenticatedSelector = fp.compose(

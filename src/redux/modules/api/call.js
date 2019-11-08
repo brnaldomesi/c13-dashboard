@@ -12,7 +12,7 @@ const defaultHeaders = token => ({
   Accept: 'application/json, text/plain, */*',
   ...(token
     ? {
-        'X-CSRF-Token': token
+        'x-auth-token': token
       }
     : {})
 })
@@ -55,6 +55,7 @@ export default ({
       const queryParams = { ...defaultParams, ...params }
 
       const token = yield select(tokenSelector)
+      console.log({ token })
 
       const res = yield call(axios.request, {
         url: typeof path === 'function' ? path(action) : path,

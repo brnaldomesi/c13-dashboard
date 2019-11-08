@@ -1,14 +1,21 @@
 import { handleActions } from 'redux-actions'
-import get from 'lodash/get'
+import fp from 'lodash/fp'
 
 import * as types from './types'
-import { loadData } from 'utils/storage'
+
+const getCookieVars = fp.compose(
+  fp.fromPairs,
+  fp.map(fp.split('=')),
+  fp.map(fp.trim),
+  fp.split(';'),
+  fp.get('cookie')
+)
 
 const getInitialState = () => {
-  const { auth } = loadData()
+  const cookieVars = getCookieVars(document)
   return {
-    'x-auth-token': get(auth, 'x-auth-token') || null,
-    profile: get(auth, 'profile') || null
+    token: cookieVars['token'],
+    profile: cookieVars.userProfile ? JSON.parse(decodeURIComponent(cookieVars.userProfile)) : null
   }
 }
 
@@ -18,10 +25,10 @@ export default handleActions(
       ...state,
       ...payload
     }),
-    [types.AUTH_LOGOUT]: (state, { payload }) => ({
+    [types.AUTH_LOGOUT_SUCCESS]: (state, { payload }) => ({
       ...state,
       profile: null,
-      'x-auth-token': null
+      token: null
     })
   },
   getInitialState()
