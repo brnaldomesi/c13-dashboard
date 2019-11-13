@@ -1,30 +1,40 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 import { compose } from 'redux'
+import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
 
 import { isAuthenticatedOrRedir } from 'hocs/withAuth'
+import { getUserPreference } from 'redux/modules/profiles'
 import styles from './styles'
 import Typography from '@material-ui/core/Typography'
 
-class Dashboard extends Component {
-  static propTypes = {
-    classes: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired
-  }
+const Dashboard = ({ classes, getUserPreference }) => {
+  useEffect(() => {
+    getUserPreference()
+  }, [getUserPreference])
 
-  render() {
-    const { classes } = this.props
+  return (
+    <div className={classes.root}>
+      <Typography variant="h4">Welcome to Cadence Dashboard!</Typography>
+    </div>
+  )
+}
 
-    return (
-      <div className={classes.root}>
-        <Typography variant="h4">Welcome to Cadence Dashboard!</Typography>
-      </div>
-    )
-  }
+Dashboard.propTypes = {
+  classes: PropTypes.object.isRequired,
+  getUserPreference: PropTypes.func.isRequired
+}
+
+const actions = {
+  getUserPreference
 }
 
 export default compose(
   isAuthenticatedOrRedir,
+  connect(
+    null,
+    actions
+  ),
   withStyles(styles)
 )(Dashboard)
