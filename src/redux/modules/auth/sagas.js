@@ -20,17 +20,20 @@ const authLogin = apiCallSaga({
   }
 })
 
+const handleLogout = function*(payload) {
+  document.cookie = ''
+  Cookies.remove('token')
+  Cookies.remove('userProfile')
+  yield put(authLogoutSuccess(payload))
+}
+
 const authLogout = apiCallSaga({
-  type: AUTH_LOGIN,
+  type: AUTH_LOGOUT,
   method: 'post',
   path: '/authentication/logout',
   selectorKey: 'authLogout',
-  success: function*(payload) {
-    document.cookie = ''
-    Cookies.remove('token')
-    Cookies.remove('userProfile')
-    yield put(authLogoutSuccess(payload))
-  }
+  success: handleLogout,
+  fail: handleLogout
 })
 
 export default function* rootSaga() {
