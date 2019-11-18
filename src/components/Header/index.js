@@ -13,6 +13,7 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Logo from 'components/Logo'
 import styles from './styles'
 import { isAuthenticatedSelector } from 'redux/modules/auth'
+import DatePreferences from 'components/DatePreferences'
 
 export const Header = ({ classes, isAuthenticated, toggleSidebar }) => (
   <AppBar position="fixed" color="default" className={classes.root}>
@@ -29,6 +30,7 @@ export const Header = ({ classes, isAuthenticated, toggleSidebar }) => (
         <>
           {/* <HeaderSearchForm /> */}
           <div className={classes.spacer} />
+          <DatePreferences />
         </>
       )}
     </Toolbar>

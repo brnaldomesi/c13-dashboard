@@ -2,6 +2,7 @@ import { fade } from '@material-ui/core/styles'
 
 export default theme => ({
   root: {
+    paddingRight: theme.spacing(2),
     zIndex: theme.zIndex.drawer + 1,
     backgroundColor: theme.cadence.appBarBg
   },
