@@ -120,7 +120,6 @@ const DatePreferences = ({ updateUserPreference, userPreference }) => {
                               autoOk
                               variant="inline"
                               format="MM/dd/yyyy"
-                              margin="normal"
                               label="Start Date"
                               value={values.fromDate}
                               onChange={date => setFieldValue('fromDate', date)}
@@ -136,7 +135,6 @@ const DatePreferences = ({ updateUserPreference, userPreference }) => {
                               autoOk
                               variant="inline"
                               format="MM/dd/yyyy"
-                              margin="normal"
                               label="End Date"
                               value={values.toDate}
                               onChange={date => setFieldValue('toDate', date)}
