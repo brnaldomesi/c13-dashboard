@@ -3,6 +3,8 @@ export default theme => ({
     backgroundColor: theme.cadence.sidebarBg
   },
   list: {
+    flex: 1,
+    overflow: 'auto',
     width: theme.cadence.sidebarWidth
   },
   spacer: {

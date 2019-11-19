@@ -5,11 +5,16 @@ import { withStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
 
 import { isAuthenticatedOrRedir } from 'hocs/withAuth'
+import { getNetworks } from 'redux/modules/media'
 import { getUserPreference } from 'redux/modules/profiles'
 import styles from './styles'
 import Typography from '@material-ui/core/Typography'
 
-const Dashboard = ({ classes, getUserPreference }) => {
+const Dashboard = ({ classes, getNetworks, getUserPreference }) => {
+  useEffect(() => {
+    getNetworks()
+  }, [getNetworks])
+
   useEffect(() => {
     getUserPreference()
   }, [getUserPreference])
@@ -27,6 +32,7 @@ Dashboard.propTypes = {
 }
 
 const actions = {
+  getNetworks,
   getUserPreference
 }
 

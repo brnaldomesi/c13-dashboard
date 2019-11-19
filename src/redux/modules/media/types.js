@@ -1,0 +1,1 @@
+export const GET_NETWORKS = 'CADENCE.GET_NETWORKS'
