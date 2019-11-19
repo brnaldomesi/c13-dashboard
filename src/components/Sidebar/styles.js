@@ -1,11 +1,16 @@
 export default theme => ({
   paper: {
-    backgroundColor: theme.cadence.sidebarBg
+    backgroundColor: theme.cadence.sidebarBg,
+    width: theme.cadence.sidebarWidth
+  },
+  flexOne: {
+    flex: 1
   },
   list: {
-    flex: 1,
     overflow: 'auto',
-    width: theme.cadence.sidebarWidth
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: theme.spacing(8)
   },
   spacer: {
     flex: 1

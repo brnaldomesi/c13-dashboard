@@ -12,7 +12,7 @@ import { updateUserPreference, userPreferenceSelector } from 'redux/modules/prof
 import SidebarItem from '../SidebarItem'
 import SidebarSubItem from '../SidebarSubItem'
 
-const SidebarNetworks = ({ networks, open, onToggle, userPreference, updateUserPreference }) => {
+const SidebarNetworks = ({ className, networks, open, onToggle, userPreference, updateUserPreference }) => {
   const handleToggle = useCallback(() => onToggle('networks'), [onToggle])
   const handleClickItem = useCallback(
     networkId => () => {
@@ -31,9 +31,9 @@ const SidebarNetworks = ({ networks, open, onToggle, userPreference, updateUserP
 
   return (
     <>
-      <List>
+      <List className={className}>
         <SidebarItem icon={IconAirplay} text="Networks" to="/networks" onClick={handleToggle} hasSubItems open={open} />
-        <Collapse in={open}>
+        <Collapse in={open} style={{ overflow: 'auto' }}>
           <List component="nav" dense>
             {networks.map(network => (
               <SidebarSubItem
@@ -52,6 +52,7 @@ const SidebarNetworks = ({ networks, open, onToggle, userPreference, updateUserP
 }
 
 SidebarNetworks.propTypes = {
+  className: PropTypes.string,
   networks: PropTypes.array,
   onToggle: PropTypes.func.isRequired,
   open: PropTypes.bool,

@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
+import cn from 'classnames'
 import Divider from '@material-ui/core/Divider'
 import Drawer from '@material-ui/core/Drawer'
 import IconButton from '@material-ui/core/IconButton'
@@ -11,10 +12,11 @@ import MenuIcon from '@material-ui/icons/Menu'
 import PropTypes from 'prop-types'
 
 import { authLogout } from 'redux/modules/auth'
-import { IconMail, IconMicrophone, IconNotification } from 'icons'
+import { IconMail, IconNotification } from 'icons'
 import { userIsAuthenticated } from 'hocs/withAuth'
 import Logo from 'components/Logo'
 import SidebarItem from './SidebarItem'
+import SidebarEpisodes from './SidebarEpisodes'
 import SidebarNetworks from './SidebarNetworks'
 import SidebarPodcasts from './SidebarPodcasts'
 import styles from './styles'
@@ -39,17 +41,14 @@ const Sidebar = ({ authLogout, classes, open, toggle }) => {
         </IconButton>
         <Logo />
       </div>
-      <div className={classes.list}>
+      <div className={cn(classes.list, classes.flexOne)}>
         <List>
           <SidebarItem icon={IconNotification} text="Notifications" to="/notifications" />
         </List>
         <Divider />
-        <SidebarNetworks open={activeSection === 'networks'} onToggle={handleSectionToggle} />
-        <SidebarPodcasts open={activeSection === 'podcasts'} onToggle={handleSectionToggle} />
-        <List>
-          <SidebarItem icon={IconMicrophone} text="All Episodes" to="/episodes" />
-        </List>
-        <Divider />
+        <SidebarNetworks open={activeSection === 'networks'} onToggle={handleSectionToggle} className={classes.list} />
+        <SidebarPodcasts open={activeSection === 'podcasts'} onToggle={handleSectionToggle} className={classes.list} />
+        <SidebarEpisodes open={activeSection === 'episodes'} onToggle={handleSectionToggle} className={classes.list} />
         <List>
           <SidebarItem icon={IconMail} text="Feedback" to="/feedback" />
         </List>

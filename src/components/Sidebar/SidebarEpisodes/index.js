@@ -4,59 +4,66 @@ import { createStructuredSelector } from 'reselect'
 import get from 'lodash/get'
 import Collapse from '@material-ui/core/Collapse'
 import Divider from '@material-ui/core/Divider'
-import IconCast from '@material-ui/icons/Cast'
 import List from '@material-ui/core/List'
 import PropTypes from 'prop-types'
 
-import { getUserSeries, userSeriesSelector } from 'redux/modules/profiles'
+import { getEpisodes, episodesSelector } from 'redux/modules/media'
+import { IconMicrophone } from 'icons'
 import { updateUserPreference, userPreferenceSelector } from 'redux/modules/profiles'
 import SidebarItem from '../SidebarItem'
 import SidebarSubItem from '../SidebarSubItem'
+import { FormattedDate } from 'react-intl'
 
-const SidebarPodcasts = ({
+const SidebarEpisodes = ({
   className,
-  getUserSeries,
-  userSeries,
+  getEpisodes,
+  episodes,
   open,
   onToggle,
   updateUserPreference,
   userPreference
 }) => {
-  const handleToggle = useCallback(() => onToggle('podcasts'), [onToggle])
+  const handleToggle = useCallback(() => onToggle('episodes'), [onToggle])
   const handleClickItem = useCallback(
-    podcastId => () => {
+    episodeId => () => {
       updateUserPreference({
         data: {
           ...userPreference,
-          seriesId: podcastId,
-          episodeId: null
+          episodeId
         }
       })
-      onToggle('podcasts')
+      onToggle('episodes')
     },
     [onToggle, updateUserPreference, userPreference]
   )
   const networkId = get(userPreference, 'networkId')
-  const podcasts = get(userSeries, networkId) || []
+  const podcastId = get(userPreference, 'seriesId')
+  const episodesVisible = Boolean(networkId && podcastId)
 
   useEffect(() => {
-    if (networkId) {
-      getUserSeries()
+    if (episodesVisible) {
+      getEpisodes({ podcastId })
     }
-  }, [networkId])
+  }, [networkId, podcastId])
 
-  return networkId ? (
+  return episodesVisible ? (
     <>
       <List className={className}>
-        <SidebarItem icon={IconCast} text="Podcasts" onClick={handleToggle} hasSubItems open={open} />
+        <SidebarItem icon={IconMicrophone} text="Episodes" onClick={handleToggle} hasSubItems open={open} />
         <Collapse in={open} style={{ overflow: 'auto' }}>
           <List component="nav" dense>
-            {podcasts.map(podcast => (
+            {episodes.map(episode => (
               <SidebarSubItem
-                text={podcast.name}
-                key={podcast.seriesId}
-                selected={userPreference.seriesId === podcast.seriesId}
-                onClick={handleClickItem(podcast.seriesId)}
+                text={
+                  <>
+                    <FormattedDate format="numericDate" value={episode.publishDate} />
+                    {' - '}
+                    {episode.name}
+                  </>
+                }
+                key={episode.episodeId}
+                selected={userPreference.episodeId === episode.episodeId}
+                onClick={handleClickItem(episode.episodeId)}
               />
             ))}
           </List>
@@ -67,26 +74,26 @@ const SidebarPodcasts = ({
   ) : null
 }
 
-SidebarPodcasts.propTypes = {
+SidebarEpisodes.propTypes = {
   className: PropTypes.string,
+  episodes: PropTypes.array,
   onToggle: PropTypes.func.isRequired,
   open: PropTypes.bool,
   updateUserPreference: PropTypes.func.isRequired,
-  userPreference: PropTypes.object,
-  userSeries: PropTypes.object
+  userPreference: PropTypes.object
 }
 
 const selector = createStructuredSelector({
-  userSeries: userSeriesSelector,
+  episodes: episodesSelector,
   userPreference: userPreferenceSelector
 })
 
 const actions = {
-  getUserSeries,
+  getEpisodes,
   updateUserPreference
 }
 
 export default connect(
   selector,
   actions
-)(SidebarPodcasts)
+)(SidebarEpisodes)
