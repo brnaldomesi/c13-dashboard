@@ -6,11 +6,11 @@ import Divider from '@material-ui/core/Divider'
 import List from '@material-ui/core/List'
 import PropTypes from 'prop-types'
 
-import { networksSelector } from 'redux/modules/media'
 import { IconAirplay } from 'icons'
+import { networksSelector } from 'redux/modules/media'
+import { updateUserPreference, userPreferenceSelector } from 'redux/modules/profiles'
 import SidebarItem from '../SidebarItem'
 import SidebarSubItem from '../SidebarSubItem'
-import { updateUserPreference, userPreferenceSelector } from 'redux/modules/profiles'
 
 const SidebarNetworks = ({ networks, open, onToggle, userPreference, updateUserPreference }) => {
   const handleToggle = useCallback(() => onToggle('networks'), [onToggle])
@@ -52,7 +52,11 @@ const SidebarNetworks = ({ networks, open, onToggle, userPreference, updateUserP
 }
 
 SidebarNetworks.propTypes = {
-  networks: PropTypes.array.isRequired
+  networks: PropTypes.array,
+  onToggle: PropTypes.func.isRequired,
+  open: PropTypes.bool,
+  updateUserPreference: PropTypes.func.isRequired,
+  userPreference: PropTypes.object
 }
 
 const selector = createStructuredSelector({

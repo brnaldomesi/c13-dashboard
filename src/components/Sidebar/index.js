@@ -2,7 +2,6 @@ import React, { useCallback, useState } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
-import IconCast from '@material-ui/icons/Cast'
 import Divider from '@material-ui/core/Divider'
 import Drawer from '@material-ui/core/Drawer'
 import IconButton from '@material-ui/core/IconButton'
@@ -17,6 +16,7 @@ import { userIsAuthenticated } from 'hocs/withAuth'
 import Logo from 'components/Logo'
 import SidebarItem from './SidebarItem'
 import SidebarNetworks from './SidebarNetworks'
+import SidebarPodcasts from './SidebarPodcasts'
 import styles from './styles'
 
 const Sidebar = ({ authLogout, classes, open, toggle }) => {
@@ -45,10 +45,7 @@ const Sidebar = ({ authLogout, classes, open, toggle }) => {
         </List>
         <Divider />
         <SidebarNetworks open={activeSection === 'networks'} onToggle={handleSectionToggle} />
-        <List>
-          <SidebarItem icon={IconCast} text="Podcasts" to="/podcasts" />
-        </List>
-        <Divider />
+        <SidebarPodcasts open={activeSection === 'podcasts'} onToggle={handleSectionToggle} />
         <List>
           <SidebarItem icon={IconMicrophone} text="All Episodes" to="/episodes" />
         </List>

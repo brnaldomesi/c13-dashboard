@@ -21,7 +21,7 @@ const updateUserPreference = apiCallSaga({
 
 const getUserSeries = apiCallSaga({
   type: types.GET_USER_SERIES,
-  method: 'patch',
+  method: 'get',
   allowedParamKeys: [],
   path: '/profiles/userSeries',
   selectorKey: 'userSeries'
