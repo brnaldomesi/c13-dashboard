@@ -19,6 +19,9 @@ export default theme => ({
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(2)
   },
+  info: {
+    padding: theme.spacing(2)
+  },
   header: {
     display: 'flex',
     alignItems: 'center',

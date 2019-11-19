@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton'
 import List from '@material-ui/core/List'
 import LogoutIcon from '@material-ui/icons/PowerSettingsNew'
 import MenuIcon from '@material-ui/icons/Menu'
+import InfoIcon from '@material-ui/icons/Info'
 import PropTypes from 'prop-types'
 
 import { authLogout } from 'redux/modules/auth'
@@ -20,6 +21,7 @@ import SidebarEpisodes from './SidebarEpisodes'
 import SidebarNetworks from './SidebarNetworks'
 import SidebarPodcasts from './SidebarPodcasts'
 import styles from './styles'
+import { Typography } from '@material-ui/core'
 
 const Sidebar = ({ authLogout, classes, open, toggle }) => {
   const [activeSection, setActiveSection] = useState(null)
@@ -52,6 +54,11 @@ const Sidebar = ({ authLogout, classes, open, toggle }) => {
         <List>
           <SidebarItem icon={IconMail} text="Feedback" to="/feedback" />
         </List>
+        <Divider />
+        <Typography variant="caption" className={classes.info}>
+          * Unless otherwise stated with <InfoIcon fontSize="inherit" />, all data is based on selected date range.
+          <br />* Spotify data available as of 10.24.18
+        </Typography>
       </div>
       <div className={classes.footer} onClick={handleToggle} onKeyDown={handleToggle}>
         <SidebarItem icon={LogoutIcon} text="Logout" onClick={authLogout} />
