@@ -9,7 +9,8 @@ const getNetworks = apiCallSaga({
   method: 'get',
   allowedParamKeys: [],
   path: '/media/networks',
-  selectorKey: 'networks'
+  selectorKey: 'networks',
+  payloadOnSuccess: fp.sortBy('name')
 })
 
 const getEpisodes = apiCallSaga({

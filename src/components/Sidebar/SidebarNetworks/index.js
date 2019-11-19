@@ -35,6 +35,7 @@ const SidebarNetworks = ({ className, networks, open, onToggle, userPreference, 
         <SidebarItem icon={IconAirplay} text="Networks" to="/networks" onClick={handleToggle} hasSubItems open={open} />
         <Collapse in={open} style={{ overflow: 'auto' }}>
           <List component="nav" dense>
+            <SidebarSubItem text="All Networks" selected={!userPreference.networkId} onClick={handleClickItem(null)} />
             {networks.map(network => (
               <SidebarSubItem
                 text={network.name}

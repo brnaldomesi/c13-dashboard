@@ -52,6 +52,11 @@ const SidebarEpisodes = ({
         <SidebarItem icon={IconMicrophone} text="Episodes" onClick={handleToggle} hasSubItems open={open} />
         <Collapse in={open} style={{ overflow: 'auto' }}>
           <List component="nav" dense>
+            <SidebarSubItem
+              text={episodes.length > 0 ? 'All Episodes' : 'No Episodes in this podcast'}
+              disabled={episodes.length === 0}
+              onClick={handleClickItem(null)}
+            />
             {episodes.map(episode => (
               <SidebarSubItem
                 text={
