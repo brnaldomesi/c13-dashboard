@@ -1,5 +1,7 @@
 export default theme => ({
   root: {
-    height: '100%'
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column'
   }
 })

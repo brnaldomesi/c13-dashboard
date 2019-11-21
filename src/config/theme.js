@@ -15,6 +15,8 @@ export default createMuiTheme({
   cadence: {
     appBarBg: '#000000',
     sidebarBg: '#121315',
+    contentBg: '#090909',
+    panelBg: '#333333',
     sidebarWidth: 250
   }
 })

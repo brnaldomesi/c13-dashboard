@@ -3,6 +3,7 @@ import CardMedia from '@material-ui/core/CardMedia'
 import get from 'lodash/get'
 import PropTypes from 'prop-types'
 
+import { ImageUrlType } from 'utils/propTypes'
 import podcastPlaceholder from './podcast-placeholder.png'
 import avatarPlaceholder from './avatar-placeholder.png'
 
@@ -17,12 +18,7 @@ const ThumbnailImage = ({ className, imageUrls, title, type }) => {
 
 ThumbnailImage.propTypes = {
   className: PropTypes.string,
-  imageUrls: PropTypes.oneOfType([
-    PropTypes.shape({
-      original: PropTypes.string
-    }),
-    PropTypes.string
-  ]),
+  imageUrls: ImageUrlType,
   title: PropTypes.string,
   type: PropTypes.oneOf(['avatar', 'podcast'])
 }

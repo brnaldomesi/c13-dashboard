@@ -1,16 +1,21 @@
 import React, { useEffect } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
+import { createStructuredSelector } from 'reselect'
 import { withStyles } from '@material-ui/core/styles'
+import get from 'lodash/get'
 import PropTypes from 'prop-types'
 
 import { isAuthenticatedOrRedir } from 'hocs/withAuth'
-import { getNetworks } from 'redux/modules/media'
-import { getUserPreference } from 'redux/modules/profiles'
+import { getEpisodes, getNetworks } from 'redux/modules/media'
+import { getUserPreference, getUserSeries, userPreferenceSelector } from 'redux/modules/profiles'
+import MediaInfo from 'components/MediaInfo'
 import styles from './styles'
-import Typography from '@material-ui/core/Typography'
 
-const Dashboard = ({ classes, getNetworks, getUserPreference }) => {
+const Dashboard = ({ classes, getEpisodes, getNetworks, getUserSeries, getUserPreference, userPreference }) => {
+  const networkId = get(userPreference, 'networkId')
+  const podcastId = get(userPreference, 'seriesId')
+
   useEffect(() => {
     getNetworks()
   }, [getNetworks])
@@ -19,9 +24,21 @@ const Dashboard = ({ classes, getNetworks, getUserPreference }) => {
     getUserPreference()
   }, [getUserPreference])
 
+  useEffect(() => {
+    if (networkId) {
+      getUserSeries()
+    }
+  }, [networkId, getUserSeries])
+
+  useEffect(() => {
+    if (podcastId && networkId) {
+      getEpisodes({ podcastId })
+    }
+  }, [networkId, podcastId, getEpisodes])
+
   return (
     <div className={classes.root}>
-      <Typography variant="h4">Welcome to Cadence Dashboard!</Typography>
+      <MediaInfo />
     </div>
   )
 }
@@ -31,15 +48,21 @@ Dashboard.propTypes = {
   getUserPreference: PropTypes.func.isRequired
 }
 
+const selector = createStructuredSelector({
+  userPreference: userPreferenceSelector
+})
+
 const actions = {
+  getEpisodes,
   getNetworks,
-  getUserPreference
+  getUserPreference,
+  getUserSeries
 }
 
 export default compose(
   isAuthenticatedOrRedir,
   connect(
-    null,
+    selector,
     actions
   ),
   withStyles(styles)

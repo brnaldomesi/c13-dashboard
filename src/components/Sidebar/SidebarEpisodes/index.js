@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback } from 'react'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import get from 'lodash/get'
@@ -7,22 +7,14 @@ import Divider from '@material-ui/core/Divider'
 import List from '@material-ui/core/List'
 import PropTypes from 'prop-types'
 
-import { getEpisodes, episodesSelector } from 'redux/modules/media'
+import { episodesSelector } from 'redux/modules/media'
 import { IconMicrophone } from 'icons'
 import { updateUserPreference, userPreferenceSelector } from 'redux/modules/profiles'
 import SidebarItem from '../SidebarItem'
 import SidebarSubItem from '../SidebarSubItem'
 import { FormattedDate } from 'react-intl'
 
-const SidebarEpisodes = ({
-  className,
-  getEpisodes,
-  episodes,
-  open,
-  onToggle,
-  updateUserPreference,
-  userPreference
-}) => {
+const SidebarEpisodes = ({ className, episodes, open, onToggle, updateUserPreference, userPreference }) => {
   const handleToggle = useCallback(() => onToggle('episodes'), [onToggle])
   const handleClickItem = useCallback(
     episodeId => () => {
@@ -39,12 +31,6 @@ const SidebarEpisodes = ({
   const networkId = get(userPreference, 'networkId')
   const podcastId = get(userPreference, 'seriesId')
   const episodesVisible = Boolean(networkId && podcastId)
-
-  useEffect(() => {
-    if (episodesVisible) {
-      getEpisodes({ podcastId })
-    }
-  }, [networkId, podcastId])
 
   return episodesVisible ? (
     <>
@@ -94,7 +80,6 @@ const selector = createStructuredSelector({
 })
 
 const actions = {
-  getEpisodes,
   updateUserPreference
 }
 

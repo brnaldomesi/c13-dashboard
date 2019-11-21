@@ -9,7 +9,7 @@ export const EMPTY_LIST_DATA = {
 
 export const BASE_URL = '/api/v1'
 
-export const DASHBOARD_DOMAIN = process.env.REACT_APP_DASHBOARD_DOMAIN || 'dashboard.cadence13.com'
+export const SHOWS_DOMAIN = process.env.REACT_APP_SHOWS_DOMAIN || 'shows.cadence13.com'
 
 export const SNACKBAR_MAX_STACK = 3
 

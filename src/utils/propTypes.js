@@ -6,3 +6,10 @@ export const APIListType = PropTypes.shape({
   prevCursor: PropTypes.string,
   nextCursor: PropTypes.string
 })
+
+export const ImageUrlType = PropTypes.oneOfType([
+  PropTypes.shape({
+    original: PropTypes.string
+  }),
+  PropTypes.string
+])

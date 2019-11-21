@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback } from 'react'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import get from 'lodash/get'
@@ -9,20 +9,12 @@ import List from '@material-ui/core/List'
 import PropTypes from 'prop-types'
 import sortBy from 'lodash/sortBy'
 
-import { getUserSeries, userSeriesSelector } from 'redux/modules/profiles'
+import { userSeriesSelector } from 'redux/modules/profiles'
 import { updateUserPreference, userPreferenceSelector } from 'redux/modules/profiles'
 import SidebarItem from '../SidebarItem'
 import SidebarSubItem from '../SidebarSubItem'
 
-const SidebarPodcasts = ({
-  className,
-  getUserSeries,
-  userSeries,
-  open,
-  onToggle,
-  updateUserPreference,
-  userPreference
-}) => {
+const SidebarPodcasts = ({ className, userSeries, open, onToggle, updateUserPreference, userPreference }) => {
   const handleToggle = useCallback(() => onToggle('podcasts'), [onToggle])
   const handleClickItem = useCallback(
     podcastId => () => {
@@ -39,12 +31,6 @@ const SidebarPodcasts = ({
   )
   const networkId = get(userPreference, 'networkId')
   const podcasts = sortBy(get(userSeries, networkId) || [], 'name')
-
-  useEffect(() => {
-    if (networkId) {
-      getUserSeries()
-    }
-  }, [networkId])
 
   return networkId ? (
     <>
@@ -88,7 +74,6 @@ const selector = createStructuredSelector({
 })
 
 const actions = {
-  getUserSeries,
   updateUserPreference
 }
 

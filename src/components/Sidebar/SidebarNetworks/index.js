@@ -32,7 +32,7 @@ const SidebarNetworks = ({ className, networks, open, onToggle, userPreference, 
   return (
     <>
       <List className={className}>
-        <SidebarItem icon={IconAirplay} text="Networks" to="/networks" onClick={handleToggle} hasSubItems open={open} />
+        <SidebarItem icon={IconAirplay} text="Networks" onClick={handleToggle} hasSubItems open={open} />
         <Collapse in={open} style={{ overflow: 'auto' }}>
           <List component="nav" dense>
             <SidebarSubItem text="All Networks" selected={!userPreference.networkId} onClick={handleClickItem(null)} />
