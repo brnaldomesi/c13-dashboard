@@ -3,8 +3,7 @@ export default theme => ({
     height: '100%',
     width: '100%',
     display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between'
+    flexDirection: 'column'
   },
   list: {
     marginTop: theme.spacing(3),

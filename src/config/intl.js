@@ -7,6 +7,10 @@ export default {
         month: 'numeric',
         year: 'numeric'
       },
+      dayAndMonth: {
+        month: '2-digit',
+        day: '2-digit'
+      },
       monthAndYear: {
         month: 'long',
         year: 'numeric'

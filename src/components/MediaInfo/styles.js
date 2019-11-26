@@ -2,6 +2,7 @@ export default theme => ({
   root: {
     padding: theme.spacing(3),
     margin: -theme.spacing(3),
+    marginBottom: 0,
     backgroundColor: theme.cadence.panelBg,
     display: 'flex',
     alignItems: 'center',

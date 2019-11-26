@@ -5,7 +5,7 @@ export default createMuiTheme({
   palette: {
     type: 'dark',
     primary: {
-      main: '#3ea8fe',
+      main: '#3BA8FC',
       contrastText: '#fff'
     }
   },
@@ -17,6 +17,8 @@ export default createMuiTheme({
     sidebarBg: '#121315',
     contentBg: '#090909',
     panelBg: '#333333',
+    cardHeaderBg: '#444444',
+    cardActionBg: '#222222',
     sidebarWidth: 250
   }
 })

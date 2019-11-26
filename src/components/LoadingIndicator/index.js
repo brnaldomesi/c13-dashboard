@@ -6,9 +6,9 @@ import { withStyles } from '@material-ui/core/styles'
 
 import styles from './styles'
 
-const LoadingIndicator = ({ classes, className }) => (
-  <div className={cx(classes.refreshOverlay, className)}>
-    <CircularProgress size={70} thickness={5} />
+const LoadingIndicator = ({ classes, className, size = 70, isStatic }) => (
+  <div className={cx({ [classes.refreshOverlay]: !isStatic }, className)}>
+    <CircularProgress size={size} thickness={5} />
   </div>
 )
 

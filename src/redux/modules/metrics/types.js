@@ -1,0 +1,1 @@
+export const GET_SUMMARIES = 'CADENCE.GET_SUMMARIES'

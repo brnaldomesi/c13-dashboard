@@ -10,6 +10,7 @@ import { isAuthenticatedOrRedir } from 'hocs/withAuth'
 import { getEpisodes, getNetworks } from 'redux/modules/media'
 import { getUserPreference, getUserSeries, userPreferenceSelector } from 'redux/modules/profiles'
 import MediaInfo from 'components/MediaInfo'
+import Summaries from 'components/Summaries'
 import styles from './styles'
 
 const Dashboard = ({ classes, getEpisodes, getNetworks, getUserSeries, getUserPreference, userPreference }) => {
@@ -39,6 +40,7 @@ const Dashboard = ({ classes, getEpisodes, getNetworks, getUserSeries, getUserPr
   return (
     <div className={classes.root}>
       <MediaInfo />
+      <Summaries />
     </div>
   )
 }
