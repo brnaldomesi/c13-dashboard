@@ -16,13 +16,7 @@ const PanelHeader = ({ title, action }) => {
           {title}
         </Typography>
       </div>
-      {action && (
-        <div className={classes.action}>
-          <Typography variant="subtitle1" className={classes.bold}>
-            {action}
-          </Typography>
-        </div>
-      )}
+      {action && <div className={classes.action}>{action}</div>}
     </div>
   )
 }

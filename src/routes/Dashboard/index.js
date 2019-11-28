@@ -11,6 +11,7 @@ import { getEpisodes, getNetworks } from 'redux/modules/media'
 import { getUserPreference, getUserSeries, userPreferenceSelector } from 'redux/modules/profiles'
 import MediaInfo from 'components/MediaInfo'
 import Summaries from 'components/Summaries'
+import TotalAndHourly from 'components/TotalAndHourly'
 import styles from './styles'
 
 const Dashboard = ({ classes, getEpisodes, getNetworks, getUserSeries, getUserPreference, userPreference }) => {
@@ -41,6 +42,7 @@ const Dashboard = ({ classes, getEpisodes, getNetworks, getUserSeries, getUserPr
     <div className={classes.root}>
       <MediaInfo />
       <Summaries />
+      <TotalAndHourly />
     </div>
   )
 }

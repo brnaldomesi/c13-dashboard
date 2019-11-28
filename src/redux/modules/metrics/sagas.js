@@ -11,6 +11,15 @@ const getSummaries = apiCallSaga({
   selectorKey: 'summaries'
 })
 
+const getTotalsAndTrends = apiCallSaga({
+  type: types.GET_TOTALS_AND_TRENDS,
+  method: 'get',
+  allowedParamKeys: [],
+  path: '/metrics/totalsAndTrends',
+  selectorKey: 'totalsAndTrends'
+})
+
 export default function* rootSaga() {
   yield takeLatest(types.GET_SUMMARIES, getSummaries)
+  yield takeLatest(types.GET_TOTALS_AND_TRENDS, getTotalsAndTrends)
 }

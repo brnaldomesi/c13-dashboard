@@ -11,11 +11,7 @@ export default theme => ({
   },
   action: {
     display: 'flex',
-    alignItems: 'center',
-    padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
+    alignItems: 'stretch',
     backgroundColor: theme.cadence.cardActionBg
-  },
-  bold: {
-    fontWeight: 600
   }
 })

@@ -32,11 +32,11 @@ const Summaries = ({ getSummaries, loading, summaries, userPreference }) => {
               title="Downloads"
               action={
                 userPreference ? (
-                  <>
+                  <Typography variant="subtitle1" className={classes.dates}>
                     <FormattedDate format="dayAndMonth" value={userPreference.fromDate} />
                     {' - '}
                     <FormattedDate format="dayAndMonth" value={userPreference.toDate} />
-                  </>
+                  </Typography>
                 ) : null
               }
             />
