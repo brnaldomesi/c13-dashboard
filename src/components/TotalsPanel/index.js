@@ -1,11 +1,13 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import * as Highcharts from 'highcharts'
 import Button from '@material-ui/core/Button'
 import dfFormat from 'date-fns/format'
+import fp from 'lodash/fp'
 import HighchartsReact from 'highcharts-react-official'
 import PropTypes from 'prop-types'
 
+import { downloadCSV } from 'utils/exporting'
 import LoadingIndicator from 'components/LoadingIndicator'
 import IconExport from 'icons/IconExport'
 import Panel from 'components/Panel'
@@ -105,16 +107,32 @@ const getOptions = totals => ({
   ]
 })
 
+const csvHeader = 'Week,Listens'
+
+const getCSVData = fp.compose(
+  fp.join('\n'),
+  items => [csvHeader, ...items],
+  fp.map(item => [new Date(item.date).toDateString(), item.count].join(',')),
+  fp.defaultTo([]),
+  fp.get('chartData')
+)
+
 const TotalsPanel = ({ loading, totals }) => {
   const classes = useStyles()
   const options = useMemo(() => getOptions(totals), [totals])
+
+  const handleExport = useCallback(() => {
+    const csv = getCSVData(totals)
+    downloadCSV(csv, 'totalDownloadsChartData.csv')
+  }, [totals])
+
   return (
     <div className={classes.root}>
       <Panel>
         <Panel.Header
           title="Total"
           action={
-            <Button className={classes.export} startIcon={<IconExport />}>
+            <Button className={classes.export} startIcon={<IconExport />} onClick={handleExport}>
               Export
             </Button>
           }
