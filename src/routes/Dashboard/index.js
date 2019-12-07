@@ -7,20 +7,30 @@ import get from 'lodash/get'
 import PropTypes from 'prop-types'
 
 import { isAuthenticatedOrRedir } from 'hocs/withAuth'
-import { getEpisodes, getNetworks } from 'redux/modules/media'
+import { getEpisodes, getNetworks, getMediaRankingTables } from 'redux/modules/media'
 import { getUserPreference, getUserSeries, userPreferenceSelector } from 'redux/modules/profiles'
 import MediaInfo from 'components/MediaInfo'
+import NetworksTable from 'components/NetworksTable'
 import Summaries from 'components/Summaries'
 import TotalAndHourly from 'components/TotalAndHourly'
 import styles from './styles'
 
-const Dashboard = ({ classes, getEpisodes, getNetworks, getUserSeries, getUserPreference, userPreference }) => {
+const Dashboard = ({
+  classes,
+  getEpisodes,
+  getMediaRankingTables,
+  getNetworks,
+  getUserSeries,
+  getUserPreference,
+  userPreference
+}) => {
   const networkId = get(userPreference, 'networkId')
   const podcastId = get(userPreference, 'seriesId')
 
   useEffect(() => {
     getNetworks()
-  }, [getNetworks])
+    getMediaRankingTables()
+  }, [getNetworks, getMediaRankingTables])
 
   useEffect(() => {
     getUserPreference()
@@ -29,20 +39,23 @@ const Dashboard = ({ classes, getEpisodes, getNetworks, getUserSeries, getUserPr
   useEffect(() => {
     if (networkId) {
       getUserSeries()
+      getMediaRankingTables()
     }
-  }, [networkId, getUserSeries])
+  }, [networkId, getUserSeries, getMediaRankingTables])
 
   useEffect(() => {
     if (podcastId && networkId) {
       getEpisodes({ podcastId })
+      getMediaRankingTables()
     }
-  }, [networkId, podcastId, getEpisodes])
+  }, [networkId, podcastId, getEpisodes, getMediaRankingTables])
 
   return (
     <div className={classes.root}>
       <MediaInfo />
       <Summaries />
       <TotalAndHourly />
+      <NetworksTable />
     </div>
   )
 }
@@ -58,6 +71,7 @@ const selector = createStructuredSelector({
 
 const actions = {
   getEpisodes,
+  getMediaRankingTables,
   getNetworks,
   getUserPreference,
   getUserSeries

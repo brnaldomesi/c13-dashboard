@@ -25,7 +25,16 @@ const getEpisodes = apiCallSaga({
   )
 })
 
+const getMediaRankingTables = apiCallSaga({
+  type: types.GET_MEDIA_RANKING_TABLES,
+  method: 'get',
+  allowedParamKeys: [],
+  path: '/dashboard/mediaRankingTables',
+  selectorKey: 'mediaRankingTables'
+})
+
 export default function* rootSaga() {
-  yield takeLatest(types.GET_NETWORKS, getNetworks)
   yield takeLatest(types.GET_EPISODES, getEpisodes)
+  yield takeLatest(types.GET_MEDIA_RANKING_TABLES, getMediaRankingTables)
+  yield takeLatest(types.GET_NETWORKS, getNetworks)
 }
