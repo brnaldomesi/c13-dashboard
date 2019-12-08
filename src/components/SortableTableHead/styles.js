@@ -15,6 +15,7 @@ export default theme => ({
     fontWeight: 700
   },
   cell: {
-    border: 'none'
+    border: 'none',
+    whiteSpace: 'nowrap'
   }
 })

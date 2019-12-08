@@ -9,12 +9,25 @@ import PropTypes from 'prop-types'
 import { isAuthenticatedOrRedir } from 'hocs/withAuth'
 import { getEpisodes, getNetworks, getMediaRankingTables } from 'redux/modules/media'
 import { getUserPreference, getUserSeries, userPreferenceSelector } from 'redux/modules/profiles'
+import EpisodesTable from 'components/EpisodesTable'
 import MediaInfo from 'components/MediaInfo'
 import NetworksTable from 'components/NetworksTable'
 import PodcastsTable from 'components/PodcastsTable'
 import Summaries from 'components/Summaries'
 import TotalAndHourly from 'components/TotalAndHourly'
 import styles from './styles'
+
+const renderMediaTable = ({ networkId, podcastId, episodeId }) => {
+  if (episodeId) {
+    return null
+  } else if (podcastId) {
+    return <EpisodesTable />
+  } else if (networkId) {
+    return <PodcastsTable networkId={networkId} />
+  } else {
+    return <NetworksTable />
+  }
+}
 
 const Dashboard = ({
   classes,
@@ -25,6 +38,7 @@ const Dashboard = ({
   getUserPreference,
   userPreference
 }) => {
+  const episodeId = get(userPreference, 'episodeId')
   const networkId = get(userPreference, 'networkId')
   const podcastId = get(userPreference, 'seriesId')
 
@@ -56,7 +70,7 @@ const Dashboard = ({
       <MediaInfo />
       <Summaries />
       <TotalAndHourly />
-      {networkId ? <PodcastsTable networkId={networkId} /> : <NetworksTable />}
+      {renderMediaTable({ networkId, podcastId, episodeId })}
     </div>
   )
 }

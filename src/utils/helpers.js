@@ -70,3 +70,12 @@ export const getRankings = (item, rankingsList) =>
       totalDownloads: 1
     }
   )
+
+export const getHmsDuration = seconds => {
+  const hh = parseInt(seconds / (60 * 60), 10)
+    .toString()
+    .padStart(2, '0')
+  const mm = (parseInt(seconds / 60, 10) % 60).toString().padStart(2, '0')
+  const ss = (parseInt(seconds) % 60).toString().padStart(2, '0')
+  return `${hh}:${mm}:${ss}`
+}
