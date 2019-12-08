@@ -81,3 +81,5 @@ export const getHmsDuration = seconds => {
   const ss = (parseInt(seconds) % 60).toString().padStart(2, '0')
   return `${hh}:${mm}:${ss}`
 }
+
+export const escapeCsvColumnText = str => (/[,"]/.test(str) ? `"${str.replace(/"/g, '""')}"` : str)

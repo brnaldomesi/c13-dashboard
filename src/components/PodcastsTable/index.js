@@ -6,6 +6,7 @@ import { FormattedDate, FormattedNumber } from 'react-intl'
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import find from 'lodash/find'
+import fp from 'lodash/fp'
 import get from 'lodash/get'
 import PropTypes from 'prop-types'
 import Table from '@material-ui/core/Table'
@@ -15,6 +16,8 @@ import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
 import Typography from '@material-ui/core/Typography'
 
+import { downloadCSV } from 'utils/exporting'
+import { escapeCsvColumnText } from 'utils/helpers'
 import { getRankings } from 'utils/helpers'
 import { mediaRankingTablesSelector } from 'redux/modules/media'
 import { userSeriesSelector, userSeriesLoadingSelector } from 'redux/modules/profiles'
@@ -31,11 +34,14 @@ const useStyles = makeStyles(styles)
 const columns = [
   {
     id: 'name',
-    label: <strong>PODCAST TITLE</strong>
+    label: <strong>PODCAST TITLE</strong>,
+    csvTitle: 'Title',
+    csvFormatter: escapeCsvColumnText
   },
   {
     id: 'publishDate',
-    label: <strong>START DATE</strong>
+    label: <strong>START DATE</strong>,
+    csvTitle: 'Start Date'
   },
   {
     id: 'downloads.dayOneDownloads',
@@ -46,7 +52,8 @@ const columns = [
           <strong>RANK</strong>
         </Typography>
       </strong>
-    )
+    ),
+    csvTitle: '24HR'
   },
   {
     id: 'downloads.weekOneDownloads',
@@ -57,7 +64,8 @@ const columns = [
           <strong>RANK</strong>
         </Typography>
       </strong>
-    )
+    ),
+    csvTitle: 'Week 1'
   },
   {
     id: 'downloads.totalDownloads',
@@ -68,9 +76,26 @@ const columns = [
           <strong>RANK</strong>
         </Typography>
       </strong>
-    )
+    ),
+    csvTitle: 'Total'
   }
 ]
+
+const csvHeader = columns.map(fp.get('csvTitle')).join(',')
+
+const getCSVData = fp.compose(
+  fp.join('\n'),
+  items => [csvHeader, ...items],
+  fp.map(item =>
+    columns
+      .map(column => {
+        const val = get(item, column.id) || 'N/A'
+        return column.csvFormatter ? column.csvFormatter(val) : val
+      })
+      .join(',')
+  ),
+  fp.defaultTo([])
+)
 
 const PodcastsTable = ({
   podcasts,
@@ -79,7 +104,11 @@ const PodcastsTable = ({
   sortProps: { onRequestSort, order, orderBy }
 }) => {
   const classes = useStyles()
-  const handleExport = useCallback(() => {}, [])
+
+  const handleExport = useCallback(() => {
+    const csv = getCSVData(podcasts)
+    downloadCSV(csv, 'Podcasts.csv')
+  }, [podcasts])
 
   return (
     <Panel>

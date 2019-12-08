@@ -38,7 +38,7 @@ export const episodesRankingsSelector = state => {
 }
 
 export const networksRankingsLoadingSelector = state =>
-  networksLoadingSelector(state) && mediaRankingTablesLoadingSelector(state)
+  networksLoadingSelector(state) || mediaRankingTablesLoadingSelector(state)
 
 export const episodesRankingsLoadingSelector = state =>
-  episodesLoadingSelector(state) && mediaRankingTablesLoadingSelector(state)
+  episodesLoadingSelector(state) || mediaRankingTablesLoadingSelector(state)

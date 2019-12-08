@@ -7,6 +7,11 @@ export default theme => ({
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2)
   },
+  center: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   table: {
     minWidth: 700,
     maxWidth: '100%'

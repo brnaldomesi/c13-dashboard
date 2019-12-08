@@ -5,6 +5,7 @@ import { createStructuredSelector } from 'reselect'
 import { FormattedDate, FormattedNumber } from 'react-intl'
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
+import fp from 'lodash/fp'
 import get from 'lodash/get'
 import PropTypes from 'prop-types'
 import Table from '@material-ui/core/Table'
@@ -14,7 +15,9 @@ import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
 import Typography from '@material-ui/core/Typography'
 
+import { downloadCSV } from 'utils/exporting'
 import { networksRankingsSelector, networksRankingsLoadingSelector } from 'redux/modules/media'
+import { escapeCsvColumnText } from 'utils/helpers'
 import IconExport from 'icons/IconExport'
 import Panel from 'components/Panel'
 import SortableTableHead from 'components/SortableTableHead'
@@ -28,10 +31,13 @@ const useStyles = makeStyles(styles)
 const columns = [
   {
     id: 'name',
-    label: <strong>NETWORK TITLE</strong>
+    label: <strong>NETWORK TITLE</strong>,
+    csvTitle: 'Title',
+    csvFormatter: escapeCsvColumnText
   },
   {
     id: 'publishDate',
+    csvTitle: 'Start Date',
     label: <strong>START DATE</strong>
   },
   {
@@ -43,7 +49,8 @@ const columns = [
           <strong>RANK</strong>
         </Typography>
       </strong>
-    )
+    ),
+    csvTitle: '24HR'
   },
   {
     id: 'downloads.weekOneDownloads',
@@ -54,7 +61,8 @@ const columns = [
           <strong>RANK</strong>
         </Typography>
       </strong>
-    )
+    ),
+    csvTitle: 'Week 1'
   },
   {
     id: 'downloads.totalDownloads',
@@ -65,9 +73,26 @@ const columns = [
           <strong>RANK</strong>
         </Typography>
       </strong>
-    )
+    ),
+    csvTitle: 'Total'
   }
 ]
+
+const csvHeader = columns.map(fp.get('csvTitle')).join(',')
+
+const getCSVData = fp.compose(
+  fp.join('\n'),
+  items => [csvHeader, ...items],
+  fp.map(item =>
+    columns
+      .map(column => {
+        const val = get(item, column.id) || 'N/A'
+        return column.csvFormatter ? column.csvFormatter(val) : val
+      })
+      .join(',')
+  ),
+  fp.defaultTo([])
+)
 
 const NetworksTable = ({
   networks,
@@ -76,7 +101,11 @@ const NetworksTable = ({
   sortProps: { onRequestSort, order, orderBy }
 }) => {
   const classes = useStyles()
-  const handleExport = useCallback(() => {}, [])
+
+  const handleExport = useCallback(() => {
+    const csv = getCSVData(networks)
+    downloadCSV(csv, 'Networks.csv')
+  }, [networks])
 
   return (
     <Panel>
@@ -90,7 +119,9 @@ const NetworksTable = ({
       />
       <Panel.Content>
         {networksLoading ? (
-          <LoadingIndicator isStatic />
+          <div className={classes.center}>
+            <LoadingIndicator isStatic size={32} />
+          </div>
         ) : (
           <Table className={classes.table} size="small">
             <SortableTableHead columns={columns} onRequestSort={onRequestSort} order={order} orderBy={orderBy} />
