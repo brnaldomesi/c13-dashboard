@@ -11,6 +11,7 @@ import { getEpisodes, getNetworks, getMediaRankingTables } from 'redux/modules/m
 import { getUserPreference, getUserSeries, userPreferenceSelector } from 'redux/modules/profiles'
 import MediaInfo from 'components/MediaInfo'
 import NetworksTable from 'components/NetworksTable'
+import PodcastsTable from 'components/PodcastsTable'
 import Summaries from 'components/Summaries'
 import TotalAndHourly from 'components/TotalAndHourly'
 import styles from './styles'
@@ -55,7 +56,7 @@ const Dashboard = ({
       <MediaInfo />
       <Summaries />
       <TotalAndHourly />
-      <NetworksTable />
+      {networkId ? <PodcastsTable networkId={networkId} /> : <NetworksTable />}
     </div>
   )
 }

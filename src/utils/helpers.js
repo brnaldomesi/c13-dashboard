@@ -53,3 +53,20 @@ export const bindCallbackToPromise = () => {
     cb
   }
 }
+
+export const getRankings = (item, rankingsList) =>
+  rankingsList.reduce(
+    (acc, listItem) => {
+      Object.keys(acc).forEach(key => {
+        if (listItem[key] > item[key]) {
+          acc[key]++
+        }
+      })
+      return acc
+    },
+    {
+      dayOneDownloads: 1,
+      weekOneDownloads: 1,
+      totalDownloads: 1
+    }
+  )
