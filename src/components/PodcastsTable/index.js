@@ -72,7 +72,7 @@ const columns = [
   }
 ]
 
-const NetworksTable = ({
+const PodcastsTable = ({
   podcasts,
   podcastsLoading,
   paginationProps: { paginatedList, ...paginationProps },
@@ -99,7 +99,7 @@ const NetworksTable = ({
             <SortableTableHead columns={columns} onRequestSort={onRequestSort} order={order} orderBy={orderBy} />
             <TableBody>
               {paginatedList.map(podcast => (
-                <TableRow key={podcast.networkId} hover className={classes.row}>
+                <TableRow key={podcast.seriesId} hover className={classes.row}>
                   <TableCell className={classes.cell}>{podcast.name}</TableCell>
 
                   <TableCell className={classes.cell}>
@@ -142,7 +142,7 @@ const NetworksTable = ({
   )
 }
 
-NetworksTable.propTypes = {
+PodcastsTable.propTypes = {
   networkId: PropTypes.string,
   podcasts: PropTypes.array,
   podcastsLoading: PropTypes.bool,
@@ -172,4 +172,4 @@ export default compose(
   connect(selector),
   withSortHandler({ listPropName: 'podcasts' }),
   withPaginationHandler({ listPropName: 'sortProps.sortedList' })
-)(NetworksTable)
+)(PodcastsTable)

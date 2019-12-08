@@ -54,8 +54,8 @@ const Dashboard = ({
   useEffect(() => {
     if (networkId) {
       getUserSeries()
-      getMediaRankingTables()
     }
+    getMediaRankingTables()
   }, [networkId, getUserSeries, getMediaRankingTables])
 
   useEffect(() => {

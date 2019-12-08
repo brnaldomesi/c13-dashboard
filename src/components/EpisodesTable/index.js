@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
-import { FormattedDate, FormattedNumber, FormattedRelativeTime } from 'react-intl'
+import { FormattedDate, FormattedNumber } from 'react-intl'
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import get from 'lodash/get'
@@ -74,7 +74,7 @@ const columns = [
   }
 ]
 
-const NetworksTable = ({
+const EpisodesTable = ({
   episodes,
   episodesLoading,
   paginationProps: { paginatedList, ...paginationProps },
@@ -86,7 +86,7 @@ const NetworksTable = ({
   return (
     <Panel>
       <Panel.Header
-        title={`All Networks | ${episodes.length} TOTAL`}
+        title={`All Episodes | ${episodes.length} TOTAL`}
         action={
           <Button className={classes.export} startIcon={<IconExport />} onClick={handleExport}>
             Export
@@ -146,7 +146,7 @@ const NetworksTable = ({
   )
 }
 
-NetworksTable.propTypes = {
+EpisodesTable.propTypes = {
   episodes: PropTypes.array,
   episodesLoading: PropTypes.bool,
   paginationProps: PropTypes.object,
@@ -162,4 +162,4 @@ export default compose(
   connect(selector),
   withSortHandler({ listPropName: 'episodes' }),
   withPaginationHandler({ listPropName: 'sortProps.sortedList' })
-)(NetworksTable)
+)(EpisodesTable)
