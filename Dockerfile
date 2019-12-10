@@ -13,9 +13,8 @@ CMD ["npm", "start"]
 
 # Deployment builder
 FROM base as builder
-# TODO: Add support for different environments
-#ARG BUILD_ENV=prod
-COPY .env.example /app/.env
+ARG BUILD_ENV=prod
+COPY config/env.$BUILD_ENV /app/.env
 COPY . /app
 RUN npm run build
 
