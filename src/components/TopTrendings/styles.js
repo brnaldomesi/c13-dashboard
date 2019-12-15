@@ -1,8 +1,16 @@
 export default theme => ({
-  export: {
+  root: {
+    marginTop: theme.spacing(3)
+  },
+  moreToggle: {
     borderRadius: 0,
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2)
+  },
+  center: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   table: {
     minWidth: 700,

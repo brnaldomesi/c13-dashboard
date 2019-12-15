@@ -9,11 +9,13 @@ import PropTypes from 'prop-types'
 import { isAuthenticatedOrRedir } from 'hocs/withAuth'
 import { getEpisodes, getNetworks, getMediaRankingTables } from 'redux/modules/media'
 import { getUserPreference, getUserSeries, userPreferenceSelector } from 'redux/modules/profiles'
+import { getTopTrendings } from 'redux/modules/metrics'
 import EpisodesTable from 'components/EpisodesTable'
 import MediaInfo from 'components/MediaInfo'
 import NetworksTable from 'components/NetworksTable'
 import PodcastsTable from 'components/PodcastsTable'
 import Summaries from 'components/Summaries'
+import TopTrendings from 'components/TopTrendings'
 import TotalAndHourly from 'components/TotalAndHourly'
 import styles from './styles'
 
@@ -34,6 +36,7 @@ const Dashboard = ({
   getEpisodes,
   getMediaRankingTables,
   getNetworks,
+  getTopTrendings,
   getUserSeries,
   getUserPreference,
   userPreference
@@ -44,7 +47,6 @@ const Dashboard = ({
 
   useEffect(() => {
     getNetworks()
-    getMediaRankingTables()
   }, [getNetworks, getMediaRankingTables])
 
   useEffect(() => {
@@ -55,15 +57,15 @@ const Dashboard = ({
     if (networkId) {
       getUserSeries()
     }
-    getMediaRankingTables()
   }, [networkId, getUserSeries, getMediaRankingTables])
 
   useEffect(() => {
     if (podcastId && networkId) {
       getEpisodes({ podcastId })
-      getMediaRankingTables()
     }
-  }, [networkId, podcastId, getEpisodes, getMediaRankingTables])
+    getMediaRankingTables()
+    getTopTrendings({ params: { amount: 10 } })
+  }, [networkId, podcastId, getEpisodes, getMediaRankingTables, getTopTrendings])
 
   return (
     <div className={classes.root}>
@@ -71,6 +73,7 @@ const Dashboard = ({
       <Summaries />
       <TotalAndHourly />
       {renderMediaTable({ networkId, podcastId, episodeId })}
+      {!episodeId && <TopTrendings />}
     </div>
   )
 }
@@ -88,6 +91,7 @@ const actions = {
   getEpisodes,
   getMediaRankingTables,
   getNetworks,
+  getTopTrendings,
   getUserPreference,
   getUserSeries
 }

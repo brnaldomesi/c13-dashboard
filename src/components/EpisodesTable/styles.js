@@ -1,7 +1,4 @@
 export default theme => ({
-  root: {
-    width: '100%'
-  },
   export: {
     borderRadius: 0,
     paddingLeft: theme.spacing(2),

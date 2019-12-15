@@ -19,7 +19,16 @@ const getTotalsAndTrends = apiCallSaga({
   selectorKey: 'totalsAndTrends'
 })
 
+const getTopTrendings = apiCallSaga({
+  type: types.GET_TOP_TRENDINGS,
+  method: 'get',
+  allowedParamKeys: ['amount'],
+  path: '/metrics/topTrending',
+  selectorKey: 'topTrendings'
+})
+
 export default function* rootSaga() {
   yield takeLatest(types.GET_SUMMARIES, getSummaries)
   yield takeLatest(types.GET_TOTALS_AND_TRENDS, getTotalsAndTrends)
+  yield takeLatest(types.GET_TOP_TRENDINGS, getTopTrendings)
 }
