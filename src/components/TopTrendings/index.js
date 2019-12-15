@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import fp from 'lodash/fp'
 import get from 'lodash/get'
+import Grid from '@material-ui/core/Grid'
 import IconArrowDropDown from '@material-ui/icons/ArrowDropDown'
 import IconArrowDropUp from '@material-ui/icons/ArrowDropUp'
 import PropTypes from 'prop-types'
@@ -14,14 +15,16 @@ import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableRow from '@material-ui/core/TableRow'
+import Typography from '@material-ui/core/Typography'
 
 import { topTrendingsSelector, topTrendingsLoadingSelector } from 'redux/modules/metrics'
 import { userPreferenceSelector } from 'redux/modules/profiles'
+import LoadingIndicator from 'components/LoadingIndicator'
 import Panel from 'components/Panel'
 import SortableTableHead from 'components/SortableTableHead'
 import styles from './styles'
+import TopTrendingsDonut from 'components/TopTrendingsDonut'
 import withSortHandler from 'hocs/withSortHandler'
-import LoadingIndicator from 'components/LoadingIndicator'
 
 const useStyles = makeStyles(styles)
 
@@ -58,24 +61,37 @@ const TopTrendings = ({ trendingList, mediaType, loading, sortProps: { onRequest
             <LoadingIndicator isStatic size={32} />
           </div>
         ) : (
-          <Table className={classes.table} size="small">
-            <SortableTableHead columns={columns} onRequestSort={onRequestSort} order={order} orderBy={orderBy} />
-            <TableBody>
-              {finalTrendingList.map(trendingItem => (
-                <TableRow key={trendingItem.trendingItemId} hover className={classes.row}>
-                  <TableCell className={classes.cell}>{trendingItem.mediaName}</TableCell>
+          <Grid container spacing={3} alignItems="center">
+            <Grid item xs>
+              <Table className={classes.table} size="small">
+                <SortableTableHead columns={columns} onRequestSort={onRequestSort} order={order} orderBy={orderBy} />
+                <TableBody>
+                  {finalTrendingList.map(trendingItem => (
+                    <TableRow key={trendingItem.trendingItemId} hover className={classes.row}>
+                      <TableCell className={classes.cell}>
+                        <Typography variant="body1">{trendingItem.mediaName}</Typography>
+                      </TableCell>
 
-                  <TableCell className={classes.figure}>
-                    <FormattedNumber value={get(trendingItem, 'downloads')} />
-                  </TableCell>
+                      <TableCell className={classes.figure}>
+                        <Typography variant="body1">
+                          <FormattedNumber value={get(trendingItem, 'downloads')} />
+                        </Typography>
+                      </TableCell>
 
-                  <TableCell className={classes.figure}>
-                    <FormattedNumber value={get(trendingItem, 'percentage')} format="percentRounded" />
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+                      <TableCell className={classes.figure}>
+                        <Typography variant="body1">
+                          <FormattedNumber value={get(trendingItem, 'percentage')} format="percentRounded" />
+                        </Typography>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Grid>
+            <Grid item className={classes.chart}>
+              <TopTrendingsDonut topTrendings={finalTrendingList} />
+            </Grid>
+          </Grid>
         )}
       </Panel.Content>
       {hasManyItems && (

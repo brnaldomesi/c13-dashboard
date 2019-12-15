@@ -13,8 +13,7 @@ export default theme => ({
     justifyContent: 'center'
   },
   table: {
-    minWidth: 700,
-    maxWidth: '100%'
+    width: '100%'
   },
   row: {
     cursor: 'pointer',
@@ -24,10 +23,15 @@ export default theme => ({
     }
   },
   cell: {
+    padding: theme.spacing(1),
     border: 'none'
   },
   figure: {
+    padding: theme.spacing(1),
     border: 'none',
     whiteSpace: 'nowrap'
+  },
+  chart: {
+    width: 300
   }
 })
