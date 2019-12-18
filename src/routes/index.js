@@ -14,7 +14,7 @@ const routes = ({ history }) => (
       <MainLayout>
         <Switch>
           <Route path="/login" exact component={Login} />
-          <Route path="/" component={Dashboard} />
+          <Route path="/:networkId?/:podcastId?/:episodeId?" component={Dashboard} />
         </Switch>
         <ConfirmModal />
       </MainLayout>

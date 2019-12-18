@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 
 import { isAuthenticatedOrRedir } from 'hocs/withAuth'
 import { getEpisodes, getNetworks, getMediaRankingTables } from 'redux/modules/media'
-import { getUserPreference, getUserSeries, userPreferenceSelector } from 'redux/modules/profiles'
+import { getUserSeries, userPreferenceSelector } from 'redux/modules/profiles'
 import { getTopTrendings } from 'redux/modules/metrics'
 import EpisodesTable from 'components/EpisodesTable'
 import MediaInfo from 'components/MediaInfo'
@@ -18,6 +18,7 @@ import Summaries from 'components/Summaries'
 import TopTrendings from 'components/TopTrendings'
 import TotalAndHourly from 'components/TotalAndHourly'
 import styles from './styles'
+import withLocationToPreference from 'hocs/withLocationToPreference'
 
 const renderMediaTable = ({ networkId, podcastId, episodeId }) => {
   if (episodeId) {
@@ -38,7 +39,6 @@ const Dashboard = ({
   getNetworks,
   getTopTrendings,
   getUserSeries,
-  getUserPreference,
   userPreference
 }) => {
   const episodeId = get(userPreference, 'episodeId')
@@ -50,10 +50,6 @@ const Dashboard = ({
   }, [getNetworks, getMediaRankingTables])
 
   useEffect(() => {
-    getUserPreference()
-  }, [getUserPreference])
-
-  useEffect(() => {
     if (networkId) {
       getUserSeries()
     }
@@ -63,9 +59,11 @@ const Dashboard = ({
     if (podcastId && networkId) {
       getEpisodes({ podcastId })
     }
-    getMediaRankingTables()
-    getTopTrendings({ params: { amount: 10 } })
-  }, [networkId, podcastId, getEpisodes, getMediaRankingTables, getTopTrendings])
+    if (!episodeId) {
+      getMediaRankingTables()
+      getTopTrendings({ params: { amount: 10 } })
+    }
+  }, [networkId, podcastId, episodeId, getEpisodes, getMediaRankingTables, getTopTrendings])
 
   return (
     <div className={classes.root}>
@@ -80,7 +78,11 @@ const Dashboard = ({
 
 Dashboard.propTypes = {
   classes: PropTypes.object.isRequired,
-  getUserPreference: PropTypes.func.isRequired
+  getEpisodes: PropTypes.func.isRequired,
+  getMediaRankingTables: PropTypes.func.isRequired,
+  getNetworks: PropTypes.func.isRequired,
+  getTopTrendings: PropTypes.func.isRequired,
+  getUserSeries: PropTypes.func.isRequired
 }
 
 const selector = createStructuredSelector({
@@ -92,7 +94,6 @@ const actions = {
   getMediaRankingTables,
   getNetworks,
   getTopTrendings,
-  getUserPreference,
   getUserSeries
 }
 
@@ -102,5 +103,6 @@ export default compose(
     selector,
     actions
   ),
+  withLocationToPreference,
   withStyles(styles)
 )(Dashboard)

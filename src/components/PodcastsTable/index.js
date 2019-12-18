@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { FormattedDate, FormattedNumber } from 'react-intl'
 import { makeStyles } from '@material-ui/core/styles'
+import { withRouter } from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 import find from 'lodash/find'
 import fp from 'lodash/fp'
@@ -98,6 +99,10 @@ const getCSVData = fp.compose(
 )
 
 const PodcastsTable = ({
+  history,
+  match: {
+    params: { networkId }
+  },
   podcasts,
   podcastsLoading,
   paginationProps: { paginatedList, ...paginationProps },
@@ -109,6 +114,13 @@ const PodcastsTable = ({
     const csv = getCSVData(podcasts)
     downloadCSV(csv, 'Podcasts.csv')
   }, [podcasts])
+
+  const handleRowClick = useCallback(
+    podcastId => () => {
+      history.push(`/${networkId}/${podcastId}`)
+    },
+    [history, networkId]
+  )
 
   return (
     <Panel>
@@ -128,7 +140,11 @@ const PodcastsTable = ({
             <SortableTableHead columns={columns} onRequestSort={onRequestSort} order={order} orderBy={orderBy} />
             <TableBody>
               {paginatedList.map(podcast => (
-                <TableRow key={podcast.seriesId} hover className={classes.row}>
+                <TableRow
+                  key={podcast.seriesId}
+                  hover
+                  className={classes.row}
+                  onClick={handleRowClick(podcast.seriesId)}>
                   <TableCell className={classes.cell}>{podcast.name}</TableCell>
 
                   <TableCell className={classes.cell}>
@@ -172,6 +188,8 @@ const PodcastsTable = ({
 }
 
 PodcastsTable.propTypes = {
+  history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
   networkId: PropTypes.string,
   podcasts: PropTypes.array,
   podcastsLoading: PropTypes.bool,
@@ -198,6 +216,7 @@ const selector = createStructuredSelector({
 })
 
 export default compose(
+  withRouter,
   connect(selector),
   withSortHandler({ listPropName: 'podcasts' }),
   withPaginationHandler({ listPropName: 'sortProps.sortedList' })

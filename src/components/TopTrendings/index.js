@@ -67,7 +67,7 @@ const TopTrendings = ({ trendingList, mediaType, loading, sortProps: { onRequest
                 <SortableTableHead columns={columns} onRequestSort={onRequestSort} order={order} orderBy={orderBy} />
                 <TableBody>
                   {finalTrendingList.map(trendingItem => (
-                    <TableRow key={trendingItem.trendingItemId} hover className={classes.row}>
+                    <TableRow key={trendingItem.mediaId} hover className={classes.row}>
                       <TableCell className={classes.cell}>
                         <Typography variant="body1">{trendingItem.mediaName}</Typography>
                       </TableCell>

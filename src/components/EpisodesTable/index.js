@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { FormattedDate, FormattedNumber } from 'react-intl'
 import { makeStyles } from '@material-ui/core/styles'
+import { withRouter } from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 import fp from 'lodash/fp'
 import get from 'lodash/get'
@@ -103,6 +104,10 @@ const getCSVData = fp.compose(
 const EpisodesTable = ({
   episodes,
   episodesLoading,
+  history,
+  match: {
+    params: { networkId, podcastId }
+  },
   paginationProps: { paginatedList, ...paginationProps },
   sortProps: { onRequestSort, order, orderBy }
 }) => {
@@ -112,6 +117,13 @@ const EpisodesTable = ({
     const csv = getCSVData(episodes)
     downloadCSV(csv, 'Episodes.csv')
   }, [episodes])
+
+  const handleRowClick = useCallback(
+    episodeId => () => {
+      history.push(`/${networkId}/${podcastId}/${episodeId}`)
+    },
+    [history, networkId, podcastId]
+  )
 
   return (
     <Panel>
@@ -133,7 +145,11 @@ const EpisodesTable = ({
             <SortableTableHead columns={columns} onRequestSort={onRequestSort} order={order} orderBy={orderBy} />
             <TableBody>
               {paginatedList.map(episode => (
-                <TableRow key={episode.episodeId} hover className={classes.row}>
+                <TableRow
+                  key={episode.episodeId}
+                  hover
+                  className={classes.row}
+                  onClick={handleRowClick(episode.episodeId)}>
                   <TableCell className={classes.cell}>{episode.name}</TableCell>
 
                   <TableCell className={classes.cell}>
@@ -181,6 +197,8 @@ const EpisodesTable = ({
 EpisodesTable.propTypes = {
   episodes: PropTypes.array,
   episodesLoading: PropTypes.bool,
+  history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
   paginationProps: PropTypes.object,
   sortProps: PropTypes.object
 }
@@ -191,6 +209,7 @@ const selector = createStructuredSelector({
 })
 
 export default compose(
+  withRouter,
   connect(selector),
   withSortHandler({ listPropName: 'episodes' }),
   withPaginationHandler({ listPropName: 'sortProps.sortedList' })

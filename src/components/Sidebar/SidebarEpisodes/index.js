@@ -9,25 +9,14 @@ import PropTypes from 'prop-types'
 
 import { episodesSelector } from 'redux/modules/media'
 import { IconMicrophone } from 'icons'
-import { updateUserPreference, userPreferenceSelector } from 'redux/modules/profiles'
+import { userPreferenceSelector } from 'redux/modules/profiles'
 import SidebarItem from '../SidebarItem'
 import SidebarSubItem from '../SidebarSubItem'
 import { FormattedDate } from 'react-intl'
 
-const SidebarEpisodes = ({ className, episodes, open, onToggle, updateUserPreference, userPreference }) => {
+const SidebarEpisodes = ({ className, episodes, open, onToggle, userPreference }) => {
   const handleToggle = useCallback(() => onToggle('episodes'), [onToggle])
-  const handleClickItem = useCallback(
-    episodeId => () => {
-      updateUserPreference({
-        data: {
-          ...userPreference,
-          episodeId
-        }
-      })
-      onToggle('episodes')
-    },
-    [onToggle, updateUserPreference, userPreference]
-  )
+  const handleClickItem = useCallback(() => onToggle('episodes'), [onToggle])
   const networkId = get(userPreference, 'networkId')
   const podcastId = get(userPreference, 'seriesId')
   const episodesVisible = Boolean(networkId && podcastId)
@@ -41,7 +30,8 @@ const SidebarEpisodes = ({ className, episodes, open, onToggle, updateUserPrefer
             <SidebarSubItem
               text={episodes.length > 0 ? 'All Episodes' : 'No Episodes in this podcast'}
               disabled={episodes.length === 0}
-              onClick={handleClickItem(null)}
+              onClick={handleClickItem}
+              to={`/${networkId}/${podcastId}`}
             />
             {episodes.map(episode => (
               <SidebarSubItem
@@ -54,7 +44,8 @@ const SidebarEpisodes = ({ className, episodes, open, onToggle, updateUserPrefer
                 }
                 key={episode.episodeId}
                 selected={userPreference.episodeId === episode.episodeId}
-                onClick={handleClickItem(episode.episodeId)}
+                onClick={handleClickItem}
+                to={`/${networkId}/${podcastId}/${episode.episodeId}`}
               />
             ))}
           </List>
@@ -70,7 +61,6 @@ SidebarEpisodes.propTypes = {
   episodes: PropTypes.array,
   onToggle: PropTypes.func.isRequired,
   open: PropTypes.bool,
-  updateUserPreference: PropTypes.func.isRequired,
   userPreference: PropTypes.object
 }
 
@@ -79,11 +69,4 @@ const selector = createStructuredSelector({
   userPreference: userPreferenceSelector
 })
 
-const actions = {
-  updateUserPreference
-}
-
-export default connect(
-  selector,
-  actions
-)(SidebarEpisodes)
+export default connect(selector)(SidebarEpisodes)

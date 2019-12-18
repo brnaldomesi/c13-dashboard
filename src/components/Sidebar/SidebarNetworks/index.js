@@ -8,26 +8,13 @@ import PropTypes from 'prop-types'
 
 import { IconAirplay } from 'icons'
 import { networksSelector } from 'redux/modules/media'
-import { updateUserPreference, userPreferenceSelector } from 'redux/modules/profiles'
+import { userPreferenceSelector } from 'redux/modules/profiles'
 import SidebarItem from '../SidebarItem'
 import SidebarSubItem from '../SidebarSubItem'
 
-const SidebarNetworks = ({ className, networks, open, onToggle, userPreference, updateUserPreference }) => {
+const SidebarNetworks = ({ className, networks, open, onToggle, userPreference }) => {
   const handleToggle = useCallback(() => onToggle('networks'), [onToggle])
-  const handleClickItem = useCallback(
-    networkId => () => {
-      updateUserPreference({
-        data: {
-          ...userPreference,
-          networkId,
-          seriesId: null,
-          episodeId: null
-        }
-      })
-      onToggle('networks')
-    },
-    [onToggle, updateUserPreference, userPreference]
-  )
+  const handleClickItem = useCallback(() => onToggle('networks'), [onToggle])
 
   return (
     <>
@@ -35,13 +22,14 @@ const SidebarNetworks = ({ className, networks, open, onToggle, userPreference, 
         <SidebarItem icon={IconAirplay} text="Networks" onClick={handleToggle} hasSubItems open={open} />
         <Collapse in={open} style={{ overflow: 'auto' }}>
           <List component="nav" dense>
-            <SidebarSubItem text="All Networks" selected={!userPreference.networkId} onClick={handleClickItem(null)} />
+            <SidebarSubItem text="All Networks" to="/" selected={!userPreference.networkId} onClick={handleClickItem} />
             {networks.map(network => (
               <SidebarSubItem
                 text={network.name}
                 key={network.networkId}
+                to={`/${network.networkId}`}
                 selected={userPreference.networkId === network.networkId}
-                onClick={handleClickItem(network.networkId)}
+                onClick={handleClickItem}
               />
             ))}
           </List>
@@ -57,7 +45,6 @@ SidebarNetworks.propTypes = {
   networks: PropTypes.array,
   onToggle: PropTypes.func.isRequired,
   open: PropTypes.bool,
-  updateUserPreference: PropTypes.func.isRequired,
   userPreference: PropTypes.object
 }
 
@@ -66,11 +53,4 @@ const selector = createStructuredSelector({
   userPreference: userPreferenceSelector
 })
 
-const actions = {
-  updateUserPreference
-}
-
-export default connect(
-  selector,
-  actions
-)(SidebarNetworks)
+export default connect(selector)(SidebarNetworks)

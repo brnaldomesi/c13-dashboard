@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { FormattedDate, FormattedNumber } from 'react-intl'
 import { makeStyles } from '@material-ui/core/styles'
+import { withRouter } from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 import fp from 'lodash/fp'
 import get from 'lodash/get'
@@ -95,6 +96,7 @@ const getCSVData = fp.compose(
 )
 
 const NetworksTable = ({
+  history,
   networks,
   networksLoading,
   paginationProps: { paginatedList, ...paginationProps },
@@ -106,6 +108,13 @@ const NetworksTable = ({
     const csv = getCSVData(networks)
     downloadCSV(csv, 'Networks.csv')
   }, [networks])
+
+  const handleRowClick = useCallback(
+    networkId => () => {
+      history.push(`/${networkId}`)
+    },
+    [history]
+  )
 
   return (
     <Panel>
@@ -127,7 +136,11 @@ const NetworksTable = ({
             <SortableTableHead columns={columns} onRequestSort={onRequestSort} order={order} orderBy={orderBy} />
             <TableBody>
               {paginatedList.map(network => (
-                <TableRow key={network.networkId} hover className={classes.row}>
+                <TableRow
+                  key={network.networkId}
+                  hover
+                  className={classes.row}
+                  onClick={handleRowClick(network.networkId)}>
                   <TableCell className={classes.cell}>{network.name}</TableCell>
 
                   <TableCell className={classes.cell}>
@@ -171,6 +184,7 @@ const NetworksTable = ({
 }
 
 NetworksTable.propTypes = {
+  history: PropTypes.object.isRequired,
   networks: PropTypes.array,
   networksLoading: PropTypes.bool,
   paginationProps: PropTypes.object,
@@ -183,6 +197,7 @@ const selector = createStructuredSelector({
 })
 
 export default compose(
+  withRouter,
   connect(selector),
   withSortHandler({ listPropName: 'networks' }),
   withPaginationHandler({ listPropName: 'sortProps.sortedList' })

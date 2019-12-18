@@ -41,13 +41,19 @@ const Summaries = ({ getSummaries, loading, summaries, userPreference }) => {
               }
             />
             <Panel.Content>
-              <Typography variant="h3" component="div" color="primary" align="center">
-                {summaries ? (
+              {summaries ? (
+                <Typography variant="h3" component="div" color="primary" align="center">
                   <FormattedNumber value={summaries.dateRangeDownloads} format="decimal" />
-                ) : (
+                </Typography>
+              ) : loading ? (
+                <Typography align="center">
                   <LoadingIndicator isStatic size={32} />
-                )}
-              </Typography>
+                </Typography>
+              ) : (
+                <Typography variant="body1" component="div" align="center">
+                  No data available
+                </Typography>
+              )}
             </Panel.Content>
           </Panel>
         </Grid>
@@ -55,13 +61,19 @@ const Summaries = ({ getSummaries, loading, summaries, userPreference }) => {
           <Panel>
             <Panel.Header title="Avg Weekly Downloads" />
             <Panel.Content>
-              <Typography variant="h3" component="div" color="primary" align="center">
-                {summaries ? (
+              {summaries ? (
+                <Typography variant="h3" component="div" color="primary" align="center">
                   <FormattedNumber value={summaries.averageDateRangeIntervalDownloads} format="decimal" />
-                ) : (
+                </Typography>
+              ) : loading ? (
+                <Typography align="center">
                   <LoadingIndicator isStatic size={32} />
-                )}
-              </Typography>
+                </Typography>
+              ) : (
+                <Typography variant="body1" component="div" align="center">
+                  No data available
+                </Typography>
+              )}
             </Panel.Content>
           </Panel>
         </Grid>
@@ -69,13 +81,19 @@ const Summaries = ({ getSummaries, loading, summaries, userPreference }) => {
           <Panel>
             <Panel.Header title="Lifetime Downloads" />
             <Panel.Content>
-              <Typography variant="h3" component="div" color="primary" align="center">
-                {summaries ? (
+              {summaries ? (
+                <Typography variant="h3" component="div" color="primary" align="center">
                   <FormattedNumber value={summaries.lifetimeDownloads} format="decimal" />
-                ) : (
+                </Typography>
+              ) : loading ? (
+                <Typography align="center">
                   <LoadingIndicator isStatic size={32} />
-                )}
-              </Typography>
+                </Typography>
+              ) : (
+                <Typography variant="body1" component="div" align="center">
+                  No data available
+                </Typography>
+              )}
             </Panel.Content>
           </Panel>
         </Grid>
