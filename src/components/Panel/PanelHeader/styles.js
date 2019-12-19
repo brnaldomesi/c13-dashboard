@@ -13,5 +13,8 @@ export default theme => ({
     display: 'flex',
     alignItems: 'stretch',
     backgroundColor: theme.cadence.cardActionBg
+  },
+  bold: {
+    fontWeight: 600
   }
 })
