@@ -7,7 +7,7 @@ import styles from './styles'
 
 const useStyles = makeStyles(styles)
 
-const PanelHeader = ({ title, action }) => {
+const PanelHeader = ({ title, action, helperText }) => {
   const classes = useStyles()
   return (
     <div className={classes.root}>
@@ -16,6 +16,11 @@ const PanelHeader = ({ title, action }) => {
           {title}
         </Typography>
       </div>
+      {helperText && (
+        <Typography variant="body1" className={classes.helperText}>
+          {helperText}
+        </Typography>
+      )}
       {action && <div className={classes.action}>{action}</div>}
     </div>
   )

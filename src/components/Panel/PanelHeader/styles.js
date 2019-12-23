@@ -14,6 +14,11 @@ export default theme => ({
     alignItems: 'stretch',
     backgroundColor: theme.cadence.cardActionBg
   },
+  helperText: {
+    padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
+    display: 'flex',
+    alignItems: 'center'
+  },
   bold: {
     fontWeight: 600
   }

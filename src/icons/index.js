@@ -1,5 +1,6 @@
 export { default as IconAirplay } from './IconAirplay'
 export { default as IconExport } from './IconExport'
+export { default as IconInfo } from './IconInfo'
 export { default as IconMail } from './IconMail'
 export { default as IconMicrophone } from './IconMicrophone'
 export { default as IconNotification } from './IconNotification'

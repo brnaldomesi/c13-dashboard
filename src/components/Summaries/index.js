@@ -46,7 +46,7 @@ const Summaries = ({ getSummaries, loading, summaries, userPreference }) => {
                   <FormattedNumber value={summaries.dateRangeDownloads} format="decimal" />
                 </Typography>
               ) : loading ? (
-                <Typography align="center">
+                <Typography align="center" component="div">
                   <LoadingIndicator isStatic size={32} />
                 </Typography>
               ) : (
@@ -66,7 +66,7 @@ const Summaries = ({ getSummaries, loading, summaries, userPreference }) => {
                   <FormattedNumber value={summaries.averageDateRangeIntervalDownloads} format="decimal" />
                 </Typography>
               ) : loading ? (
-                <Typography align="center">
+                <Typography align="center" component="div">
                   <LoadingIndicator isStatic size={32} />
                 </Typography>
               ) : (
@@ -86,7 +86,7 @@ const Summaries = ({ getSummaries, loading, summaries, userPreference }) => {
                   <FormattedNumber value={summaries.lifetimeDownloads} format="decimal" />
                 </Typography>
               ) : loading ? (
-                <Typography align="center">
+                <Typography align="center" component="div">
                   <LoadingIndicator isStatic size={32} />
                 </Typography>
               ) : (
