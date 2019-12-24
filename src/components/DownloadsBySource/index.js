@@ -7,9 +7,9 @@ import { withRouter } from 'react-router-dom'
 import IconButton from '@material-ui/core/IconButton'
 import PropTypes from 'prop-types'
 import Tooltip from '@material-ui/core/Tooltip'
-import Typography from '@material-ui/core/Typography'
 
 import { downloadsBySourceSelector, downloadsBySourceLoadingSelector } from 'redux/modules/metrics'
+import DownloadsTotal from './DownloadsTotal'
 import IconInfo from 'icons/IconInfo'
 import LoadingIndicator from 'components/LoadingIndicator'
 import Panel from 'components/Panel'
@@ -50,9 +50,9 @@ const DownloadsBySource = ({ history, downloadsBySource, loading }) => {
             <div className={classes.center}>
               <LoadingIndicator isStatic size={32} />
             </div>
-          ) : (
-            <div>Tab contents here...</div>
-          )}
+          ) : downloadsBySource ? (
+            <DownloadsTotal sourceData={downloadsBySource.sourceData} />
+          ) : null}
         </div>
       </Panel.Content>
     </Panel>
