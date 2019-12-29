@@ -61,3 +61,19 @@ export const getDownloadsTotalData = sourceData => {
     sourceNames: Object.keys(sourceNames)
   }
 }
+
+export const getDownloadsPercentageData = percentages => {
+  const data = Object.keys(percentages || {}).reduce((acc, key) => {
+    const finalKey = downloadsSourceMap[key] || key
+    const percentage = percentages[key]
+    if (acc[finalKey]) {
+      acc[finalKey] += percentage
+    } else {
+      acc[finalKey] = percentage
+    }
+    return acc
+  }, {})
+  return Object.keys(data)
+    .sort()
+    .map(key => [key, data[key]])
+}

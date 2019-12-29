@@ -9,6 +9,7 @@ import PropTypes from 'prop-types'
 import Tooltip from '@material-ui/core/Tooltip'
 
 import { downloadsBySourceSelector, downloadsBySourceLoadingSelector } from 'redux/modules/metrics'
+import DownloadsPercentage from './DownloadsPercentage'
 import DownloadsTotal from './DownloadsTotal'
 import IconInfo from 'icons/IconInfo'
 import LoadingIndicator from 'components/LoadingIndicator'
@@ -24,7 +25,18 @@ const tabs = [
   { label: 'Breakdown', key: 'breakdown' }
 ]
 
-const DownloadsBySource = ({ history, downloadsBySource, loading }) => {
+const renderTab = (tab, downloadsBySource) => {
+  switch (tab) {
+    case 'total':
+      return <DownloadsTotal sourceData={downloadsBySource.sourceData} />
+    case 'percentage':
+      return <DownloadsPercentage percentages={downloadsBySource.percentages} />
+    default:
+      return null
+  }
+}
+
+const DownloadsBySource = ({ downloadsBySource, loading }) => {
   const classes = useStyles()
   const [activeTab, setActiveTab] = useState(tabs[0].key)
 
@@ -51,7 +63,7 @@ const DownloadsBySource = ({ history, downloadsBySource, loading }) => {
               <LoadingIndicator isStatic size={32} />
             </div>
           ) : downloadsBySource ? (
-            <DownloadsTotal sourceData={downloadsBySource.sourceData} />
+            renderTab(activeTab, downloadsBySource)
           ) : null}
         </div>
       </Panel.Content>

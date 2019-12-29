@@ -1,9 +1,7 @@
-import React, { useMemo, useCallback } from 'react'
+import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import * as Highcharts from 'highcharts'
-import Button from '@material-ui/core/Button'
 import dfFormat from 'date-fns/format'
-import fp from 'lodash/fp'
 import HighchartsReact from 'highcharts-react-official'
 import PropTypes from 'prop-types'
 
