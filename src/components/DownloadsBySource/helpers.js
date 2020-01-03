@@ -37,7 +37,11 @@ export const downloadsSourceMap = {
   atc: 'Google',
   'Alexa Media Player': 'Amazon',
   'Amazon Echo': 'Amazon',
-  Echo: 'Amazon'
+  Echo: 'Amazon',
+  'Amazon Alexa': 'Amazon',
+  'Amazon Fire': 'Amazon',
+  'Amazon Silk': 'Amazon',
+  'Firefox Mobile': 'Firefox'
 }
 
 export const getDownloadsTotalData = sourceData => {
