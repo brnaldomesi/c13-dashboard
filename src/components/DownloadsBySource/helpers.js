@@ -1,3 +1,5 @@
+import fp from 'lodash/fp'
+
 export const downloadsSourceMap = {
   Apple: 'Apple',
   'Apple Desktop': 'Apple',
@@ -77,3 +79,45 @@ export const getDownloadsPercentageData = percentages => {
     .sort()
     .map(key => [key, data[key]])
 }
+
+const sortByDownloads = fp.compose(
+  fp.sortBy(item => -item.downloads),
+  Object.values
+)
+
+export const getDownloadsBreakdownData = fp.compose(
+  data => ({
+    data,
+    totalDownloads: fp.sumBy('downloads')(data)
+  }),
+  fp.map(item => ({
+    downloads: item.downloads,
+    name: item.name,
+    sourcesList: sortByDownloads(item.sources)
+  })),
+  sortByDownloads,
+  fp.reduce((acc, item) => {
+    const key = item.sourceName
+    const groupKey = downloadsSourceMap[key] || key
+    if (acc[groupKey]) {
+      acc[groupKey].downloads += item.downloads
+    } else {
+      acc[groupKey] = {
+        downloads: item.downloads,
+        sources: {},
+        name: groupKey
+      }
+    }
+    if (acc[groupKey].sources[key]) {
+      acc[groupKey].sources[key].downloads += item.downloads
+    } else {
+      acc[groupKey].sources[key] = {
+        downloads: item.downloads,
+        name: item.sourceName
+      }
+    }
+    return acc
+  }, {}),
+  fp.flatten,
+  fp.map(item => item.sourceList)
+)

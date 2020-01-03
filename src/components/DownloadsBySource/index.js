@@ -9,6 +9,7 @@ import PropTypes from 'prop-types'
 import Tooltip from '@material-ui/core/Tooltip'
 
 import { downloadsBySourceSelector, downloadsBySourceLoadingSelector } from 'redux/modules/metrics'
+import DownloadsBreakdown from './DownloadsBreakdown'
 import DownloadsPercentage from './DownloadsPercentage'
 import DownloadsTotal from './DownloadsTotal'
 import IconInfo from 'icons/IconInfo'
@@ -31,6 +32,8 @@ const renderTab = (tab, downloadsBySource) => {
       return <DownloadsTotal sourceData={downloadsBySource.sourceData} />
     case 'percentage':
       return <DownloadsPercentage percentages={downloadsBySource.percentages} />
+    case 'breakdown':
+      return <DownloadsBreakdown sourceData={downloadsBySource.sourceData} />
     default:
       return null
   }
