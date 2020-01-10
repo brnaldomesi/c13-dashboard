@@ -35,9 +35,18 @@ const getDownloadsBySource = apiCallSaga({
   selectorKey: 'downloadsBySource'
 })
 
+const getDownloadsByMarket = apiCallSaga({
+  type: types.GET_DOWNLOADS_BY_MARKET,
+  method: 'get',
+  allowedParamKeys: ['entryCount'],
+  path: '/metrics/downloadsByMarket',
+  selectorKey: 'downloadsByMarket'
+})
+
 export default function* rootSaga() {
   yield takeLatest(types.GET_SUMMARIES, getSummaries)
   yield takeLatest(types.GET_TOTALS_AND_TRENDS, getTotalsAndTrends)
   yield takeLatest(types.GET_TOP_TRENDINGS, getTopTrendings)
   yield takeLatest(types.GET_DOWNLOADS_BY_SOURCE, getDownloadsBySource)
+  yield takeLatest(types.GET_DOWNLOADS_BY_MARKET, getDownloadsByMarket)
 }

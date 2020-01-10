@@ -9,7 +9,8 @@ import PropTypes from 'prop-types'
 import { isAuthenticatedOrRedir } from 'hocs/withAuth'
 import { getEpisodes, getNetworks, getMediaRankingTables } from 'redux/modules/media'
 import { getUserSeries, userPreferenceSelector } from 'redux/modules/profiles'
-import { getDownloadsBySource, getTopTrendings } from 'redux/modules/metrics'
+import { getDownloadsByMarket, getDownloadsBySource, getTopTrendings } from 'redux/modules/metrics'
+import DownloadsByMarket from 'components/DownloadsByMarket'
 import DownloadsBySource from 'components/DownloadsBySource'
 import EpisodesTable from 'components/EpisodesTable'
 import MediaInfo from 'components/MediaInfo'
@@ -35,6 +36,7 @@ const renderMediaTable = ({ networkId, podcastId, episodeId }) => {
 
 const Dashboard = ({
   classes,
+  getDownloadsByMarket,
   getDownloadsBySource,
   getEpisodes,
   getMediaRankingTables,
@@ -65,8 +67,18 @@ const Dashboard = ({
       getMediaRankingTables()
       getTopTrendings({ params: { amount: 10 } })
       getDownloadsBySource({ params: { entryCount: 10 } })
+      getDownloadsByMarket({ params: { entryCount: 10 } })
     }
-  }, [networkId, podcastId, episodeId, getEpisodes, getMediaRankingTables, getTopTrendings, getDownloadsBySource])
+  }, [
+    networkId,
+    podcastId,
+    episodeId,
+    getEpisodes,
+    getMediaRankingTables,
+    getTopTrendings,
+    getDownloadsBySource,
+    getDownloadsByMarket
+  ])
 
   return (
     <div className={classes.root}>
@@ -76,6 +88,7 @@ const Dashboard = ({
       {renderMediaTable({ networkId, podcastId, episodeId })}
       {!episodeId && <TopTrendings />}
       <DownloadsBySource />
+      <DownloadsByMarket />
     </div>
   )
 }
@@ -94,6 +107,7 @@ const selector = createStructuredSelector({
 })
 
 const actions = {
+  getDownloadsByMarket,
   getDownloadsBySource,
   getEpisodes,
   getMediaRankingTables,
