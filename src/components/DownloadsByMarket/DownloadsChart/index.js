@@ -103,7 +103,6 @@ const getOptions = chartsData => ({
 const DownloadsChart = ({ chartsData }) => {
   const classes = useStyles()
   const options = useMemo(() => getOptions(chartsData), [chartsData])
-  console.log({ chartsData })
   return (
     <div className={classes.root}>
       <HighchartsReact highcharts={Highcharts} options={options} />
