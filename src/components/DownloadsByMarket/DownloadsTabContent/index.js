@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import Checkbox from '@material-ui/core/Checkbox'
 import fp from 'lodash/fp'
+import Grid from '@material-ui/core/Grid'
 import PropTypes from 'prop-types'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -13,6 +14,7 @@ import TableRow from '@material-ui/core/TableRow'
 
 import { downloadCSV } from 'utils/exporting'
 import { escapeCsvColumnText } from 'utils/helpers'
+import DownloadsChart from '../DownloadsChart'
 import IconExport from 'icons/IconExport'
 import styles from './styles'
 
@@ -32,11 +34,11 @@ const getCSVData = totalDownloads =>
     fp.defaultTo([])
   )
 
-const DownloadsTabContent = ({ chartTotals = [], marketTotals = [], tabKey }) => {
+const DownloadsTabContent = ({ chartTotals = [], marketTotals = [], tabKey, viewMore }) => {
   const classes = useStyles()
   const [selected, setSelected] = React.useState([])
   const tableData = fp.compose(
-    fp.slice(0, 20),
+    fp.slice(0, viewMore ? 20 : 5),
     fp.sortBy(item => -item.downloads)
   )(marketTotals)
   const totalDownloads = fp.sumBy('downloads')(marketTotals)
@@ -77,47 +79,56 @@ const DownloadsTabContent = ({ chartTotals = [], marketTotals = [], tabKey }) =>
           Export
         </Button>
       </div>
-      <Table className={classes.table} size="small">
-        <TableHead>
-          <TableRow>
-            <TableCell padding="checkbox">
-              <Checkbox
-                indeterminate={numSelected > 0 && numSelected < rowCount}
-                checked={numSelected === rowCount}
-                onChange={handleSelectAllClick}
-                color="primary"
-              />
-            </TableCell>
-            <TableCell>MARKET</TableCell>
-            <TableCell align="right">DOWNLOADS</TableCell>
-            <TableCell>SHARE</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {tableData.map(item => {
-            const isItemSelected = isSelected(item.marketName)
-            return (
-              <TableRow
-                key={item.marketName}
-                selected={isItemSelected}
-                hover
-                className={classes.row}
-                onClick={event => handleClick(event, item.marketName)}>
-                <TableCell padding="checkbox">
-                  <Checkbox checked={isItemSelected} color="primary" />
-                </TableCell>
-                <TableCell>{item.marketName}</TableCell>
-                <TableCell align="right">
-                  <FormattedNumber value={item.downloads} format="decimal" />
-                </TableCell>
-                <TableCell>
-                  <FormattedNumber value={getPercentage(item.downloads, totalDownloads)} format="percent" />
-                </TableCell>
-              </TableRow>
-            )
-          })}
-        </TableBody>
-      </Table>
+      <div className={classes.content}>
+        <Grid container spacing={2}>
+          <Grid item xs={7}>
+            <Table className={classes.table} size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell padding="checkbox">
+                    <Checkbox
+                      indeterminate={numSelected > 0 && numSelected < rowCount}
+                      checked={numSelected === rowCount}
+                      onChange={handleSelectAllClick}
+                      color="primary"
+                    />
+                  </TableCell>
+                  <TableCell>MARKET</TableCell>
+                  <TableCell align="right">DOWNLOADS</TableCell>
+                  <TableCell>SHARE</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {tableData.map(item => {
+                  const isItemSelected = isSelected(item.marketName)
+                  return (
+                    <TableRow
+                      key={item.marketName}
+                      selected={isItemSelected}
+                      hover
+                      className={classes.row}
+                      onClick={event => handleClick(event, item.marketName)}>
+                      <TableCell padding="checkbox" className={classes.cell}>
+                        <Checkbox checked={isItemSelected} color="primary" />
+                      </TableCell>
+                      <TableCell className={classes.cell}>{item.marketName}</TableCell>
+                      <TableCell align="right" className={classes.cell}>
+                        <FormattedNumber value={item.downloads} format="decimal" />
+                      </TableCell>
+                      <TableCell className={classes.cell}>
+                        <FormattedNumber value={getPercentage(item.downloads, totalDownloads)} format="percent" />
+                      </TableCell>
+                    </TableRow>
+                  )
+                })}
+              </TableBody>
+            </Table>
+          </Grid>
+          <Grid item xs={5}>
+            <DownloadsChart chartTotals={chartTotals} key={tabKey} />
+          </Grid>
+        </Grid>
+      </div>
     </div>
   )
 }

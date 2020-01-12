@@ -14,7 +14,22 @@ export default theme => ({
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2)
   },
+  content: {
+    paddingTop: theme.spacing(2)
+  },
   row: {
-    cursor: 'pointer'
+    cursor: 'pointer',
+    backgroundColor: theme.cadence.cardHeaderBg,
+    '&:nth-child(odd)': {
+      backgroundColor: theme.cadence.panelBg
+    }
+  },
+  cell: {
+    border: 'none'
+  },
+  moreToggle: {
+    borderRadius: 0,
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2)
   }
 })

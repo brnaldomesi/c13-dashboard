@@ -8,5 +8,8 @@ export default theme => ({
   },
   iconButton: {
     padding: 0
+  },
+  moreToggle: {
+    borderRadius: 0
   }
 })
