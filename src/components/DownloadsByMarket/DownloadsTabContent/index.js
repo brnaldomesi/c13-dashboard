@@ -34,6 +34,12 @@ const getCSVData = totalDownloads =>
     fp.defaultTo([])
   )
 
+const getChartsData = (marketTotals, selected) =>
+  fp.compose(
+    fp.map(fp.get('marketChartData')),
+    fp.filter(item => selected.includes(item.marketName))
+  )(marketTotals)
+
 const DownloadsTabContent = ({ chartTotals = [], marketTotals = [], tabKey, viewMore }) => {
   const classes = useStyles()
   const [selected, setSelected] = React.useState([])
@@ -71,6 +77,8 @@ const DownloadsTabContent = ({ chartTotals = [], marketTotals = [], tabKey, view
   )
 
   const isSelected = name => selected.indexOf(name) !== -1
+
+  const chartsData = numSelected ? getChartsData(marketTotals, selected) : [chartTotals]
 
   return (
     <div className={classes.root}>
@@ -125,7 +133,7 @@ const DownloadsTabContent = ({ chartTotals = [], marketTotals = [], tabKey, view
             </Table>
           </Grid>
           <Grid item xs={5}>
-            <DownloadsChart chartTotals={chartTotals} key={tabKey} />
+            <DownloadsChart chartsData={chartsData} key={tabKey} />
           </Grid>
         </Grid>
       </div>

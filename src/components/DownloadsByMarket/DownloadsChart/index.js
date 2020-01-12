@@ -10,7 +10,7 @@ import theme from 'config/theme'
 
 const useStyles = makeStyles(styles)
 
-const getOptions = chartTotals => ({
+const getOptions = chartsData => ({
   chart: {
     type: 'area',
     backgroundColor: 'transparent',
@@ -93,19 +93,17 @@ const getOptions = chartTotals => ({
       threshold: null
     }
   },
-  series: [
-    {
-      type: 'area',
-      name: 'Total Downloads',
-      data: chartTotals ? chartTotals.map(item => [new Date(item.entryDate).getTime(), item.downloads]) : []
-    }
-  ]
+  series: chartsData.map(data => ({
+    type: chartsData.length > 1 ? 'line' : 'area',
+    name: 'Total Downloads',
+    data: data.map(item => [new Date(item.entryDate).getTime(), item.downloads])
+  }))
 })
 
-const DownloadsChart = ({ chartTotals }) => {
+const DownloadsChart = ({ chartsData }) => {
   const classes = useStyles()
-  const options = useMemo(() => getOptions(chartTotals), [chartTotals])
-
+  const options = useMemo(() => getOptions(chartsData), [chartsData])
+  console.log({ chartsData })
   return (
     <div className={classes.root}>
       <HighchartsReact highcharts={Highcharts} options={options} />
