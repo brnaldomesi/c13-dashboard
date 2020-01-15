@@ -15,6 +15,7 @@ import TableRow from '@material-ui/core/TableRow'
 import { downloadCSV } from 'utils/exporting'
 import { escapeCsvColumnText } from 'utils/helpers'
 import DownloadsChart from '../DownloadsChart'
+import HeatMap from '../HeatMap'
 import IconExport from 'icons/IconExport'
 import styles from './styles'
 
@@ -88,6 +89,7 @@ const DownloadsTabContent = ({ chartTotals = [], marketTotals = [], tabKey, view
         </Button>
       </div>
       <div className={classes.content}>
+        {tabKey === 'us' && <HeatMap chartsData={marketTotals} />}
         <Grid container spacing={2}>
           <Grid item xs={7}>
             <Table className={classes.table} size="small">
