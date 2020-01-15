@@ -1,26 +1,32 @@
 import React, { useEffect } from 'react'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
-import { withStyles } from '@material-ui/core/styles'
-import get from 'lodash/get'
-import PropTypes from 'prop-types'
-
-import { isAuthenticatedOrRedir } from 'hocs/withAuth'
-import { getEpisodes, getNetworks, getMediaRankingTables } from 'redux/modules/media'
+import {
+  getDownloadsByMarket,
+  getDownloadsByRegion,
+  getDownloadsBySource,
+  getTopTrendings
+} from 'redux/modules/metrics'
+import { getEpisodes, getMediaRankingTables, getNetworks } from 'redux/modules/media'
 import { getUserSeries, userPreferenceSelector } from 'redux/modules/profiles'
-import { getDownloadsByMarket, getDownloadsBySource, getTopTrendings } from 'redux/modules/metrics'
+
 import DownloadsByMarket from 'components/DownloadsByMarket'
+import DownloadsByRegion from 'components/DownloadsByRegion'
 import DownloadsBySource from 'components/DownloadsBySource'
 import EpisodesTable from 'components/EpisodesTable'
 import MediaInfo from 'components/MediaInfo'
 import NetworksTable from 'components/NetworksTable'
 import PodcastsTable from 'components/PodcastsTable'
+import PropTypes from 'prop-types'
 import Summaries from 'components/Summaries'
 import TopTrendings from 'components/TopTrendings'
 import TotalAndHourly from 'components/TotalAndHourly'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+import { createStructuredSelector } from 'reselect'
+import get from 'lodash/get'
+import { isAuthenticatedOrRedir } from 'hocs/withAuth'
 import styles from './styles'
 import withLocationToPreference from 'hocs/withLocationToPreference'
+import { withStyles } from '@material-ui/core/styles'
 
 const renderMediaTable = ({ networkId, podcastId, episodeId }) => {
   if (episodeId) {
@@ -36,6 +42,7 @@ const renderMediaTable = ({ networkId, podcastId, episodeId }) => {
 
 const Dashboard = ({
   classes,
+  getDownloadsByRegion,
   getDownloadsByMarket,
   getDownloadsBySource,
   getEpisodes,
@@ -68,6 +75,7 @@ const Dashboard = ({
       getTopTrendings({ params: { amount: 10 } })
       getDownloadsBySource({ params: { entryCount: 10 } })
       getDownloadsByMarket({ params: { entryCount: 10 } })
+      getDownloadsByRegion({ params: { entryCount: 213 } })
     }
   }, [
     networkId,
@@ -77,7 +85,8 @@ const Dashboard = ({
     getMediaRankingTables,
     getTopTrendings,
     getDownloadsBySource,
-    getDownloadsByMarket
+    getDownloadsByMarket,
+    getDownloadsByRegion
   ])
 
   return (
@@ -89,6 +98,7 @@ const Dashboard = ({
       {!episodeId && <TopTrendings />}
       <DownloadsBySource />
       <DownloadsByMarket />
+      <DownloadsByRegion />
     </div>
   )
 }
@@ -107,6 +117,7 @@ const selector = createStructuredSelector({
 })
 
 const actions = {
+  getDownloadsByRegion,
   getDownloadsByMarket,
   getDownloadsBySource,
   getEpisodes,
@@ -118,10 +129,7 @@ const actions = {
 
 export default compose(
   isAuthenticatedOrRedir,
-  connect(
-    selector,
-    actions
-  ),
+  connect(selector, actions),
   withLocationToPreference,
   withStyles(styles)
 )(Dashboard)
