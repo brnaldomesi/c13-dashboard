@@ -19,6 +19,9 @@ export default createMuiTheme({
     panelBg: '#333333',
     cardHeaderBg: '#444444',
     cardActionBg: '#222222',
-    sidebarWidth: 250
+    sidebarWidth: 250,
+    downloadsDensityLowColor: '#e6e9ef',
+    downloadsDensityMediumColor: '#0036a2',
+    downloadsDensityHighColor: '#001d56'
   }
 })

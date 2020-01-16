@@ -1,26 +1,26 @@
 import React, { useEffect } from 'react'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
-import { withStyles } from '@material-ui/core/styles'
-import get from 'lodash/get'
-import PropTypes from 'prop-types'
-
-import { isAuthenticatedOrRedir } from 'hocs/withAuth'
-import { getEpisodes, getNetworks, getMediaRankingTables } from 'redux/modules/media'
-import { getUserSeries, userPreferenceSelector } from 'redux/modules/profiles'
 import { getDownloadsByMarket, getDownloadsBySource, getTopTrendings } from 'redux/modules/metrics'
+import { getEpisodes, getMediaRankingTables, getNetworks } from 'redux/modules/media'
+import { getUserSeries, userPreferenceSelector } from 'redux/modules/profiles'
+
 import DownloadsByMarket from 'components/DownloadsByMarket'
 import DownloadsBySource from 'components/DownloadsBySource'
 import EpisodesTable from 'components/EpisodesTable'
 import MediaInfo from 'components/MediaInfo'
 import NetworksTable from 'components/NetworksTable'
 import PodcastsTable from 'components/PodcastsTable'
+import PropTypes from 'prop-types'
 import Summaries from 'components/Summaries'
 import TopTrendings from 'components/TopTrendings'
 import TotalAndHourly from 'components/TotalAndHourly'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+import { createStructuredSelector } from 'reselect'
+import get from 'lodash/get'
+import { isAuthenticatedOrRedir } from 'hocs/withAuth'
 import styles from './styles'
 import withLocationToPreference from 'hocs/withLocationToPreference'
+import { withStyles } from '@material-ui/core/styles'
 
 const renderMediaTable = ({ networkId, podcastId, episodeId }) => {
   if (episodeId) {
@@ -67,7 +67,7 @@ const Dashboard = ({
       getMediaRankingTables()
       getTopTrendings({ params: { amount: 10 } })
       getDownloadsBySource({ params: { entryCount: 10 } })
-      getDownloadsByMarket({ params: { entryCount: 10 } })
+      getDownloadsByMarket({ params: { entryCount: 3147 } })
     }
   }, [
     networkId,
@@ -118,10 +118,7 @@ const actions = {
 
 export default compose(
   isAuthenticatedOrRedir,
-  connect(
-    selector,
-    actions
-  ),
+  connect(selector, actions),
   withLocationToPreference,
   withStyles(styles)
 )(Dashboard)
