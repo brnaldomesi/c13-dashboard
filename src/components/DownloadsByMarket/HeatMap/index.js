@@ -7,14 +7,10 @@ import HighchartsReact from 'highcharts-react-official'
 import PropTypes from 'prop-types'
 import fp from 'lodash/fp'
 import highchartsMap from 'highcharts/modules/map'
-import { makeStyles } from '@material-ui/core/styles'
 import mapData from '@highcharts/map-collection/countries/us/us-all-all.geo.json'
-import styles from './styles'
 import theme from 'config/theme'
 
 highchartsMap(Highcharts)
-
-const useStyles = makeStyles(styles)
 
 const upperCaseFeatures = mapData.features.map(item => ({
   ...item,
@@ -111,7 +107,6 @@ const getOptions = chartsData => {
 }
 
 const HeatMap = ({ chartsData }) => {
-  const classes = useStyles()
   const options = useMemo(() => getOptions(chartsData), [chartsData])
   return (
     <Box py={4}>
