@@ -1,9 +1,15 @@
 import React, { useEffect } from 'react'
-import { getDownloadsByMarket, getDownloadsBySource, getTopTrendings } from 'redux/modules/metrics'
+import {
+  getDownloadsByMarket,
+  getDownloadsByRegion,
+  getDownloadsBySource,
+  getTopTrendings
+} from 'redux/modules/metrics'
 import { getEpisodes, getMediaRankingTables, getNetworks } from 'redux/modules/media'
 import { getUserSeries, userPreferenceSelector } from 'redux/modules/profiles'
 
 import DownloadsByMarket from 'components/DownloadsByMarket'
+import DownloadsByRegion from 'components/DownloadsByRegion'
 import DownloadsBySource from 'components/DownloadsBySource'
 import EpisodesTable from 'components/EpisodesTable'
 import MediaInfo from 'components/MediaInfo'
@@ -36,6 +42,7 @@ const renderMediaTable = ({ networkId, podcastId, episodeId }) => {
 
 const Dashboard = ({
   classes,
+  getDownloadsByRegion,
   getDownloadsByMarket,
   getDownloadsBySource,
   getEpisodes,
@@ -67,7 +74,8 @@ const Dashboard = ({
       getMediaRankingTables()
       getTopTrendings({ params: { amount: 10 } })
       getDownloadsBySource({ params: { entryCount: 10 } })
-      getDownloadsByMarket({ params: { entryCount: 3147 } })
+      getDownloadsByMarket({ params: { entryCount: 210 } })
+      getDownloadsByRegion({ params: { entryCount: 213 } })
     }
   }, [
     networkId,
@@ -77,7 +85,8 @@ const Dashboard = ({
     getMediaRankingTables,
     getTopTrendings,
     getDownloadsBySource,
-    getDownloadsByMarket
+    getDownloadsByMarket,
+    getDownloadsByRegion
   ])
 
   return (
@@ -89,6 +98,7 @@ const Dashboard = ({
       {!episodeId && <TopTrendings />}
       <DownloadsBySource />
       <DownloadsByMarket />
+      <DownloadsByRegion />
     </div>
   )
 }
@@ -107,6 +117,7 @@ const selector = createStructuredSelector({
 })
 
 const actions = {
+  getDownloadsByRegion,
   getDownloadsByMarket,
   getDownloadsBySource,
   getEpisodes,

@@ -22,6 +22,7 @@ export default createMuiTheme({
     sidebarWidth: 250,
     downloadsDensityLowColor: '#e6e9ef',
     downloadsDensityMediumColor: '#0036a2',
-    downloadsDensityHighColor: '#001d56'
+    downloadsDensityHighColor: '#001d56',
+    mapHover: '#a4edba'
   }
 })

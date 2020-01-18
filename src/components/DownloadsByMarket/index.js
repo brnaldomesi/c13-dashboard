@@ -1,27 +1,30 @@
 import React, { useCallback, useState } from 'react'
+import { downloadsByMarketLoadingSelector, downloadsByMarketSelector } from 'redux/modules/metrics'
+
+import Button from '@material-ui/core/Button'
+import DownloadsTabContent from './DownloadsTabContent'
+import IconArrowDropDown from '@material-ui/icons/ArrowDropDown'
+import IconArrowDropUp from '@material-ui/icons/ArrowDropUp'
+import IconButton from '@material-ui/core/IconButton'
+import IconInfo from 'icons/IconInfo'
+import LoadingIndicator from 'components/LoadingIndicator'
+import Panel from 'components/Panel'
+import PropTypes from 'prop-types'
+import Tabs from 'components/Tabs'
+import Tooltip from '@material-ui/core/Tooltip'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { makeStyles } from '@material-ui/core/styles'
-import { withRouter } from 'react-router-dom'
-import Button from '@material-ui/core/Button'
-import IconButton from '@material-ui/core/IconButton'
-import PropTypes from 'prop-types'
-import Tooltip from '@material-ui/core/Tooltip'
-
-import { downloadsByMarketSelector, downloadsByMarketLoadingSelector } from 'redux/modules/metrics'
-import DownloadsTabContent from './DownloadsTabContent'
-import IconArrowDropDown from '@material-ui/icons/ArrowDropDown'
-import IconArrowDropUp from '@material-ui/icons/ArrowDropUp'
-import IconInfo from 'icons/IconInfo'
-import LoadingIndicator from 'components/LoadingIndicator'
-import Panel from 'components/Panel'
 import styles from './styles'
-import Tabs from 'components/Tabs'
+import { withRouter } from 'react-router-dom'
 
 const useStyles = makeStyles(styles)
 
-const tabs = [{ label: 'United States', key: 'us' }, { label: 'Global', key: 'global' }]
+const tabs = [
+  { label: 'United States', key: 'us' },
+  { label: 'Global', key: 'global' }
+]
 
 const DownloadsByMarket = ({ downloadsByMarket, loading }) => {
   const classes = useStyles()
@@ -84,7 +87,4 @@ const selector = createStructuredSelector({
   loading: downloadsByMarketLoadingSelector
 })
 
-export default compose(
-  withRouter,
-  connect(selector)
-)(DownloadsByMarket)
+export default compose(withRouter, connect(selector))(DownloadsByMarket)
