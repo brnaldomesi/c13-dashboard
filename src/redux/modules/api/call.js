@@ -1,10 +1,10 @@
+import { call, put, select } from 'redux-saga/effects'
+import { requestPending, requestRejected, requestSuccess } from './actions'
+
+import { BASE_URL } from 'config/constants'
 import axios from 'axios'
 import get from 'lodash/get'
 import pick from 'lodash/pick'
-import { call, put, select } from 'redux-saga/effects'
-
-import { BASE_URL } from 'config/constants'
-import { requestRejected, requestPending, requestSuccess } from './actions'
 import { tokenSelector } from 'redux/modules/auth/selectors'
 
 const defaultHeaders = token => ({

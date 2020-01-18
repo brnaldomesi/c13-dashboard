@@ -1,9 +1,9 @@
+import { AUTH_LOGIN, AUTH_LOGOUT } from './types'
+import { authLoginFail, authLoginSuccess, authLogoutSuccess } from './actions'
 import { put, takeLatest } from 'redux-saga/effects'
 
-import { apiCallSaga } from '../api'
-import { AUTH_LOGIN, AUTH_LOGOUT } from './types'
-import { authLoginSuccess, authLoginFail, authLogoutSuccess } from './actions'
 import Cookies from 'js-cookie'
+import { apiCallSaga } from '../api'
 
 const authLogin = apiCallSaga({
   type: AUTH_LOGIN,
