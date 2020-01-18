@@ -32,8 +32,6 @@ const getOptions = chartsData => {
     }
   })
 
-  console.log('xx', data)
-
   return {
     chart: {
       backgroundColor: 'transparent',
