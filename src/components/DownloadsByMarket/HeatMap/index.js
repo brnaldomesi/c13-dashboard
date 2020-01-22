@@ -7,20 +7,20 @@ import HighchartsReact from 'highcharts-react-official'
 import PropTypes from 'prop-types'
 import fp from 'lodash/fp'
 import highchartsMap from 'highcharts/modules/map'
-import mapData from '@highcharts/map-collection/countries/us/us-all-all.geo.json'
+import mapData from './us-dma.geo.json'
 import theme from 'config/theme'
 
 highchartsMap(Highcharts)
 
-const upperCaseFeatures = mapData.features.map(item => ({
+const nameAddedFeatures = mapData.features.map(item => ({
   ...item,
   properties: {
     ...item.properties,
-    name: item.properties.name && item.properties.name.toUpperCase()
+    name: item.properties.dma_name
   }
 }))
 
-const countiesMap = fp.set('features', upperCaseFeatures)(mapData)
+const countiesMap = fp.set('features', nameAddedFeatures)(mapData)
 
 const lines = Highcharts.geojson(mapData, 'mapline')
 
@@ -37,8 +37,7 @@ const getOptions = chartsData => {
     chart: {
       backgroundColor: 'transparent',
       height: 600,
-      marginRight: 20,
-      map: 'countries/us/us-all-all'
+      marginRight: 20
     },
 
     title: false,
@@ -60,14 +59,8 @@ const getOptions = chartsData => {
     },
 
     colorAxis: {
-      min: Math.min.apply(
-        Math,
-        chartsData.map(({ downloads }) => downloads)
-      ),
-      max: Math.max.apply(
-        Math,
-        chartsData.map(({ downloads }) => downloads)
-      ),
+      min: Math.min.apply(Math, chartsData.map(({ downloads }) => downloads)),
+      max: Math.max.apply(Math, chartsData.map(({ downloads }) => downloads)),
       tickInterval: 2000000,
       stops: [
         [0, theme.cadence.downloadsDensityLowColor],
@@ -80,12 +73,17 @@ const getOptions = chartsData => {
       {
         mapData: countiesMap,
         data: chartsData.map(item => ({
-          countyName: item.marketName,
+          dma_name: item.marketName,
           value: item.downloads
         })),
-        joinBy: ['name', 'countyName'],
+        joinBy: ['dma_name'],
         name: 'Downloads',
         borderWidth: 0.5,
+        states: {
+          hover: {
+            color: theme.cadence.mapHover
+          }
+        },
         shadow: false
       },
       {
