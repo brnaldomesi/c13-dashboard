@@ -50,14 +50,8 @@ const getOptions = chartsData => {
     },
 
     colorAxis: {
-      min: Math.min.apply(
-        Math,
-        chartsData.map(({ downloads }) => downloads)
-      ),
-      max: Math.max.apply(
-        Math,
-        chartsData.map(({ downloads }) => downloads)
-      ),
+      min: Math.min.apply(Math, chartsData.map(({ downloads }) => downloads)) + 1,
+      max: Math.max.apply(Math, chartsData.map(({ downloads }) => downloads)),
       type: 'logarithmic'
     },
 
@@ -114,4 +108,7 @@ const selector = createStructuredSelector({
   loading: downloadsByRegionLoadingSelector
 })
 
-export default compose(withRouter, connect(selector))(DownloadsByRegion)
+export default compose(
+  withRouter,
+  connect(selector)
+)(DownloadsByRegion)
