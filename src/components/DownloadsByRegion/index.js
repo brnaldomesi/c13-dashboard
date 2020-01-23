@@ -6,18 +6,18 @@ import HighchartsReact from 'highcharts-react-official'
 import LoadingIndicator from 'components/LoadingIndicator'
 import Panel from 'components/Panel'
 import PropTypes from 'prop-types'
+import allowNegativeLog from 'utils/highcharts'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { countryMatchArray } from './helpers'
 import { createStructuredSelector } from 'reselect'
-import highchartsMap from 'highcharts/modules/map'
 import { makeStyles } from '@material-ui/core/styles'
 import mapData from '@highcharts/map-collection/custom/world.geo.json'
 import styles from './styles'
 import theme from 'config/theme'
 import { withRouter } from 'react-router-dom'
 
-highchartsMap(Highcharts)
+allowNegativeLog()
 
 const useStyles = makeStyles(styles)
 const getOptions = chartsData => {
@@ -50,9 +50,10 @@ const getOptions = chartsData => {
     },
 
     colorAxis: {
-      min: Math.min.apply(Math, chartsData.map(({ downloads }) => downloads)) + 1,
+      min: Math.min.apply(Math, chartsData.map(({ downloads }) => downloads)),
       max: Math.max.apply(Math, chartsData.map(({ downloads }) => downloads)),
-      type: 'logarithmic'
+      type: 'logarithmic',
+      allowNegativeLog: true
     },
 
     legend: {

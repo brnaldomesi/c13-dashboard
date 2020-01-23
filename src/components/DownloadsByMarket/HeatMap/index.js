@@ -1,8 +1,7 @@
-import * as Highcharts from 'highcharts'
-
 import React, { useMemo } from 'react'
 
 import Box from '@material-ui/core/Box'
+import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import PropTypes from 'prop-types'
 import fp from 'lodash/fp'
@@ -32,77 +31,71 @@ const separatorLines = Highcharts.grep(lines, l => {
   return l.properties['hc-group'] === '__separator_lines__'
 })
 
-const getOptions = chartsData => {
-  return {
-    chart: {
-      backgroundColor: 'transparent',
-      height: 600,
-      marginRight: 20
-    },
+const getOptions = chartsData => ({
+  chart: {
+    backgroundColor: 'transparent',
+    height: 600,
+    marginRight: 20
+  },
 
-    title: false,
+  title: false,
 
-    credits: {
-      enabled: false
-    },
+  credits: {
+    enabled: false
+  },
 
-    legend: {
-      layout: 'horizontal',
-      align: 'right',
-      verticalAlign: 'top',
-      floating: true
-    },
+  legend: {
+    layout: 'horizontal',
+    align: 'right',
+    verticalAlign: 'top',
+    floating: true
+  },
 
-    mapNavigation: {
-      enabled: true,
-      enableButtons: false
-    },
+  mapNavigation: {
+    enabled: true,
+    enableButtons: false
+  },
 
-    colorAxis: {
-      min: Math.min.apply(Math, chartsData.map(({ downloads }) => downloads)),
-      max: Math.max.apply(Math, chartsData.map(({ downloads }) => downloads)),
-      tickInterval: 2000000,
-      stops: [
-        [0, theme.cadence.downloadsDensityLowColor],
-        [0.65, theme.cadence.downloadsDensityMediumColor],
-        [1, theme.cadence.downloadsDensityHighColor]
-      ]
-    },
+  colorAxis: {
+    min: Math.min.apply(Math, chartsData.map(({ downloads }) => downloads)),
+    max: Math.max.apply(Math, chartsData.map(({ downloads }) => downloads)),
+    type: 'logarithmic',
+    allowNegativeLog: true
+  },
 
-    series: [
-      {
-        mapData: countiesMap,
-        data: chartsData.map(item => ({
-          dma_name: item.marketName,
-          value: item.downloads
-        })),
-        joinBy: ['dma_name'],
-        name: 'Downloads',
-        borderWidth: 0.5,
-        states: {
-          hover: {
-            color: theme.cadence.mapHover
-          }
-        },
-        shadow: false
+  series: [
+    {
+      mapData: countiesMap,
+      data: chartsData.map(item => ({
+        dma_name: item.marketName,
+        value: item.downloads
+      })),
+      joinBy: ['dma_name'],
+      name: 'Downloads',
+      borderWidth: 0.5,
+      states: {
+        hover: {
+          color: theme.cadence.mapHover
+        }
       },
-      {
-        type: 'mapline',
-        name: 'State borders',
-        data: borderLines,
-        color: 'white',
-        shadow: false
-      },
-      {
-        type: 'mapline',
-        name: 'Separator',
-        data: separatorLines,
-        color: 'gray',
-        shadow: false
-      }
-    ]
-  }
-}
+      shadow: false
+    },
+    {
+      type: 'mapline',
+      name: 'State borders',
+      data: borderLines,
+      color: 'white',
+      shadow: false
+    },
+    {
+      type: 'mapline',
+      name: 'Separator',
+      data: separatorLines,
+      color: 'gray',
+      shadow: false
+    }
+  ]
+})
 
 const HeatMap = ({ chartsData }) => {
   const options = useMemo(() => getOptions(chartsData), [chartsData])

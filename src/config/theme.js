@@ -20,9 +20,6 @@ export default createMuiTheme({
     cardHeaderBg: '#444444',
     cardActionBg: '#222222',
     sidebarWidth: 250,
-    downloadsDensityLowColor: '#e6e9ef',
-    downloadsDensityMediumColor: '#0036a2',
-    downloadsDensityHighColor: '#001d56',
     mapHover: '#a4edba'
   }
 })
