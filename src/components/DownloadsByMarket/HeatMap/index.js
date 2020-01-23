@@ -52,8 +52,9 @@ const getOptions = chartsData => ({
   },
 
   mapNavigation: {
-    enabled: true,
-    enableButtons: false
+    enabled: false,
+    enableButtons: false,
+    enableMouseWheelZoom: false
   },
 
   colorAxis: {

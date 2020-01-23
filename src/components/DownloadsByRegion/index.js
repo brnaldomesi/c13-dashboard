@@ -46,7 +46,9 @@ const getOptions = chartsData => {
     },
 
     mapNavigation: {
-      enabled: true
+      enabled: false,
+      enableButtons: false,
+      enableMouseWheelZoom: false
     },
 
     colorAxis: {
