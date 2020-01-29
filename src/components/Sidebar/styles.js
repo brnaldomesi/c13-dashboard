@@ -1,16 +1,22 @@
 export default theme => ({
-  paper: {
+  root: {
     backgroundColor: theme.cadence.sidebarBg,
-    width: theme.cadence.sidebarWidth
+    width: ({ open }) => (open ? theme.cadence.sidebarWidth : theme.cadence.miniSidebarWidth),
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    position: 'fixed',
+    zIndex: 1
   },
   flexOne: {
     flex: 1
   },
   list: {
-    overflow: 'auto',
+    overflow: ({ open }) => (open ? 'auto' : 'hidden'),
     display: 'flex',
     flexDirection: 'column',
-    minHeight: theme.spacing(8)
+    minHeight: theme.spacing(8),
+    zIndex: 1
   },
   spacer: {
     flex: 1
@@ -30,5 +36,13 @@ export default theme => ({
   footer: {
     display: 'flex',
     alignItems: 'flex-end'
+  },
+  sidebarToggle: {
+    position: 'absolute',
+    right: '0',
+    marginTop: ({ sidebarItemheight }) => sidebarItemheight / 2,
+    transform: 'translate(50%, -50%)',
+    cursor: 'pointer',
+    zIndex: 2
   }
 })

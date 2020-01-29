@@ -20,6 +20,7 @@ export default createMuiTheme({
     cardHeaderBg: '#444444',
     cardActionBg: '#222222',
     sidebarWidth: 250,
+    miniSidebarWidth: 57,
     mapHover: '#a4edba'
   }
 })

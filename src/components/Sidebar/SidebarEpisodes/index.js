@@ -1,20 +1,20 @@
 import React, { useCallback } from 'react'
-import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
-import get from 'lodash/get'
+
 import Collapse from '@material-ui/core/Collapse'
 import Divider from '@material-ui/core/Divider'
+import { FormattedDate } from 'react-intl'
+import { IconMicrophone } from 'icons'
 import List from '@material-ui/core/List'
 import PropTypes from 'prop-types'
-
-import { episodesSelector } from 'redux/modules/media'
-import { IconMicrophone } from 'icons'
-import { userPreferenceSelector } from 'redux/modules/profiles'
 import SidebarItem from '../SidebarItem'
 import SidebarSubItem from '../SidebarSubItem'
-import { FormattedDate } from 'react-intl'
+import { connect } from 'react-redux'
+import { createStructuredSelector } from 'reselect'
+import { episodesSelector } from 'redux/modules/media'
+import get from 'lodash/get'
+import { userPreferenceSelector } from 'redux/modules/profiles'
 
-const SidebarEpisodes = ({ className, episodes, open, onToggle, userPreference }) => {
+const SidebarEpisodes = ({ className, text, episodes, open, onToggle, userPreference }) => {
   const handleToggle = useCallback(() => onToggle('episodes'), [onToggle])
   const handleClickItem = useCallback(() => onToggle('episodes'), [onToggle])
   const networkId = get(userPreference, 'networkId')
@@ -24,8 +24,8 @@ const SidebarEpisodes = ({ className, episodes, open, onToggle, userPreference }
   return episodesVisible ? (
     <>
       <List className={className}>
-        <SidebarItem icon={IconMicrophone} text="Episodes" onClick={handleToggle} hasSubItems open={open} />
-        <Collapse in={open} style={{ overflow: 'auto' }}>
+        <SidebarItem icon={IconMicrophone} text={text} onClick={handleToggle} hasSubItems open={open} />
+        <Collapse in={open} style={{ overflowX: 'hidden', overflowY: 'auto' }}>
           <List component="nav" dense>
             <SidebarSubItem
               text={episodes.length > 0 ? 'All Episodes' : 'No Episodes in this podcast'}
@@ -51,13 +51,14 @@ const SidebarEpisodes = ({ className, episodes, open, onToggle, userPreference }
           </List>
         </Collapse>
       </List>
-      <Divider />
+      {text !== '' && <Divider />}
     </>
   ) : null
 }
 
 SidebarEpisodes.propTypes = {
   className: PropTypes.string,
+  text: PropTypes.string,
   episodes: PropTypes.array,
   onToggle: PropTypes.func.isRequired,
   open: PropTypes.bool,

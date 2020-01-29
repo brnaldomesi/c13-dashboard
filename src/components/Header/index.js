@@ -1,30 +1,20 @@
+import AppBar from '@material-ui/core/AppBar'
+import DatePreferences from 'components/DatePreferences'
+import Logo from 'components/Logo'
+import PropTypes from 'prop-types'
 import React from 'react'
+import Toolbar from '@material-ui/core/Toolbar'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
-import { withStyles } from '@material-ui/core'
-import AppBar from '@material-ui/core/AppBar'
-import IconButton from '@material-ui/core/IconButton'
-import MenuIcon from '@material-ui/icons/Menu'
-import PropTypes from 'prop-types'
-import Toolbar from '@material-ui/core/Toolbar'
-
-// import HeaderSearchForm from 'components/HeaderSearchForm'
-import Logo from 'components/Logo'
-import styles from './styles'
 import { isAuthenticatedSelector } from 'redux/modules/auth'
-import DatePreferences from 'components/DatePreferences'
+import styles from './styles'
+import { withStyles } from '@material-ui/core'
 
-export const Header = ({ classes, isAuthenticated, toggleSidebar }) => (
+export const Header = ({ classes, isAuthenticated }) => (
   <AppBar position="fixed" color="default" className={classes.root}>
     <Toolbar disableGutters>
-      {isAuthenticated ? (
-        <IconButton color="inherit" onClick={() => toggleSidebar(true)} className={classes.menuButton}>
-          <MenuIcon />
-        </IconButton>
-      ) : (
-        <div className={classes.menuButton} />
-      )}
+      <div className={classes.menuButton} />
       <Logo />
       {isAuthenticated && (
         <>
@@ -39,8 +29,7 @@ export const Header = ({ classes, isAuthenticated, toggleSidebar }) => (
 
 Header.propTypes = {
   classes: PropTypes.object.isRequired,
-  isAuthenticated: PropTypes.bool,
-  toggleSidebar: PropTypes.func.isRequired
+  isAuthenticated: PropTypes.bool
 }
 
 const selector = createStructuredSelector({

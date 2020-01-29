@@ -1,75 +1,112 @@
+import { IconCollapse, IconExpand, IconMail, IconNotification } from 'icons'
 import React, { useCallback, useState } from 'react'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import { withStyles } from '@material-ui/core/styles'
-import cn from 'classnames'
+
 import Divider from '@material-ui/core/Divider'
-import Drawer from '@material-ui/core/Drawer'
-import IconButton from '@material-ui/core/IconButton'
+import InfoIcon from '@material-ui/icons/Info'
 import List from '@material-ui/core/List'
 import LogoutIcon from '@material-ui/icons/PowerSettingsNew'
-import MenuIcon from '@material-ui/icons/Menu'
-import InfoIcon from '@material-ui/icons/Info'
 import PropTypes from 'prop-types'
-
-import { authLogout } from 'redux/modules/auth'
-import { IconMail, IconNotification } from 'icons'
-import { userIsAuthenticated } from 'hocs/withAuth'
-import Logo from 'components/Logo'
-import SidebarItem from './SidebarItem'
 import SidebarEpisodes from './SidebarEpisodes'
+import SidebarItem from './SidebarItem'
 import SidebarNetworks from './SidebarNetworks'
 import SidebarPodcasts from './SidebarPodcasts'
-import styles from './styles'
 import { Typography } from '@material-ui/core'
+import { authLogout } from 'redux/modules/auth'
+import cn from 'classnames'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+import { makeStyles } from '@material-ui/core/styles'
+import styles from './styles'
+import { userIsAuthenticated } from 'hocs/withAuth'
 
-const Sidebar = ({ authLogout, classes, open, toggle }) => {
+const useStyles = makeStyles(styles)
+
+const Sidebar = ({ authLogout, open, toggle }) => {
   const [activeSection, setActiveSection] = useState(null)
-
-  const handleToggle = useCallback(() => toggle(!open), [toggle, open])
-
+  const handleToggle = useCallback(() => {
+    if (open) {
+      setActiveSection(prevSection => null)
+    }
+    toggle(!open)
+  }, [toggle, open, setActiveSection])
+  const expandSideBar = useCallback(() => toggle(true), [toggle])
   const handleSectionToggle = useCallback(
     activeSection => {
+      toggle(true)
       setActiveSection(prevSection => (prevSection === activeSection ? null : activeSection))
     },
-    [setActiveSection]
+    [toggle, setActiveSection]
   )
+  const [sidebarItemheight, setSidebarItemheight] = useState(0)
+  const measuredRef = useCallback(node => {
+    if (node !== null) {
+      setSidebarItemheight(node.getBoundingClientRect().height)
+    }
+  }, [])
+  const classes = useStyles({ open: open, sidebarItemheight: sidebarItemheight })
 
   return (
-    <Drawer open={open} onClose={handleToggle} classes={{ paper: classes.paper }}>
-      <div className={classes.header}>
-        <IconButton color="inherit" onClick={handleToggle} className={classes.menuButton}>
-          <MenuIcon />
-        </IconButton>
-        <Logo />
-      </div>
+    // <Drawer open={open} onClose={handleToggle} classes={{ paper: classes.paper }}>
+    <div className={classes.root}>
+      <div className={classes.header} />
       <div className={cn(classes.list, classes.flexOne)}>
-        <List>
-          <SidebarItem icon={IconNotification} text="Notifications" to="/notifications" />
+        {open ? (
+          <IconCollapse onClick={handleToggle} className={classes.sidebarToggle} style={{ color: 'black' }} />
+        ) : (
+          <IconExpand onClick={handleToggle} className={classes.sidebarToggle} style={{ color: 'black' }} />
+        )}
+
+        <List className={classes.clearfix} ref={measuredRef}>
+          <SidebarItem
+            icon={IconNotification}
+            text={open ? 'Notifications' : ''}
+            to="/notifications"
+            onClick={expandSideBar}
+          />
         </List>
-        <Divider />
-        <SidebarNetworks open={activeSection === 'networks'} onToggle={handleSectionToggle} className={classes.list} />
-        <SidebarPodcasts open={activeSection === 'podcasts'} onToggle={handleSectionToggle} className={classes.list} />
-        <SidebarEpisodes open={activeSection === 'episodes'} onToggle={handleSectionToggle} className={classes.list} />
+        {open && <Divider />}
+        <SidebarNetworks
+          open={activeSection === 'networks'}
+          text={open ? 'Networks' : ''}
+          onToggle={handleSectionToggle}
+          className={classes.list}
+          onClick={expandSideBar}
+        />
+        <SidebarPodcasts
+          open={activeSection === 'podcasts'}
+          text={open ? 'Podcasts' : ''}
+          onToggle={handleSectionToggle}
+          className={classes.list}
+        />
+        <SidebarEpisodes
+          open={activeSection === 'episodes'}
+          text={open ? 'All Episodes' : ''}
+          onToggle={handleSectionToggle}
+          className={classes.list}
+        />
         <List>
-          <SidebarItem icon={IconMail} text="Feedback" to="/feedback" />
+          <SidebarItem icon={IconMail} text={open ? 'Feedback' : ''} to="/feedback" onClick={expandSideBar} />
         </List>
-        <Divider />
-        <Typography variant="caption" className={classes.info}>
-          * Unless otherwise stated with <InfoIcon fontSize="inherit" />, all data is based on selected date range.
-          <br />* Spotify data available as of 10.24.18
-        </Typography>
+        {open && (
+          <>
+            <Divider />
+            <Typography variant="caption" className={classes.info}>
+              * Unless otherwise stated with <InfoIcon fontSize="inherit" />, all data is based on selected date range.
+              <br />* Spotify data available as of 10.24.18
+            </Typography>
+          </>
+        )}
       </div>
-      <div className={classes.footer} onClick={handleToggle} onKeyDown={handleToggle}>
-        <SidebarItem icon={LogoutIcon} text="Logout" onClick={authLogout} />
+      <div className={classes.footer} onKeyDown={handleToggle}>
+        <SidebarItem icon={LogoutIcon} text={open ? 'Logout' : ''} onClick={authLogout} />
       </div>
-    </Drawer>
+    </div>
+    // </Drawer>
   )
 }
 
 Sidebar.propTypes = {
   authLogout: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired,
   open: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired
 }
@@ -83,6 +120,5 @@ export default compose(
   connect(
     null,
     actions
-  ),
-  withStyles(styles)
+  )
 )(Sidebar)

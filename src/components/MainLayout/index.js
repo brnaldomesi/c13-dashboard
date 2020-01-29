@@ -1,24 +1,25 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+
 import Content from 'components/Content'
 import Header from 'components/Header'
 import Sidebar from 'components/Sidebar'
+import { makeStyles } from '@material-ui/core/styles'
 import styles from './styles'
+import { withRouter } from 'react-router'
 
-const MainLayout = ({ classes, children }) => {
-  const [sidebarOpen, toggleSidebar] = useState(false)
+const useStyles = makeStyles(styles)
+
+const MainLayout = ({ children, location }) => {
+  const [sidebarOpen, toggleSidebar] = useState(true)
+  const classes = useStyles({ sidebarOpen })
+
   return (
     <div className={classes.root}>
-      <Header toggleSidebar={toggleSidebar} />
+      <Header />
       <Sidebar toggle={toggleSidebar} open={sidebarOpen} />
-      <Content>{children}</Content>
+      <Content className={classes.content}>{children}</Content>
     </div>
   )
 }
 
-MainLayout.propTypes = {
-  classes: PropTypes.object.isRequired
-}
-
-export default withStyles(styles)(MainLayout)
+export default withRouter(MainLayout)
