@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 
 import PropTypes from 'prop-types'
-import cn from 'classnames'
 import styles from './styles'
 import { withStyles } from '@material-ui/core/styles'
 
@@ -17,9 +16,9 @@ class Content extends Component {
     const { classes, className, children, domRef } = this.props
 
     return (
-      <div>
+      <div className={className}>
         <div className={classes.toolbar} />
-        <div className={cn(classes.root, className)} ref={domRef}>
+        <div className={classes.root} ref={domRef}>
           {children}
         </div>
       </div>
