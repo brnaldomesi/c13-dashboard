@@ -1,12 +1,19 @@
-import React, { useMemo } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
 import * as Highcharts from 'highcharts'
-import dfFormat from 'date-fns/format'
+
+import React, { useMemo } from 'react'
+
 import HighchartsReact from 'highcharts-react-official'
 import PropTypes from 'prop-types'
-
+import dfFormat from 'date-fns/format'
+import { makeStyles } from '@material-ui/core/styles'
 import styles from './styles'
 import theme from 'config/theme'
+
+Highcharts.setOptions({
+  lang: {
+    thousandsSep: ','
+  }
+})
 
 const useStyles = makeStyles(styles)
 
@@ -32,7 +39,7 @@ const getOptions = chartsData => ({
         color: theme.palette.text.primary
       },
       formatter: function() {
-        return dfFormat(this.value, 'dd/MM/yy')
+        return dfFormat(this.value, 'd/M/yy')
       }
     }
   },

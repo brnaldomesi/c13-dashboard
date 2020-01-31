@@ -1,11 +1,11 @@
-import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
 import * as Highcharts from 'highcharts'
-import dfFormat from 'date-fns/format'
+
 import HighchartsReact from 'highcharts-react-official'
 import PropTypes from 'prop-types'
-
+import React from 'react'
+import dfFormat from 'date-fns/format'
 import { getDownloadsTotalData } from '../helpers'
+import { makeStyles } from '@material-ui/core/styles'
 import styles from './styles'
 import theme from 'config/theme'
 
@@ -29,7 +29,7 @@ const getOptions = totalData => ({
         color: theme.palette.text.primary
       }
     },
-    categories: totalData.data.map(item => dfFormat(new Date(item.date), 'dd/MM/yy'))
+    categories: totalData.data.map(item => dfFormat(new Date(item.date), 'd/m/y'))
   },
   yAxis: {
     title: false,
@@ -81,8 +81,9 @@ const getOptions = totalData => ({
     }
   },
   series: totalData.sourceNames.map(sourceName => ({
-    name: sourceName,
-    data: totalData.data.map(item => item.sources[sourceName] || 0)
+    name: sourceName.name,
+    color: sourceName.color,
+    data: totalData.data.map(item => item.sources[sourceName.name] || 0)
   }))
 })
 

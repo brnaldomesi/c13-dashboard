@@ -6,8 +6,6 @@ export const downloadsSourceMap = {
   'Apple Mobile': 'Apple',
   'Apple Other': 'Apple',
   'Mobile Safari': 'Apple',
-  Safari: 'Apple',
-  'Safari Mobile': 'Apple',
   Podcasts: 'Apple',
   'Apple Watch': 'Apple',
   'Apple Desktop (iTunes)': 'Apple',
@@ -18,38 +16,93 @@ export const downloadsSourceMap = {
   Other: 'Others',
   Unknown: 'Others',
   Google: 'Google',
-  Android: 'Google',
-  'Android Misc': 'Google',
-  'Android Mobile': 'Google',
-  'Android browser': 'Google',
-  'Chrome Mobile': 'Google',
-  'Chrome Mobile WebView': 'Google',
-  'Chrome Mobile iOS': 'Google',
   GoogleHome: 'Google',
   'Google Assistant': 'Google',
   'Google Podcasts': 'Google',
   'Google Play': 'Google',
-  Chrome: 'Google',
-  AndroidDownloadManager: 'Google',
   stagefright: 'Google',
-  'Android HttpURLConnection': 'Google',
   okhttp: 'Google',
   atc: 'Google',
+  Android: 'Android',
+  'Android Misc': 'Android',
+  'Android Mobile': 'Android',
+  'Android browser': 'Android',
+  AndroidDownloadManager: 'Android',
+  'Android HttpURLConnection': 'Android',
+  Chrome: 'Chrome',
+  'Chrome Mobile': 'Chrome',
+  'Chrome Mobile WebView': 'Chrome',
+  'Chrome Mobile iOS': 'Chrome',
   'Alexa Media Player': 'Amazon',
   'Amazon Echo': 'Amazon',
   Echo: 'Amazon',
   'Amazon Alexa': 'Amazon',
   'Amazon Fire': 'Amazon',
   'Amazon Silk': 'Amazon',
-  'Firefox Mobile': 'Firefox'
+  Firefox: 'Firefox',
+  'Firefox Mobile': 'Firefox',
+  Edge: 'Edge',
+  'Internet Explorer': 'Edge',
+  // DoggCatcher: 'DoggCatcher',
+  // 'TuneIn Radio': 'TuneIn Radio',
+  Safari: 'Safari',
+  'Safari Mobile': 'Safari'
+}
+
+export const downloadsSourceTotalColorMap = {
+  Apple: '#832ac4',
+  Others: '#ffffff',
+  Google: '#1a73e8',
+  Amazon: '#ff9900',
+  Firefox: '#0060df',
+  Edge: '#0067b8',
+  DoggCatcher: '#0072bc',
+  'TuneIn Radio': '#00d8cd',
+  Safari: '#0fb5ee',
+  'Samsung Internet': '#1428a0',
+  Chrome: '#1a73e8',
+  'Radio.com': '#1F055E',
+  Spotify: '#26d657',
+  'The Podcast App': '#2C90ED',
+  Deezer: '#2d96c8',
+  Pandora: '#3668ff',
+  Twitter: '#38A1F3',
+  Facebook: '#4267B2',
+  'NPR One': '#558fcb',
+  Roku: '#662d91',
+  Android: '#78C257',
+  'Player FM': '#8BC34A',
+  PodBean: '#8fc31f',
+  Sonos: '#bb4725',
+  iHeartRadio: '#C6002B',
+  RadioPublic: '#ce262f',
+  Downcast: '#d60008',
+  'Windows Media Player': '#ee7213',
+  Instagram: '#f00075',
+  'Podcast Republic': '#f16c20',
+  'Pocket Casts': '#f33e37',
+  CastBox: '#f45b1f',
+  'Podcast Addict': '#f4842e',
+  Stitcher: '#f8c700',
+  Overcast: '#fc7e0f',
+  Himalaya: '#ff4444',
+  Luminary: '#ffe500'
 }
 
 export const getDownloadsTotalData = sourceData => {
-  const sourceNames = {}
+  const sourceNames = []
   const data = sourceData.map(item => {
     const sources = item.sourceList.reduce((acc, source) => {
       const key = downloadsSourceMap[source.sourceName] || source.sourceName
-      sourceNames[key] = true
+      const color = downloadsSourceTotalColorMap[key]
+      const sourceNameItem = {}
+
+      sourceNameItem['name'] = key
+      sourceNameItem['color'] = color
+      if (fp.some(sourceNameItem)(sourceNames) === false) {
+        sourceNames.push(sourceNameItem)
+      }
+
       if (acc[key]) {
         acc[key] += source.downloads
       } else {
@@ -64,7 +117,7 @@ export const getDownloadsTotalData = sourceData => {
   })
   return {
     data,
-    sourceNames: Object.keys(sourceNames)
+    sourceNames
   }
 }
 

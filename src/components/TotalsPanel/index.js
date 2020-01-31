@@ -38,7 +38,7 @@ const getOptions = totals => ({
         color: theme.palette.text.primary
       },
       formatter: function() {
-        return dfFormat(this.value, 'dd/MM/yy')
+        return dfFormat(this.value, 'd/M/yy')
       }
     }
   },
