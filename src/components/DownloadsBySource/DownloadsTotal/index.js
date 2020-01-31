@@ -29,7 +29,7 @@ const getOptions = totalData => ({
         color: theme.palette.text.primary
       }
     },
-    categories: totalData.data.map(item => dfFormat(new Date(item.date), 'd/m/y'))
+    categories: totalData.data.map(item => dfFormat(new Date(item.date), 'd/M/yy'))
   },
   yAxis: {
     title: false,
@@ -77,7 +77,12 @@ const getOptions = totalData => ({
       pointPadding: 0.1,
       groupPadding: 0,
       borderWidth: 0,
-      shadow: false
+      shadow: false,
+      events: {
+        legendItemClick: function() {
+          return false
+        }
+      }
     }
   },
   series: totalData.sourceNames.map(sourceName => ({
