@@ -5,6 +5,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { createStructuredSelector } from 'reselect'
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
+import EmbedCodeModal from 'components/EmbedCodeModal'
 import fp from 'lodash/fp'
 import Grid from '@material-ui/core/Grid'
 import PropTypes from 'prop-types'
@@ -37,7 +38,7 @@ const renderNetwork = (network, classes) => (
   </div>
 )
 
-const renderPodcast = (podcast, network, classes, copied, setCopied) => (
+const renderPodcast = (podcast, network, classes, copied, setCopied, showEmbedModal, setShowEmbedModal) => (
   <div className={classes.root}>
     <MediaImage imageUrls={podcast.coverImgUrl} />
     <div className={classes.content}>
@@ -52,7 +53,7 @@ const renderPodcast = (podcast, network, classes, copied, setCopied) => (
       <div className={classes.actions}>
         <Grid container spacing={3}>
           <Grid item>
-            <Button size="large" variant="contained" color="primary">
+            <Button size="large" variant="contained" color="primary" onClick={() => setShowEmbedModal(true)}>
               Add/Embed Player
             </Button>
           </Grid>
@@ -73,16 +74,22 @@ const renderPodcast = (podcast, network, classes, copied, setCopied) => (
               component="a"
               target="_blank"
               href={`https://${SHOWS_DOMAIN}/podcast/${podcast.slug}`}>
-              View on ShowHub
+              View on Show Hub
             </Button>
           </Grid>
         </Grid>
       </div>
     </div>
+    <EmbedCodeModal
+      title={`Embed Player for ${podcast.name}`}
+      show={showEmbedModal}
+      podcast={podcast}
+      handleHide={() => setShowEmbedModal(false)}
+    />
   </div>
 )
 
-const renderEpisode = (episode, podcast, classes) => (
+const renderEpisode = (episode, podcast, classes, showEmbedModal, setShowEmbedModal) => (
   <div className={classes.root}>
     <MediaImage imageUrls={podcast.coverImgUrl} />
     <div className={classes.content}>
@@ -92,7 +99,7 @@ const renderEpisode = (episode, podcast, classes) => (
       <div className={classes.actions}>
         <Grid container spacing={3}>
           <Grid item>
-            <Button size="large" variant="contained" color="primary">
+            <Button size="large" variant="contained" color="primary" onClick={() => setShowEmbedModal(true)}>
               Add/Embed Player
             </Button>
           </Grid>
@@ -104,12 +111,19 @@ const renderEpisode = (episode, podcast, classes) => (
               component="a"
               target="_blank"
               href={`https://${SHOWS_DOMAIN}/podcast/${podcast.slug}/episodes/${episode.episodeId}`}>
-              View on ShowHub
+              View on Show Hub
             </Button>
           </Grid>
         </Grid>
       </div>
     </div>
+    <EmbedCodeModal
+      title={`Embed Player for ${episode.name}`}
+      show={showEmbedModal}
+      podcast={podcast}
+      episode={episode}
+      handleHide={() => setShowEmbedModal(false)}
+    />
   </div>
 )
 
@@ -128,13 +142,15 @@ const renderLoading = classes => (
 const MediaInfo = ({ episode, network, podcast, episodesLoading, networksLoading, userSeriesLoading }) => {
   const classes = useStyles()
   const [copied, setCopied] = useState(false)
+  const [showEmbedModal, setShowEmbedModal] = useState(false)
+
   const isLoading = episodesLoading || networksLoading || userSeriesLoading
   if (isLoading) {
     return renderLoading(classes)
   } else if (episode) {
-    return renderEpisode(episode, podcast, classes)
+    return renderEpisode(episode, podcast, classes, showEmbedModal, setShowEmbedModal)
   } else if (podcast) {
-    return renderPodcast(podcast, network, classes, copied, setCopied)
+    return renderPodcast(podcast, network, classes, copied, setCopied, showEmbedModal, setShowEmbedModal)
   } else if (network) {
     return renderNetwork(network, classes)
   } else {
@@ -153,11 +169,7 @@ MediaInfo.propTypes = {
 }
 
 const networkSelector = (state, { userPreference }) =>
-  compose(
-    fp.find({ networkId: fp.get('networkId')(userPreference) }),
-    fp.defaultTo([]),
-    networksSelector
-  )(state)
+  compose(fp.find({ networkId: fp.get('networkId')(userPreference) }), fp.defaultTo([]), networksSelector)(state)
 
 const podcastSelector = (state, { userPreference }) =>
   compose(
@@ -168,11 +180,7 @@ const podcastSelector = (state, { userPreference }) =>
   )(state)
 
 const episodeSelector = (state, { userPreference }) =>
-  compose(
-    fp.find({ episodeId: fp.get('episodeId')(userPreference) }),
-    fp.defaultTo([]),
-    episodesSelector
-  )(state)
+  compose(fp.find({ episodeId: fp.get('episodeId')(userPreference) }), fp.defaultTo([]), episodesSelector)(state)
 
 const selector1 = createStructuredSelector({
   userPreference: userPreferenceSelector
@@ -187,7 +195,4 @@ const selector2 = createStructuredSelector({
   userSeriesLoading: userSeriesLoadingSelector
 })
 
-export default compose(
-  connect(selector1),
-  connect(selector2)
-)(MediaInfo)
+export default compose(connect(selector1), connect(selector2))(MediaInfo)
