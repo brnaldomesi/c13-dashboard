@@ -1,24 +1,21 @@
 import React, { useState } from 'react'
-import { connectModal } from 'redux-modal'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import Button from '@material-ui/core/Button'
 import CopyIcon from '@material-ui/icons/FileCopy'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import PropTypes from 'prop-types'
 import Radio from '@material-ui/core/Radio'
 import RadioGroup from '@material-ui/core/RadioGroup'
 import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
-import FormHelperText from '@material-ui/core/FormHelperText'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormControl from '@material-ui/core/FormControl'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormLabel from '@material-ui/core/FormLabel'
-import TextField from '@material-ui/core/TextField'
+import { SHOWS_DOMAIN } from 'config/constants'
 import { SketchPicker } from 'react-color'
 import { makeStyles } from '@material-ui/core/styles'
 import styles from './styles'
@@ -27,7 +24,6 @@ import Tooltip from '@material-ui/core/Tooltip'
 const useStyles = makeStyles(styles)
 
 const EmbedCodeModal = ({ handleHide, show, title, podcast, episode }) => {
-  console.log('instantiating modal - podcast is', podcast)
   const classes = useStyles()
 
   let initialCustomColor = ''
@@ -131,8 +127,9 @@ const EmbedCodeModal = ({ handleHide, show, title, podcast, episode }) => {
   }
 
   const sneakPreviewParam = sneakPreview === 'true' ? '&enableSneakPreview=true' : ''
+  const coverImageParam = coverImage === 'true' ? '&hideCoverImage=true' : ''
 
-  const url = `https://shows.cadence13.com/player/${podcast.slug}${episodePath}?theme=${theme}&layout=${layout}${playlistParam}${playlistTagParam}&hideCoverImage=${coverImage}${colorParam}${sneakPreviewParam}`
+  const url = `https://${SHOWS_DOMAIN}/player/${podcast.slug}${episodePath}?theme=${theme}&layout=${layout}${playlistParam}${playlistTagParam}${coverImageParam}${colorParam}${sneakPreviewParam}`
   const embedCode = `<iframe style='width:${iframeWidth};height:${iframeHeight}' src='${url}'></iframe>`
 
   const colorBoxStyle = {
@@ -268,7 +265,7 @@ const EmbedCodeModal = ({ handleHide, show, title, podcast, episode }) => {
             </Tooltip>
           </CopyToClipboard>
         </div>
-        <iframe src={url} style={iframeStyle} className={iframeClass}></iframe>
+        <iframe title="C13 Embedded Player" src={url} style={iframeStyle} className={iframeClass}></iframe>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary">
