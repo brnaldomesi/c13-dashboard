@@ -29,7 +29,7 @@ const getOptions = totalData => ({
         color: theme.palette.text.primary
       }
     },
-    categories: totalData.data.map(item => dfFormat(new Date(item.date), 'd/M/yy'))
+    categories: totalData.data.map(item => dfFormat(new Date(item.date), 'M/d/yy'))
   },
   yAxis: {
     title: false,

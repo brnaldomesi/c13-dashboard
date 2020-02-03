@@ -39,7 +39,7 @@ const getOptions = chartsData => ({
         color: theme.palette.text.primary
       },
       formatter: function() {
-        return dfFormat(this.value, 'd/M/yy')
+        return dfFormat(this.value, 'M/d/yy')
       }
     }
   },
