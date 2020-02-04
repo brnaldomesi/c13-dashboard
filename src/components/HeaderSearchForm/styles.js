@@ -48,5 +48,8 @@ export default theme => ({
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis'
+  },
+  flipY: {
+    transform: 'scaleX(-1)'
   }
 })

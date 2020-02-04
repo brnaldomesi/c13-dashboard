@@ -1,5 +1,6 @@
 import AppBar from '@material-ui/core/AppBar'
 import DatePreferences from 'components/DatePreferences'
+import HeaderSearchForm from 'components/HeaderSearchForm'
 import Logo from 'components/Logo'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -18,7 +19,7 @@ export const Header = ({ classes, isAuthenticated }) => (
       <Logo />
       {isAuthenticated && (
         <>
-          {/* <HeaderSearchForm /> */}
+          <HeaderSearchForm />
           <div className={classes.spacer} />
           <DatePreferences />
         </>
