@@ -1,3 +1,4 @@
+import AdminControl from 'components/AdminControl'
 import AppContainer from 'components/AppContainer'
 import ConfirmModal from 'components/ConfirmModal'
 import { ConnectedRouter } from 'connected-react-router'
@@ -13,6 +14,7 @@ const routes = ({ history }) => (
     <AppContainer>
       <Switch>
         <LoginRoute path="/login" exact component={Login} />
+        <PrivateRoute path="/adminControl" exact component={AdminControl} />
         <PrivateRoute path="/:networkId?/:podcastId?/:episodeId?" component={Dashboard} />
       </Switch>
       <ConfirmModal />
