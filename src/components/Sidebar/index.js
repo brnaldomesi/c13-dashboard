@@ -87,6 +87,10 @@ const Sidebar = ({ authLogout, open, toggle }) => {
         <List>
           <SidebarItem icon={IconMail} text={open ? 'Feedback' : ''} to="/feedback" onClick={expandSideBar} />
         </List>
+        {open && <Divider />}
+        <List>
+          <SidebarItem icon={IconMail} text={open ? 'Admin Control' : ''} to="/adminControl" onClick={expandSideBar} />
+        </List>
         {open && (
           <>
             <Divider />
