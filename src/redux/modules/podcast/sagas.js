@@ -6,7 +6,7 @@ const searchPodcasts = apiCallSaga({
   type: SEARCH_PODCASTS,
   method: 'get',
   allowedParamKeys: ['search'],
-  path: '/series/search',
+  path: '/media/allSeries',
   selectorKey: 'podcastsSearch'
 })
 

@@ -1,5 +1,4 @@
 import { all } from 'redux-saga/effects'
-
 import { saga as auth } from './auth'
 import { saga as media } from './media'
 import { saga as metrics } from './metrics'

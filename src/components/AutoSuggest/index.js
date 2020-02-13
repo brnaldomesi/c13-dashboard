@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react'
-import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
-import { makeStyles } from '@material-ui/core/styles'
+import React, { useState } from 'react'
+
 import Autosuggest from 'react-autosuggest'
-import axios from 'axios'
-import match from 'autosuggest-highlight/match'
 import MenuItem from '@material-ui/core/MenuItem'
 import Paper from '@material-ui/core/Paper'
-import parse from 'autosuggest-highlight/parse'
 import Popper from '@material-ui/core/Popper'
 import PropTypes from 'prop-types'
 import TextField from '@material-ui/core/TextField'
+import { activePodcastsSelector } from 'redux/modules/media'
+import axios from 'axios'
+import { connect } from 'react-redux'
+import { createStructuredSelector } from 'reselect'
+import { makeStyles } from '@material-ui/core/styles'
+import match from 'autosuggest-highlight/match'
+import parse from 'autosuggest-highlight/parse'
 import styles from './styles'
 
 const { CancelToken } = axios
@@ -58,14 +60,13 @@ const renderSuggestion = getSuggestionValue => (suggestion, { query, isHighlight
 const AutoSuggest = ({
   label,
   name,
-  getSuggestions,
-  suggestions,
   inputComponent,
   suggestionComponent,
   getSuggestionValue,
   onChange,
   value,
-  onSuggestionSelected
+  onSuggestionSelected,
+  activePodcasts
 }) => {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = useState(null)
@@ -75,17 +76,10 @@ const AutoSuggest = ({
     if (cancelTokenSource) {
       cancelTokenSource.cancel()
     }
+    setSuggestions(activePodcasts.filter(item => item.seriesName.indexOf(value) > -1))
     const source = CancelToken.source()
-    getSuggestions({
-      params: { search: value },
-      cancelToken: source.token
-    })
     setCancelTokenSource(source)
   }
-
-  useEffect(() => {
-    setSuggestions(suggestions)
-  }, [suggestions])
 
   const handleSuggestionsClearRequested = () => {
     setSuggestions([])
@@ -147,12 +141,11 @@ const AutoSuggest = ({
 }
 
 AutoSuggest.propTypes = {
-  getSuggestions: PropTypes.func.isRequired,
-  suggestionsSelector: PropTypes.func.isRequired
+  activePodcasts: PropTypes.array
 }
 
 const selector = createStructuredSelector({
-  suggestions: (state, { suggestionsSelector }) => suggestionsSelector(state)
+  activePodcasts: activePodcastsSelector
 })
 
 export default connect(selector)(AutoSuggest)

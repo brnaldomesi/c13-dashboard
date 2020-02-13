@@ -1,5 +1,3 @@
-import { podcastsSearchResultsSelector, searchPodcasts } from 'redux/modules/podcast'
-
 import AutoSuggest from 'components/AutoSuggest'
 import { Formik } from 'formik'
 import InputBase from '@material-ui/core/InputBase'
@@ -9,7 +7,6 @@ import React from 'react'
 import SearchIcon from '@material-ui/icons/Search'
 import ThumbnailImage from 'components/ThumbnailImage'
 import { compose } from 'redux'
-import { connect } from 'react-redux'
 import match from 'autosuggest-highlight/match'
 import parse from 'autosuggest-highlight/parse'
 import styles from './styles'
@@ -61,19 +58,12 @@ const renderSuggestion = classes => (suggestion, { query, isHighlighted }) => {
   )
 }
 
-const getSuggestionValue = suggestion => suggestion.title
+const getSuggestionValue = suggestion => suggestion.seriesName
 
-export const HeaderSearchForm = ({ classes, pushWithQuery, queryParams, searchPodcasts }) => {
-  const handleSubmit = values => {
-    pushWithQuery({
-      location: { pathname: '/podcasts' },
-      queryParams: { search: values.search }
-    })
-  }
-
+export const HeaderSearchForm = ({ classes, pushWithQuery, queryParams }) => {
   const handleSelectSuggestion = suggestion => {
     pushWithQuery({
-      location: { pathname: `/podcasts/${suggestion.id}` }
+      location: { pathname: `/${suggestion.networkId}/${suggestion.seriesId}` }
     })
   }
   const initialValues = {
@@ -81,14 +71,12 @@ export const HeaderSearchForm = ({ classes, pushWithQuery, queryParams, searchPo
   }
 
   return (
-    <Formik onSubmit={handleSubmit} initialValues={initialValues}>
-      {({ setFieldValue, values, handleSubmit }) => (
-        <form className={classes.root} onSubmit={handleSubmit}>
+    <Formik initialValues={initialValues}>
+      {({ setFieldValue, values }) => (
+        <form className={classes.root}>
           <AutoSuggest
             name="search"
-            getSuggestions={searchPodcasts}
             getSuggestionValue={getSuggestionValue}
-            suggestionsSelector={podcastsSearchResultsSelector}
             inputComponent={renderInputComponent(classes)}
             suggestionComponent={renderSuggestion(classes)}
             onChange={value => setFieldValue('search', value)}
@@ -105,15 +93,7 @@ HeaderSearchForm.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-const actions = {
-  searchPodcasts
-}
-
 export default compose(
   withRouterAndQueryParams,
-  connect(
-    null,
-    actions
-  ),
   withStyles(styles)
 )(HeaderSearchForm)

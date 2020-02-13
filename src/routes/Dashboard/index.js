@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
+import { getActivePodcasts, getEpisodes, getMediaRankingTables, getNetworks } from 'redux/modules/media'
 import {
   getDownloadsByMarket,
   getDownloadsByRegion,
   getDownloadsBySource,
   getTopTrendings
 } from 'redux/modules/metrics'
-import { getEpisodes, getMediaRankingTables, getNetworks } from 'redux/modules/media'
 import { getUserSeries, userPreferenceSelector } from 'redux/modules/profiles'
 
 import DownloadsByMarket from 'components/DownloadsByMarket'
@@ -50,11 +50,16 @@ const Dashboard = ({
   getNetworks,
   getTopTrendings,
   getUserSeries,
+  getActivePodcasts,
   userPreference
 }) => {
   const episodeId = get(userPreference, 'episodeId')
   const networkId = get(userPreference, 'networkId')
   const podcastId = get(userPreference, 'seriesId')
+
+  useEffect(() => {
+    getActivePodcasts()
+  }, [getActivePodcasts])
 
   useEffect(() => {
     getNetworks()
@@ -109,6 +114,7 @@ Dashboard.propTypes = {
   getMediaRankingTables: PropTypes.func.isRequired,
   getNetworks: PropTypes.func.isRequired,
   getTopTrendings: PropTypes.func.isRequired,
+  getActivePodcasts: PropTypes.func.isRequired,
   getUserSeries: PropTypes.func.isRequired
 }
 
@@ -124,12 +130,16 @@ const actions = {
   getMediaRankingTables,
   getNetworks,
   getTopTrendings,
+  getActivePodcasts,
   getUserSeries
 }
 
 export default compose(
   isAuthenticatedOrRedir,
-  connect(selector, actions),
+  connect(
+    selector,
+    actions
+  ),
   withLocationToPreference,
   withStyles(styles)
 )(Dashboard)
