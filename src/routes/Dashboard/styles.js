@@ -7,5 +7,10 @@ export default theme => ({
   list: {
     marginTop: theme.spacing(3),
     backgroundColor: theme.palette.background.paper
+  },
+  sticky: {
+    position: 'sticky',
+    top: theme.spacing(11),
+    zIndex: 1
   }
 })

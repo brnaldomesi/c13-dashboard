@@ -96,8 +96,10 @@ const Dashboard = ({
 
   return (
     <div className={classes.root}>
-      <MediaInfo />
-      <Summaries />
+      <div className={classes.sticky}>
+        <MediaInfo />
+        <Summaries />
+      </div>
       <TotalAndHourly />
       {renderMediaTable({ networkId, podcastId, episodeId })}
       {!episodeId && <TopTrendings />}

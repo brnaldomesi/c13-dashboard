@@ -6,7 +6,7 @@ export default theme => ({
     flexDirection: 'column',
     height: '100%',
     position: 'fixed',
-    zIndex: 1
+    zIndex: 2
   },
   flexOne: {
     flex: 1
