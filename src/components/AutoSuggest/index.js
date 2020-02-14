@@ -76,7 +76,7 @@ const AutoSuggest = ({
     if (cancelTokenSource) {
       cancelTokenSource.cancel()
     }
-    setSuggestions(activePodcasts.filter(item => item.seriesName.indexOf(value) > -1))
+    setSuggestions(activePodcasts.filter(item => item.seriesName.toLowerCase().indexOf(value.toLowerCase()) > -1))
     const source = CancelToken.source()
     setCancelTokenSource(source)
   }
