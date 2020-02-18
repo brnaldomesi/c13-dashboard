@@ -1,15 +1,15 @@
-import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-
 import { ImageUrlType } from 'utils/propTypes'
-import fallbackImage from './cadence13-logo.png'
-import styles from './styles'
+import PropTypes from 'prop-types'
+import React from 'react'
 import ThumbnailImage from 'components/ThumbnailImage'
+import fallbackImage from './cadence13-logo.png'
+import { makeStyles } from '@material-ui/core/styles'
+import styles from './styles'
 
 const useStyles = makeStyles(styles)
 
-const MediaImage = ({ imageUrls }) => {
-  const classes = useStyles()
+const MediaImage = ({ imageUrls, minimized }) => {
+  const classes = useStyles({ minimized })
   return (
     <div className={classes.root}>
       {imageUrls ? (
@@ -24,7 +24,8 @@ const MediaImage = ({ imageUrls }) => {
 }
 
 MediaImage.propTypes = {
-  imageUrls: ImageUrlType
+  imageUrls: ImageUrlType,
+  minimized: PropTypes.bool
 }
 
 export default MediaImage

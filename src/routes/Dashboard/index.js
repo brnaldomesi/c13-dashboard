@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { getActivePodcasts, getEpisodes, getMediaRankingTables, getNetworks } from 'redux/modules/media'
 import {
   getDownloadsByMarket,
@@ -56,6 +56,7 @@ const Dashboard = ({
   const episodeId = get(userPreference, 'episodeId')
   const networkId = get(userPreference, 'networkId')
   const podcastId = get(userPreference, 'seriesId')
+  const [scrollTop, setScrollTop] = useState(0)
 
   useEffect(() => {
     getActivePodcasts()
@@ -94,11 +95,20 @@ const Dashboard = ({
     getDownloadsByRegion
   ])
 
+  useEffect(() => {
+    const onScroll = e => {
+      setScrollTop(e.target.documentElement.scrollTop)
+    }
+    window.addEventListener('scroll', onScroll)
+
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [scrollTop])
+
   return (
     <div className={classes.root}>
       <div className={classes.sticky}>
-        <MediaInfo />
-        <Summaries />
+        <MediaInfo minimized={scrollTop > 0 ? true : false} />
+        <Summaries minimized={scrollTop > 0 ? true : false} />
       </div>
       <TotalAndHourly />
       {renderMediaTable({ networkId, podcastId, episodeId })}

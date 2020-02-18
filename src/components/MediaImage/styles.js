@@ -1,7 +1,7 @@
 export default theme => ({
   root: {
-    width: 150,
-    height: 150,
+    width: ({ minimized }) => (minimized ? 75 : 150),
+    height: ({ minimized }) => (minimized ? 75 : 150),
     position: 'relative'
   },
   image: {

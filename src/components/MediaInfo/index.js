@@ -1,36 +1,36 @@
 import React, { useState } from 'react'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { createStructuredSelector } from 'reselect'
-import { makeStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
-import EmbedCodeModal from 'components/EmbedCodeModal'
-import fp from 'lodash/fp'
-import Grid from '@material-ui/core/Grid'
-import PropTypes from 'prop-types'
-import Tooltip from '@material-ui/core/Tooltip'
-import Typography from '@material-ui/core/Typography'
-
 import {
   episodesLoadingSelector,
   episodesSelector,
   networksLoadingSelector,
   networksSelector
 } from 'redux/modules/media'
-import { SHOWS_DOMAIN } from 'config/constants'
 import { userPreferenceSelector, userSeriesLoadingSelector, userSeriesSelector } from 'redux/modules/profiles'
+
+import Button from '@material-ui/core/Button'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
+import EmbedCodeModal from 'components/EmbedCodeModal'
+import Grid from '@material-ui/core/Grid'
 import LoadingIndicator from 'components/LoadingIndicator'
 import MediaImage from 'components/MediaImage'
+import PropTypes from 'prop-types'
+import { SHOWS_DOMAIN } from 'config/constants'
+import Tooltip from '@material-ui/core/Tooltip'
+import Typography from '@material-ui/core/Typography'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+import { createStructuredSelector } from 'reselect'
+import fp from 'lodash/fp'
+import { makeStyles } from '@material-ui/core/styles'
 import styles from './styles'
 
 const useStyles = makeStyles(styles)
 
-const renderNetwork = (network, classes) => (
+const renderNetwork = (network, classes, minimized) => (
   <div className={classes.root}>
-    <MediaImage imageUrls={network.coverImgUrl} />
+    <MediaImage imageUrls={network.coverImgUrl} minimized={minimized} />
     <div className={classes.content}>
-      <Typography variant="h5" gutterBottom>
+      <Typography variant="h5" gutterBottom={minimized ? false : true}>
         {network.name}
       </Typography>
       <Typography variant="body1">{network.description}</Typography>
@@ -38,18 +38,19 @@ const renderNetwork = (network, classes) => (
   </div>
 )
 
-const renderPodcast = (podcast, network, classes, copied, setCopied, showEmbedModal, setShowEmbedModal) => (
+const renderPodcast = (podcast, network, classes, copied, setCopied, showEmbedModal, setShowEmbedModal, minimized) => (
   <div className={classes.root}>
-    <MediaImage imageUrls={podcast.coverImgUrl} />
+    <MediaImage imageUrls={podcast.coverImgUrl} minimized={minimized} />
     <div className={classes.content}>
-      <Typography variant="h5" gutterBottom>
+      <Typography variant="h5" gutterBottom={minimized ? false : true}>
         {podcast.name}
       </Typography>
       {network && (
-        <Typography variant="h6" gutterBottom>
+        <Typography variant="h6" gutterBottom={minimized ? false : true}>
           {network.name}
         </Typography>
       )}
+
       <div className={classes.actions}>
         <Grid container spacing={3}>
           <Grid item>
@@ -80,6 +81,7 @@ const renderPodcast = (podcast, network, classes, copied, setCopied, showEmbedMo
         </Grid>
       </div>
     </div>
+
     <EmbedCodeModal
       title={`Embed Player for ${podcast.name}`}
       show={showEmbedModal}
@@ -89,11 +91,11 @@ const renderPodcast = (podcast, network, classes, copied, setCopied, showEmbedMo
   </div>
 )
 
-const renderEpisode = (episode, podcast, classes, showEmbedModal, setShowEmbedModal) => (
+const renderEpisode = (episode, podcast, classes, showEmbedModal, setShowEmbedModal, minimized) => (
   <div className={classes.root}>
-    <MediaImage imageUrls={podcast.coverImgUrl} />
+    <MediaImage imageUrls={podcast.coverImgUrl} minimized={minimized} />
     <div className={classes.content}>
-      <Typography variant="h5" gutterBottom>
+      <Typography variant="h5" gutterBottom={minimized ? false : true}>
         {episode.name}
       </Typography>
       <div className={classes.actions}>
@@ -139,8 +141,8 @@ const renderLoading = classes => (
   </div>
 )
 
-const MediaInfo = ({ episode, network, podcast, episodesLoading, networksLoading, userSeriesLoading }) => {
-  const classes = useStyles()
+const MediaInfo = ({ episode, network, podcast, episodesLoading, networksLoading, userSeriesLoading, minimized }) => {
+  const classes = useStyles({ minimized })
   const [copied, setCopied] = useState(false)
   const [showEmbedModal, setShowEmbedModal] = useState(false)
 
@@ -148,11 +150,11 @@ const MediaInfo = ({ episode, network, podcast, episodesLoading, networksLoading
   if (isLoading) {
     return renderLoading(classes)
   } else if (episode) {
-    return renderEpisode(episode, podcast, classes, showEmbedModal, setShowEmbedModal)
+    return renderEpisode(episode, podcast, classes, showEmbedModal, setShowEmbedModal, minimized)
   } else if (podcast) {
-    return renderPodcast(podcast, network, classes, copied, setCopied, showEmbedModal, setShowEmbedModal)
+    return renderPodcast(podcast, network, classes, copied, setCopied, showEmbedModal, setShowEmbedModal, minimized)
   } else if (network) {
-    return renderNetwork(network, classes)
+    return renderNetwork(network, classes, minimized)
   } else {
     return renderFallback(classes)
   }
@@ -165,11 +167,16 @@ MediaInfo.propTypes = {
   networksLoading: PropTypes.bool,
   podcast: PropTypes.object,
   userPreference: PropTypes.object,
-  userSeriesLoading: PropTypes.bool
+  userSeriesLoading: PropTypes.bool,
+  minimized: PropTypes.bool
 }
 
 const networkSelector = (state, { userPreference }) =>
-  compose(fp.find({ networkId: fp.get('networkId')(userPreference) }), fp.defaultTo([]), networksSelector)(state)
+  compose(
+    fp.find({ networkId: fp.get('networkId')(userPreference) }),
+    fp.defaultTo([]),
+    networksSelector
+  )(state)
 
 const podcastSelector = (state, { userPreference }) =>
   compose(
@@ -180,7 +187,11 @@ const podcastSelector = (state, { userPreference }) =>
   )(state)
 
 const episodeSelector = (state, { userPreference }) =>
-  compose(fp.find({ episodeId: fp.get('episodeId')(userPreference) }), fp.defaultTo([]), episodesSelector)(state)
+  compose(
+    fp.find({ episodeId: fp.get('episodeId')(userPreference) }),
+    fp.defaultTo([]),
+    episodesSelector
+  )(state)
 
 const selector1 = createStructuredSelector({
   userPreference: userPreferenceSelector
@@ -195,4 +206,7 @@ const selector2 = createStructuredSelector({
   userSeriesLoading: userSeriesLoadingSelector
 })
 
-export default compose(connect(selector1), connect(selector2))(MediaInfo)
+export default compose(
+  connect(selector1),
+  connect(selector2)
+)(MediaInfo)
