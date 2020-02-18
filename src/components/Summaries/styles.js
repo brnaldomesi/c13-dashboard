@@ -4,7 +4,7 @@ export default theme => ({
     paddingTop: theme.spacing(3),
     paddingBottom: theme.spacing(3),
     position: 'relative',
-    backgroundColor: theme.cadence.appBarBg
+    backgroundColor: theme.cadence.contentBg
   },
   subtitle1: {
     fontWeight: 600,
