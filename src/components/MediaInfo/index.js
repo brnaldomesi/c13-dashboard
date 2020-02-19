@@ -129,9 +129,9 @@ const renderEpisode = (episode, podcast, classes, showEmbedModal, setShowEmbedMo
   </div>
 )
 
-const renderFallback = classes => (
+const renderFallback = (classes, minimized) => (
   <div className={classes.root}>
-    <MediaImage />
+    <MediaImage minimized={minimized} />
   </div>
 )
 
@@ -156,7 +156,7 @@ const MediaInfo = ({ episode, network, podcast, episodesLoading, networksLoading
   } else if (network) {
     return renderNetwork(network, classes, minimized)
   } else {
-    return renderFallback(classes)
+    return renderFallback(classes, minimized)
   }
 }
 
