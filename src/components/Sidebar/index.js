@@ -10,6 +10,7 @@ import SidebarEpisodes from './SidebarEpisodes'
 import SidebarItem from './SidebarItem'
 import SidebarNetworks from './SidebarNetworks'
 import SidebarPodcasts from './SidebarPodcasts'
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount'
 import { Typography } from '@material-ui/core'
 import { authLogout } from 'redux/modules/auth'
 import cn from 'classnames'
@@ -89,7 +90,12 @@ const Sidebar = ({ authLogout, open, toggle }) => {
         </List>
         {open && <Divider />}
         <List>
-          <SidebarItem icon={IconMail} text={open ? 'Admin Control' : ''} to="/adminControl" onClick={expandSideBar} />
+          <SidebarItem
+            icon={SupervisorAccountIcon}
+            text={open ? 'Admin Control' : ''}
+            to="/users"
+            onClick={expandSideBar}
+          />
         </List>
         {open && (
           <>

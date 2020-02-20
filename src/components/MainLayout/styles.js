@@ -4,6 +4,9 @@ export default theme => ({
   },
 
   content: {
-    marginLeft: ({ sidebarOpen }) => (sidebarOpen ? theme.cadence.sidebarWidth : theme.cadence.miniSidebarWidth)
+    marginLeft: ({ sidebarOpen }) => (sidebarOpen ? theme.cadence.sidebarWidth : theme.cadence.miniSidebarWidth),
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100vh'
   }
 })

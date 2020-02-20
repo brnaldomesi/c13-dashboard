@@ -1,7 +1,7 @@
-import { takeLatest } from 'redux-saga/effects'
+import * as types from './types'
 
 import { apiCallSaga } from '../api'
-import * as types from './types'
+import { takeLatest } from 'redux-saga/effects'
 
 const getUserPreference = apiCallSaga({
   type: types.GET_USER_PREFERENCE,
@@ -27,8 +27,17 @@ const getUserSeries = apiCallSaga({
   selectorKey: 'userSeries'
 })
 
+const getUsersList = apiCallSaga({
+  type: types.GET_USERS_LIST,
+  method: 'get',
+  allowedParamKeys: [],
+  path: '/profiles/users',
+  selectorKey: 'usersList'
+})
+
 export default function* rootSaga() {
   yield takeLatest(types.GET_USER_PREFERENCE, getUserPreference)
   yield takeLatest(types.UPDATE_USER_PREFERENCE, updateUserPreference)
   yield takeLatest(types.GET_USER_SERIES, getUserSeries)
+  yield takeLatest(types.GET_USERS_LIST, getUsersList)
 }
