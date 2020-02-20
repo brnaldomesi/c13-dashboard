@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
-import { getUsersList, usersListSelector } from 'redux/modules/profiles'
+import { getActivePodcasts, getMediaRankingTables, getNetworks } from 'redux/modules/media'
+import { getUsersList, userPreferenceSelector, usersListSelector } from 'redux/modules/profiles'
 
 import Box from '@material-ui/core/Box'
 import Container from '@material-ui/core/Container'
@@ -13,7 +14,14 @@ import styles from './styles'
 import withLocationToPreference from 'hocs/withLocationToPreference'
 import { withStyles } from '@material-ui/core/styles'
 
-export const Users = ({ getUsersList, users }) => {
+export const Users = ({
+  getUsersList,
+  users,
+  getActivePodcasts,
+  userPreference,
+  getMediaRankingTables,
+  getNetworks
+}) => {
   const columns = [
     { title: 'Name', field: 'fullName' },
     { title: 'Network', field: 'networkName' },
@@ -23,6 +31,14 @@ export const Users = ({ getUsersList, users }) => {
   useEffect(() => {
     getUsersList()
   }, [getUsersList])
+
+  useEffect(() => {
+    getActivePodcasts()
+  }, [getActivePodcasts])
+
+  useEffect(() => {
+    getNetworks()
+  }, [getNetworks, getMediaRankingTables])
 
   if (users !== null) {
     users = users.map(item => ({
@@ -71,15 +87,22 @@ export const Users = ({ getUsersList, users }) => {
 }
 
 Users.propTypes = {
-  getUsersList: PropTypes.func.isRequired
+  getUsersList: PropTypes.func.isRequired,
+  getActivePodcasts: PropTypes.func.isRequired,
+  getMediaRankingTables: PropTypes.func.isRequired,
+  getNetworks: PropTypes.func.isRequired
 }
 
 const selector = createStructuredSelector({
-  users: usersListSelector
+  users: usersListSelector,
+  userPreference: userPreferenceSelector
 })
 
 const actions = {
-  getUsersList
+  getUsersList,
+  getActivePodcasts,
+  getMediaRankingTables,
+  getNetworks
 }
 
 export default compose(
