@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { getActivePodcasts, getEpisodes, getMediaRankingTables, getNetworks } from 'redux/modules/media'
 import {
   getDownloadsByMarket,
   getDownloadsByRegion,
   getDownloadsBySource,
   getTopTrendings
 } from 'redux/modules/metrics'
+import { getEpisodes, getMediaRankingTables } from 'redux/modules/media'
 import { getUserSeries, userPreferenceSelector } from 'redux/modules/profiles'
 
 import DownloadsByMarket from 'components/DownloadsByMarket'
@@ -23,7 +23,6 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import get from 'lodash/get'
-import { isAuthenticatedOrRedir } from 'hocs/withAuth'
 import styles from './styles'
 import withLocationToPreference from 'hocs/withLocationToPreference'
 import { withStyles } from '@material-ui/core/styles'
@@ -47,24 +46,14 @@ const Dashboard = ({
   getDownloadsBySource,
   getEpisodes,
   getMediaRankingTables,
-  getNetworks,
   getTopTrendings,
   getUserSeries,
-  getActivePodcasts,
   userPreference
 }) => {
   const episodeId = get(userPreference, 'episodeId')
   const networkId = get(userPreference, 'networkId')
   const podcastId = get(userPreference, 'seriesId')
   const [scrollTop, setScrollTop] = useState(0)
-
-  useEffect(() => {
-    getActivePodcasts()
-  }, [getActivePodcasts])
-
-  useEffect(() => {
-    getNetworks()
-  }, [getNetworks, getMediaRankingTables])
 
   useEffect(() => {
     if (networkId) {
@@ -124,9 +113,7 @@ Dashboard.propTypes = {
   classes: PropTypes.object.isRequired,
   getEpisodes: PropTypes.func.isRequired,
   getMediaRankingTables: PropTypes.func.isRequired,
-  getNetworks: PropTypes.func.isRequired,
   getTopTrendings: PropTypes.func.isRequired,
-  getActivePodcasts: PropTypes.func.isRequired,
   getUserSeries: PropTypes.func.isRequired
 }
 
@@ -140,14 +127,11 @@ const actions = {
   getDownloadsBySource,
   getEpisodes,
   getMediaRankingTables,
-  getNetworks,
   getTopTrendings,
-  getActivePodcasts,
   getUserSeries
 }
 
 export default compose(
-  isAuthenticatedOrRedir,
   connect(
     selector,
     actions
