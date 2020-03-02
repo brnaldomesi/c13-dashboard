@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 
+import Footer from 'components/Footer'
 import PropTypes from 'prop-types'
 import styles from './styles'
 import { withStyles } from '@material-ui/core/styles'
@@ -21,6 +22,7 @@ class Content extends Component {
         <div className={classes.root} ref={domRef}>
           {children}
         </div>
+        <Footer />
       </div>
     )
   }
