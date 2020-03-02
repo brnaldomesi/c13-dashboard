@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+
 import FormControl from '@material-ui/core/FormControl'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import InputLabel from '@material-ui/core/InputLabel'
@@ -6,19 +7,51 @@ import MenuItem from '@material-ui/core/MenuItem'
 import PropTypes from 'prop-types'
 import Select from '@material-ui/core/Select'
 
-const FormSelect = ({ capitalize, className, field, form, fullWidth, id, label, helperText, placeholder, options }) => {
+const FormSelect = ({
+  capitalize,
+  className,
+  field,
+  form,
+  fullWidth,
+  id,
+  label,
+  helperText,
+  placeholder,
+  options,
+  variant,
+  margin,
+  onChange,
+  value,
+  optionLabel,
+  optionValue
+}) => {
   const error = form.touched[field.name] && form.errors[field.name]
+  const inputLabel = useRef(null)
+  const [labelWidth, setLabelWidth] = useState(0)
+
+  useEffect(() => {
+    if (inputLabel.current !== null) {
+      setLabelWidth(inputLabel.current.offsetWidth)
+    }
+  }, [inputLabel])
+
   return (
-    <FormControl id={id} className={className} error={!!error} fullWidth={fullWidth}>
+    <FormControl id={id} className={className} error={!!error} fullWidth={fullWidth} variant={variant} margin={margin}>
       {helperText && <FormHelperText>{helperText}</FormHelperText>}
-      {label && <InputLabel>{label}</InputLabel>}
-      <Select onChange={field.onChange} value={field.value} name={field.name} displayEmpty={!!placeholder}>
+      {label && <InputLabel ref={inputLabel}>{label}</InputLabel>}
+      <Select
+        onChange={onChange ? onChange : field.onChange}
+        onBlur={field.onBlur}
+        value={value ? value : field.value}
+        name={field.name}
+        displayEmpty={!!placeholder}
+        labelWidth={labelWidth}>
         {placeholder && <MenuItem value="">{placeholder}</MenuItem>}
         {options &&
           options.map((option, index) => {
-            return option.value ? (
-              <MenuItem key={option.value} value={option.value}>
-                {capitalize ? option.label.toUpperCase() : option.label}
+            return option[optionValue] ? (
+              <MenuItem key={option[optionValue]} value={option[optionValue]}>
+                {capitalize ? option[optionLabel].toUpperCase() : option[optionLabel]}
               </MenuItem>
             ) : (
               <MenuItem key={index} value={option}>
@@ -43,7 +76,18 @@ FormSelect.propTypes = {
   id: PropTypes.string,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   options: PropTypes.array.isRequired,
-  placeholder: PropTypes.string
+  placeholder: PropTypes.string,
+  variant: PropTypes.string,
+  margin: PropTypes.string,
+  onChange: PropTypes.func,
+  value: PropTypes.string,
+  optionLabel: PropTypes.string,
+  optionValue: PropTypes.string
+}
+
+FormSelect.defaultProps = {
+  optionLabel: 'label',
+  optionValue: 'value'
 }
 
 export default FormSelect

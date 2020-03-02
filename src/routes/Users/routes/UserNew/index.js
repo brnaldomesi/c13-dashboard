@@ -1,116 +1,91 @@
-import React, { useEffect } from 'react'
-import { getActivePodcasts, getMediaRankingTables, getNetworks } from 'redux/modules/media'
-import { getUsersList, userPreferenceSelector, usersListSelector } from 'redux/modules/profiles'
+import { Container, Paper } from '@material-ui/core'
+import React, { useEffect, useMemo } from 'react'
+import UserForm, { validationSchema } from '../../components/UserForm'
+import { getUserPreference, getUserRoles, userRolesSelector } from 'redux/modules/profiles'
 
-import Box from '@material-ui/core/Box'
-import Container from '@material-ui/core/Container'
-import MaterialTable from 'material-table'
+import { Formik } from 'formik'
 import PropTypes from 'prop-types'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
-import { isAuthenticatedOrRedir } from 'hocs/withAuth'
-import styles from './styles'
-import withLocationToPreference from 'hocs/withLocationToPreference'
-import { withStyles } from '@material-ui/core/styles'
+import { formSubmit } from 'utils/form'
+import pick from 'lodash/pick'
+import { withRouter } from 'react-router-dom'
 
-export const UserNew = ({
-  getUsersList,
-  users,
-  getActivePodcasts,
-  userPreference,
-  getMediaRankingTables,
-  getNetworks
-}) => {
-  const columns = [
-    { title: 'Name', field: 'fullName' },
-    { title: 'Network', field: 'networkName' },
-    { title: 'Email', field: 'email' }
-  ]
+const initialValues = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  role: '',
+  networks: ''
+}
+
+const getRolesOptions = roles =>
+  roles.map(value => ({
+    value: value,
+    label: value
+  }))
+
+export const UserNew = ({ history, createUser, match, roles, getUserRoles, getUserPreference }) => {
+  const rolesOptions = useMemo(() => getRolesOptions(roles), [roles])
+  useEffect(() => {
+    getUserPreference()
+  }, [getUserPreference])
 
   useEffect(() => {
-    getUsersList()
-  }, [getUsersList])
+    if (roles.length === 0) {
+      getUserRoles()
+    }
+  }, [getUserRoles, roles.length])
 
-  useEffect(() => {
-    getActivePodcasts()
-  }, [getActivePodcasts])
-
-  useEffect(() => {
-    getNetworks()
-  }, [getNetworks, getMediaRankingTables])
-
-  if (users !== null) {
-    users = users.map(item => ({
-      ...item,
-      fullName: item.firstName + ' ' + item.lastName,
-      networkName: item.network.networkName
-    }))
-
-    users = users.sort((a, b) => (a.fullName > b.fullName ? 1 : b.fullName > a.fullName ? -1 : 0))
+  const handleSubmit = (values, actions) => {
+    return formSubmit(
+      createUser,
+      {
+        id: match.params.userId,
+        data: pick(values, ['firstName', 'lastName', 'email', 'isActive']),
+        success: () => history.push('/users')
+      },
+      actions
+    )
   }
 
   return (
     <Container maxWidth="xl">
-      <Box width="100%">
-        <MaterialTable
-          title="Users"
-          columns={columns}
-          data={users !== null ? users : []}
-          actions={[
-            {
-              icon: 'add_box',
-              tooltip: 'Add User',
-              isFreeAction: true,
-              onClick: event => alert('You want to add a new row')
-            },
-            {
-              icon: 'save',
-              tooltip: 'Edit User',
-              onClick: (event, rowData) => alert('You saved ' + rowData.name)
-            },
-            {
-              icon: 'delete',
-              tooltip: 'Delete User',
-              onClick: (event, rowData) => alert('You want to delete ' + rowData.name)
-            }
-          ]}
-          options={{
-            actionsColumnIndex: -1,
-            pageSize: 10,
-            pageSizeOptions: [10, 30, 50, 100]
-          }}
-        />
-      </Box>
+      <Paper>
+        {rolesOptions.length > 0 && (
+          <Formik
+            initialValues={initialValues}
+            onSubmit={handleSubmit}
+            validateOnChange={false}
+            validateOnBlur
+            validationSchema={validationSchema}>
+            {formikProps => <UserForm {...formikProps} rolesOptions={rolesOptions} networkDropdownState={false} />}
+          </Formik>
+        )}
+      </Paper>
     </Container>
   )
 }
 
 UserNew.propTypes = {
-  getUsersList: PropTypes.func.isRequired,
-  getActivePodcasts: PropTypes.func.isRequired,
-  getMediaRankingTables: PropTypes.func.isRequired,
-  getNetworks: PropTypes.func.isRequired
+  history: PropTypes.object.isRequired,
+  getUserRoles: PropTypes.func.isRequired
 }
 
 const selector = createStructuredSelector({
-  users: usersListSelector,
-  userPreference: userPreferenceSelector
+  roles: userRolesSelector
 })
 
 const actions = {
-  getUsersList,
-  getActivePodcasts,
-  getMediaRankingTables,
-  getNetworks
+  getUserRoles,
+  getUserPreference
 }
 
 export default compose(
-  isAuthenticatedOrRedir,
+  withRouter,
   connect(
     selector,
     actions
-  ),
-  withLocationToPreference,
-  withStyles(styles)
+  )
 )(UserNew)

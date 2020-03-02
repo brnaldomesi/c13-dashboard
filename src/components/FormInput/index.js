@@ -1,5 +1,5 @@
-import React from 'react'
 import PropTypes from 'prop-types'
+import React from 'react'
 import TextField from '@material-ui/core/TextField'
 
 const FormInput = ({ className, field, form, fullWidth, label, multiline, placeholder, rows, type, variant }) => {
