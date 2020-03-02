@@ -16,8 +16,7 @@ export default theme => ({
   },
   link: {
     textDecoration: 'none',
-    color: 'white',
-    rel: 'noopener noreferrer'
+    color: 'white'
   },
   mainColor: {
     color: theme.palette.primary.main

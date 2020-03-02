@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import Logo from 'components/Logo'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -21,12 +20,20 @@ export const Footer = ({ classes }) => (
         </a>
       </Typography>
       <Typography align="center">
-        <a target="_blank" href="https://entercom.com/terms-and-conditions" className={classes.link}>
+        <a
+          rel="noopener noreferrer"
+          target="_blank"
+          href="https://entercom.com/terms-and-conditions"
+          className={classes.link}>
           TOS
         </a>
       </Typography>
       <Typography align="center">
-        <a target="_blank" href="https://entercom.com/terms-and-conditions" className={classes.link}>
+        <a
+          rel="noopener noreferrer"
+          target="_blank"
+          href="https://entercom.com/terms-and-conditions"
+          className={classes.link}>
           Privacy Policy
         </a>
       </Typography>

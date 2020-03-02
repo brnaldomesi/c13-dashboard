@@ -16,13 +16,15 @@ import { authLogout } from 'redux/modules/auth'
 import cn from 'classnames'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
+import { createStructuredSelector } from 'reselect'
 import { makeStyles } from '@material-ui/core/styles'
+import { profileSelector } from 'redux/modules/auth'
 import styles from './styles'
 import { userIsAuthenticated } from 'hocs/withAuth'
 
 const useStyles = makeStyles(styles)
 
-const Sidebar = ({ authLogout, open, toggle }) => {
+const Sidebar = ({ authLogout, open, toggle, profile }) => {
   const [activeSection, setActiveSection] = useState(null)
   const handleToggle = useCallback(() => {
     if (open) {
@@ -89,14 +91,16 @@ const Sidebar = ({ authLogout, open, toggle }) => {
           <SidebarItem icon={IconMail} text={open ? 'Feedback' : ''} to="/feedback" onClick={expandSideBar} />
         </List>
         {open && <Divider />}
-        <List>
-          <SidebarItem
-            icon={SupervisorAccountIcon}
-            text={open ? 'Admin Control' : ''}
-            to="/users"
-            onClick={expandSideBar}
-          />
-        </List>
+        {profile.role === 'ADMIN' && (
+          <List>
+            <SidebarItem
+              icon={SupervisorAccountIcon}
+              text={open ? 'Admin Control' : ''}
+              to="/users"
+              onClick={expandSideBar}
+            />
+          </List>
+        )}
         {open && (
           <>
             <Divider />
@@ -125,10 +129,14 @@ const actions = {
   authLogout
 }
 
+const selector = createStructuredSelector({
+  profile: profileSelector
+})
+
 export default compose(
   userIsAuthenticated,
   connect(
-    null,
+    selector,
     actions
   )
 )(Sidebar)
