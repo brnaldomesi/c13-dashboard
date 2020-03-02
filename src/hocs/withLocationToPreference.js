@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
+import { getUserPreference, updateUserPreference, userPreferenceSelector } from 'redux/modules/profiles'
+
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
-
-import { getUserPreference, updateUserPreference, userPreferenceSelector } from 'redux/modules/profiles'
 
 const selector = createStructuredSelector({
   userPreference: userPreferenceSelector

@@ -1,10 +1,10 @@
-import { createBrowserHistory } from 'history'
-import createSagaMiddleware from 'redux-saga'
-import { createStore, applyMiddleware, compose } from 'redux'
-import { routerMiddleware } from 'connected-react-router'
+import { applyMiddleware, compose, createStore } from 'redux'
 
 import authMiddleware from './middlewares/auth'
+import { createBrowserHistory } from 'history'
+import createSagaMiddleware from 'redux-saga'
 import getReducers from './modules'
+import { routerMiddleware } from 'connected-react-router'
 import sagas from './modules/sagas'
 
 // Create a history of your choosing (we're using a browser history in this case)

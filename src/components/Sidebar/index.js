@@ -112,7 +112,7 @@ const Sidebar = ({ authLogout, open, toggle, profile }) => {
         )}
       </div>
       <div className={classes.footer} onKeyDown={handleToggle}>
-        <SidebarItem icon={LogoutIcon} text={open ? 'Logout' : ''} onClick={authLogout} />
+        <SidebarItem icon={LogoutIcon} text={open ? 'Logout' : ''} onClick={() => authLogout()} />
       </div>
     </div>
     // </Drawer>

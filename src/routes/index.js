@@ -14,7 +14,7 @@ const routes = ({ history }) => (
     <AppContainer>
       <Switch>
         <LoginRoute path="/login" exact component={Login} />
-        <PrivateRoute path="/users" exact component={Users} />
+        <PrivateRoute path="/users" component={Users} />
         <PrivateRoute path="/:networkId?/:podcastId?/:episodeId?" component={Dashboard} />
       </Switch>
       <ConfirmModal />

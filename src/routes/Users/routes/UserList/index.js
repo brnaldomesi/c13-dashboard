@@ -8,21 +8,21 @@ import PropTypes from 'prop-types'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
-import { isAuthenticatedOrRedir } from 'hocs/withAuth'
-import styles from './styles'
 import withLocationToPreference from 'hocs/withLocationToPreference'
-import { withStyles } from '@material-ui/core/styles'
+import { withRouter } from 'react-router-dom'
 
-export const Users = ({ getUsersList, users }) => {
-  const columns = [
-    { title: 'Name', field: 'fullName' },
-    { title: 'Network', field: 'networkName' },
-    { title: 'Email', field: 'email' }
-  ]
+const columns = [
+  { title: 'Name', field: 'fullName' },
+  { title: 'Network', field: 'networkName' },
+  { title: 'Email', field: 'email' }
+]
 
+export const Users = ({ getUsersList, users, history }) => {
   useEffect(() => {
-    getUsersList()
-  }, [getUsersList])
+    if (users === null) {
+      getUsersList()
+    }
+  }, [getUsersList, users])
 
   if (users !== null) {
     users = users.map(item => ({
@@ -46,7 +46,7 @@ export const Users = ({ getUsersList, users }) => {
               icon: 'add_box',
               tooltip: 'Add User',
               isFreeAction: true,
-              onClick: event => alert('You want to add a new row')
+              onClick: () => history.push('/users/new')
             },
             {
               icon: 'save',
@@ -71,6 +71,7 @@ export const Users = ({ getUsersList, users }) => {
 }
 
 Users.propTypes = {
+  history: PropTypes.object.isRequired,
   getUsersList: PropTypes.func.isRequired
 }
 
@@ -83,11 +84,10 @@ const actions = {
 }
 
 export default compose(
-  isAuthenticatedOrRedir,
+  withRouter,
   connect(
     selector,
     actions
   ),
-  withLocationToPreference,
-  withStyles(styles)
+  withLocationToPreference
 )(Users)
