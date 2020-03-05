@@ -1,14 +1,22 @@
 import React, { useEffect } from 'react'
-import { getUsersList, usersListSelector } from 'redux/modules/profiles'
+import {
+  confirmAndDeleteUser,
+  getUsersList,
+  userDeletingSelector,
+  usersListLoadingSelector,
+  usersListSelector
+} from 'redux/modules/profiles'
 
 import Box from '@material-ui/core/Box'
 import Container from '@material-ui/core/Container'
+import LoadingIndicator from 'components/LoadingIndicator'
 import MaterialTable from 'material-table'
 import PropTypes from 'prop-types'
+import { SNACKBAR_TYPE } from 'config/constants'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
-import withLocationToPreference from 'hocs/withLocationToPreference'
+import { useSnackbar } from 'notistack'
 import { withRouter } from 'react-router-dom'
 
 const columns = [
@@ -17,13 +25,13 @@ const columns = [
   { title: 'Email', field: 'email' }
 ]
 
-export const Users = ({ getUsersList, users, history }) => {
-  useEffect(() => {
-    if (users === null) {
-      getUsersList()
-    }
-  }, [getUsersList, users])
+const roleMap = {
+  ADMIN: 'Admin',
+  DM_USER: 'DM User',
+  NETWORK_USER: 'Network User'
+}
 
+const getSortedUsersList = users => {
   if (users !== null) {
     users = users.map(item => ({
       ...item,
@@ -32,15 +40,31 @@ export const Users = ({ getUsersList, users, history }) => {
     }))
 
     users = users.sort((a, b) => (a.fullName > b.fullName ? 1 : b.fullName > a.fullName ? -1 : 0))
+  } else {
+    users = []
   }
+
+  return users
+}
+
+export const Users = ({ getUsersList, users, history, usersLoading, userDeleting, confirmAndDeleteUser }) => {
+  const { enqueueSnackbar } = useSnackbar()
+  const sortedUsersList = getSortedUsersList(users)
+
+  useEffect(() => {
+    getUsersList({
+      fail: () => enqueueSnackbar('Failed to load users!', { variant: SNACKBAR_TYPE.ERROR })
+    })
+  }, [getUsersList, enqueueSnackbar])
 
   return (
     <Container maxWidth="xl">
-      <Box width="100%">
+      <Box width="100%" style={{ position: 'relative' }}>
+        {(usersLoading || userDeleting) && <LoadingIndicator />}
         <MaterialTable
           title="Users"
           columns={columns}
-          data={users !== null ? users : []}
+          data={sortedUsersList}
           actions={[
             {
               icon: 'add_box',
@@ -51,12 +75,39 @@ export const Users = ({ getUsersList, users, history }) => {
             {
               icon: 'save',
               tooltip: 'Edit User',
-              onClick: (event, rowData) => alert('You saved ' + rowData.name)
+              onClick: (event, rowData) => {
+                const state = {
+                  profileId: rowData.userID,
+                  firstName: rowData.firstName,
+                  lastName: rowData.lastName,
+                  email: rowData.email,
+                  role: roleMap[rowData.userRole],
+                  networkId: rowData.network,
+                  seriesIds: []
+                }
+
+                history.push({
+                  pathname: '/users/' + rowData.userID,
+                  state
+                })
+              }
             },
             {
               icon: 'delete',
               tooltip: 'Delete User',
-              onClick: (event, rowData) => alert('You want to delete ' + rowData.name)
+              onClick: (event, rowData) => {
+                confirmAndDeleteUser({
+                  id: rowData.userID,
+                  success: () => {
+                    enqueueSnackbar('User deleted!', { variant: SNACKBAR_TYPE.SUCCESS })
+                    history.push('/empty')
+                    history.push('/users')
+                  },
+                  fail: err => {
+                    enqueueSnackbar(err.data.message, { variant: SNACKBAR_TYPE.ERROR })
+                  }
+                })
+              }
             }
           ]}
           options={{
@@ -72,15 +123,20 @@ export const Users = ({ getUsersList, users, history }) => {
 
 Users.propTypes = {
   history: PropTypes.object.isRequired,
-  getUsersList: PropTypes.func.isRequired
+  getUsersList: PropTypes.func.isRequired,
+  usersLoading: PropTypes.bool,
+  confirmAndDeleteUser: PropTypes.func.isRequired
 }
 
 const selector = createStructuredSelector({
-  users: usersListSelector
+  users: usersListSelector,
+  usersLoading: usersListLoadingSelector,
+  userDeleting: userDeletingSelector
 })
 
 const actions = {
-  getUsersList
+  getUsersList,
+  confirmAndDeleteUser
 }
 
 export default compose(
@@ -88,6 +144,5 @@ export default compose(
   connect(
     selector,
     actions
-  ),
-  withLocationToPreference
+  )
 )(Users)

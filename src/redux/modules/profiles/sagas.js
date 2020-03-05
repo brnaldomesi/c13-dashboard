@@ -1,7 +1,10 @@
 import * as types from './types'
 
+import { call, put, race, takeLatest } from 'redux-saga/effects'
+
 import { apiCallSaga } from '../api'
-import { takeLatest } from 'redux-saga/effects'
+import { bindCallbackToPromise } from 'utils/helpers'
+import { show } from 'redux-modal'
 
 const getUserPreference = apiCallSaga({
   type: types.GET_USER_PREFERENCE,
@@ -43,10 +46,62 @@ const getUserRoles = apiCallSaga({
   selectorKey: 'userRoles'
 })
 
+const createUser = apiCallSaga({
+  type: types.CREATE_USER,
+  method: 'post',
+  allowedParamKeys: [],
+  path: '/profiles',
+  selectorKey: 'user'
+})
+
+const updateUser = apiCallSaga({
+  type: types.UPDATE_USER,
+  method: 'patch',
+  allowedParamKeys: [],
+  path: '/profiles/strongUpdate',
+  selectorKey: 'user'
+})
+
+const deleteUser = apiCallSaga({
+  type: types.DELETE_USER,
+  method: 'delete',
+  allowedParamKeys: [],
+  path: ({ payload }) => `/profiles?id=${payload.id}`,
+  selectorKey: 'user'
+})
+
+const confirmDelete = function*() {
+  const confirmProm = bindCallbackToPromise()
+  const cancelProm = bindCallbackToPromise()
+  yield put(
+    show('confirmModal', {
+      onConfirm: confirmProm.cb,
+      onCancel: cancelProm.cb,
+      title: 'Are you sure you want to delete this user?'
+    })
+  )
+  const result = yield race({
+    confirmed: call(confirmProm.promise),
+    canceled: call(cancelProm.promise)
+  })
+  return Object.keys(result).includes('confirmed') ? true : false
+}
+
+const confirmAndDeleteUser = function*(action) {
+  const confirmed = yield call(confirmDelete)
+  if (confirmed) {
+    yield call(deleteUser, action)
+  }
+}
+
 export default function* rootSaga() {
   yield takeLatest(types.GET_USER_PREFERENCE, getUserPreference)
   yield takeLatest(types.UPDATE_USER_PREFERENCE, updateUserPreference)
   yield takeLatest(types.GET_USER_SERIES, getUserSeries)
   yield takeLatest(types.GET_USERS_LIST, getUsersList)
   yield takeLatest(types.GET_USER_ROLES, getUserRoles)
+  yield takeLatest(types.CREATE_USER, createUser)
+  yield takeLatest(types.UPDATE_USER, updateUser)
+  yield takeLatest(types.DELETE_USER, deleteUser)
+  yield takeLatest(types.CONFIRM_AND_DELETE_USER, confirmAndDeleteUser)
 }

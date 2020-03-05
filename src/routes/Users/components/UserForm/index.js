@@ -2,7 +2,6 @@ import * as Yup from 'yup'
 
 import { Box, Button } from '@material-ui/core'
 import React, { useMemo, useState } from 'react'
-import { getUserSeries, updateUserPreference, userPreferenceSelector } from 'redux/modules/profiles'
 
 import { Field } from 'formik'
 import FormAutoComplete from 'components/FormAutoComplete'
@@ -19,6 +18,7 @@ import { createStructuredSelector } from 'reselect'
 import { getPodcasts } from 'redux/modules/media'
 import { networksSelector } from 'redux/modules/media'
 import { useSnackbar } from 'notistack'
+import { userRolesSelector } from 'redux/modules/profiles'
 
 export const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -34,8 +34,30 @@ const emailValidationCreator = (validateEmailAction, initialEmail) => value =>
 
 const getNetworksOptions = networks =>
   networks.map(network => ({
-    id: network.networkId,
-    name: network.name
+    networkID: network.networkId,
+    networkName: network.name
+  }))
+
+const networksValidator = value => {
+  if (value === '') {
+    return 'Network is required'
+  } else {
+    return undefined
+  }
+}
+
+const podcastsValidator = value => {
+  if (value.length === 0) {
+    return 'Podcast is required'
+  } else {
+    return undefined
+  }
+}
+
+const getRolesOptions = roles =>
+  roles.map(value => ({
+    value: value,
+    label: value
   }))
 
 const UserForm = ({
@@ -44,29 +66,18 @@ const UserForm = ({
   isSubmitting,
   isValid,
   initialValues,
-  rolesOptions,
   networks,
   networkDropdownState,
-  updateUserPreference,
-  userPreference,
-  getUserSeries,
-  getPodcasts
+  getPodcasts,
+  roles
 }) => {
-  const { email: initialEmail } = initialValues
+  const { email: initialEmail, networkId: initialNetwork } = initialValues
   const emailValidator = useMemo(() => emailValidationCreator(initialEmail), [initialEmail])
-  const networksValidator = value => {
-    if (value === '') {
-      return 'Network is required'
-    } else {
-      return undefined
-    }
-  }
   const { enqueueSnackbar } = useSnackbar()
   const networksOptions = useMemo(() => getNetworksOptions(networks), [networks])
-  const [networkDropdownOpen, setNetworkDropdownOpen] = useState(networkDropdownState)
-  const [podcastDropdownOpen, setPodcastDropdownOpen] = useState(false)
-  const [podCasts, setPodCasts] = useState([])
-
+  const [networkDropdownOpen, setNetworkDropdownOpen] = useState(networkDropdownState.visibility)
+  const [podcasts, setPodcasts] = useState([])
+  const rolesOptions = useMemo(() => getRolesOptions(roles), [roles])
   const handleRoleChange = event => {
     const value = event.target.value
     setFieldValue('role', value)
@@ -74,30 +85,41 @@ const UserForm = ({
       setNetworkDropdownOpen(true)
     } else {
       setNetworkDropdownOpen(false)
+      emptyPodcasts()
     }
   }
 
   const handleNetworkChange = (event, network) => {
     if (network !== null) {
-      const networkId = network.id
-      setFieldValue('networks', networkId)
+      const networkId = network.networkID
+      setFieldValue('networkId', networkId)
       getPodcasts({
         networkId,
         success: res => {
-          setPodCasts(res.allSeries)
-          if (podcastDropdownOpen === false) {
-            setPodcastDropdownOpen(true)
-          }
+          setPodcasts(res.allSeries)
         },
-        fail: () => enqueueSnackbar('Faield to load podcasts!', { variant: SNACKBAR_TYPE.ERROR })
+        fail: () => {
+          emptyPodcasts()
+          enqueueSnackbar('Faield to load podcasts!', { variant: SNACKBAR_TYPE.ERROR })
+        }
       })
     } else {
-      setFieldValue('networks', '')
+      setFieldValue('networkId', '')
+      emptyPodcasts()
     }
   }
 
+  const handlePodcastsChange = event => {
+    setFieldValue('seriesIds', event.target.value)
+  }
+
+  const emptyPodcasts = () => {
+    setFieldValue('seriesIds', [])
+    setPodcasts([])
+  }
+
   return (
-    <Box p={4}>
+    <Box p={4} style={{ position: 'relative' }}>
       <form onSubmit={handleSubmit}>
         <Grid container spacing={3}>
           <Grid item sm={6}>
@@ -118,18 +140,21 @@ const UserForm = ({
               validate={emailValidator}
             />
           </Grid>
-          <Grid item sm={6}>
-            <Field
-              name="role"
-              label="User Role"
-              component={FormSelect}
-              options={rolesOptions}
-              fullWidth
-              variant="outlined"
-              margin="normal"
-              onChange={handleRoleChange}
-            />
-          </Grid>
+          {rolesOptions.length > 0 && (
+            <Grid item sm={6}>
+              <Field
+                name="role"
+                label="User Role"
+                component={FormSelect}
+                options={rolesOptions}
+                fullWidth
+                variant="outlined"
+                margin="normal"
+                onChange={handleRoleChange}
+                disabled={networkDropdownState.disabled}
+              />
+            </Grid>
+          )}
         </Grid>
         {networkDropdownOpen && (
           <Grid container spacing={3}>
@@ -140,27 +165,33 @@ const UserForm = ({
                 label="Networks"
                 component={FormAutoComplete}
                 options={networksOptions}
-                optionLabel="name"
+                optionLabel="networkName"
                 validate={networksValidator}
                 onChange={handleNetworkChange}
                 fullWidth
                 variant="outlined"
                 margin="normal"
+                disabled={networkDropdownState.disabled}
+                inputValue={initialNetwork.networkName}
               />
             </Grid>
-            {podcastDropdownOpen && (
+            {!networkDropdownState.disabled && (
               <Grid item sm={6}>
                 <Field
                   multiple
+                  id="seriesIds"
                   name="seriesIds"
                   label="Podcasts"
                   component={FormSelect}
-                  options={podCasts}
-                  //validate={podcastsValidator}
-                  //onChange={handlePodcastsChange}
+                  options={podcasts}
+                  onChange={handlePodcastsChange}
+                  validate={podcastsValidator}
+                  optionLabel="seriesName"
+                  optionValue="seriesId"
                   fullWidth
                   variant="outlined"
                   margin="normal"
+                  disabled={networkDropdownState.disabled}
                 />
               </Grid>
             )}
@@ -187,23 +218,17 @@ const UserForm = ({
 UserForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   isSubmitting: PropTypes.bool,
-  rolesOptions: PropTypes.array,
   networks: PropTypes.array,
-  networkDropdownState: PropTypes.bool,
-  updateUserPreference: PropTypes.func,
-  userPreference: PropTypes.object,
-  getUserSeries: PropTypes.func.isRequired,
+  networkDropdownState: PropTypes.object,
   getPodcasts: PropTypes.func
 }
 
 const selector = createStructuredSelector({
   networks: networksSelector,
-  userPreference: userPreferenceSelector
+  roles: userRolesSelector
 })
 
 const actions = {
-  updateUserPreference,
-  getUserSeries,
   getPodcasts
 }
 

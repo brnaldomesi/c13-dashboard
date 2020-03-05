@@ -6,3 +6,5 @@ export const usersListSelector = dataSelector('usersList')
 export const userRolesSelector = dataSelector('userRoles', [])
 
 export const userSeriesLoadingSelector = isRequestPending('userSeries', 'get')
+export const usersListLoadingSelector = isRequestPending('usersList', 'get')
+export const userDeletingSelector = isRequestPending('user', 'delete')

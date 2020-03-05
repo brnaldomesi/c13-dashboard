@@ -23,7 +23,9 @@ const FormSelect = ({
   onChange,
   value,
   optionLabel,
-  optionValue
+  optionValue,
+  multiple,
+  disabled
 }) => {
   const error = form.touched[field.name] && form.errors[field.name]
   const inputLabel = useRef(null)
@@ -40,12 +42,14 @@ const FormSelect = ({
       {helperText && <FormHelperText>{helperText}</FormHelperText>}
       {label && <InputLabel ref={inputLabel}>{label}</InputLabel>}
       <Select
+        multiple={multiple}
         onChange={onChange ? onChange : field.onChange}
         onBlur={field.onBlur}
         value={value ? value : field.value}
         name={field.name}
         displayEmpty={!!placeholder}
-        labelWidth={labelWidth}>
+        labelWidth={labelWidth}
+        disabled={disabled}>
         {placeholder && <MenuItem value="">{placeholder}</MenuItem>}
         {options &&
           options.map((option, index) => {
@@ -80,9 +84,10 @@ FormSelect.propTypes = {
   variant: PropTypes.string,
   margin: PropTypes.string,
   onChange: PropTypes.func,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   optionLabel: PropTypes.string,
-  optionValue: PropTypes.string
+  optionValue: PropTypes.string,
+  multiple: PropTypes.bool
 }
 
 FormSelect.defaultProps = {

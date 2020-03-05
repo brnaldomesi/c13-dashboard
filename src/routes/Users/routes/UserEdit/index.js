@@ -8,30 +8,36 @@ import { SNACKBAR_TYPE } from 'config/constants'
 import Typography from '@material-ui/core/Typography'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { createUser } from 'redux/modules/profiles'
 import { formSubmit } from 'utils/form'
+import pick from 'lodash/pick'
+import { updateUser } from 'redux/modules/profiles'
 import { useSnackbar } from 'notistack'
 import { withRouter } from 'react-router-dom'
 
-const initialValues = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  role: '',
-  networkId: '',
-  seriesIds: []
-}
-
-export const UserNew = ({ history, createUser }) => {
+export const UserEdit = ({ history, updateUser }) => {
+  const {
+    location: { state: user }
+  } = history
   const { enqueueSnackbar } = useSnackbar()
   const handleSubmit = (values, actions) => {
-    return formSubmit(
-      createUser,
+    const data = pick(
       {
-        data: values,
+        ...values,
+        profileId: user.profileId
+      },
+      ['firstName', 'lastName', 'email', 'profileId']
+    )
+
+    return formSubmit(
+      updateUser,
+      {
+        data,
         success: () => {
-          enqueueSnackbar('User created!', { variant: SNACKBAR_TYPE.SUCCESS })
-          history.push('/users')
+          enqueueSnackbar('User updated!', { variant: SNACKBAR_TYPE.SUCCESS })
+          history.push({
+            pathname: '/users/' + user.profileId,
+            state: data
+          })
         },
         fail: err => {
           enqueueSnackbar(err.data.message, { variant: SNACKBAR_TYPE.ERROR })
@@ -44,11 +50,11 @@ export const UserNew = ({ history, createUser }) => {
   return (
     <Container maxWidth="xl">
       <Typography variant="h6" gutterBottom>
-        Create a New User
+        Edit a User
       </Typography>
       <Paper>
         <Formik
-          initialValues={initialValues}
+          initialValues={user}
           onSubmit={handleSubmit}
           validateOnChange={false}
           validateOnBlur
@@ -57,8 +63,8 @@ export const UserNew = ({ history, createUser }) => {
             <UserForm
               {...formikProps}
               networkDropdownState={{
-                visibility: false,
-                disabled: false
+                visibility: user.role === 'Network User' ? true : false,
+                disabled: true
               }}
             />
           )}
@@ -68,13 +74,12 @@ export const UserNew = ({ history, createUser }) => {
   )
 }
 
-UserNew.propTypes = {
-  history: PropTypes.object.isRequired,
-  createUser: PropTypes.func.isRequired
+UserEdit.propTypes = {
+  updateUser: PropTypes.func.isRequired
 }
 
 const actions = {
-  createUser
+  updateUser
 }
 
 export default compose(
@@ -83,4 +88,4 @@ export default compose(
     null,
     actions
   )
-)(UserNew)
+)(UserEdit)

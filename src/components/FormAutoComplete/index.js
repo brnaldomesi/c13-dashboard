@@ -16,7 +16,9 @@ const FormAutoComplete = ({
   optionLabel,
   variant,
   margin,
-  onChange
+  onChange,
+  disabled,
+  inputValue
 }) => {
   const error = form.touched[field.name] && form.errors[field.name]
   return (
@@ -24,11 +26,13 @@ const FormAutoComplete = ({
       {helperText && <FormHelperText>{helperText}</FormHelperText>}
       <Autocomplete
         options={options}
+        inputValue={inputValue}
         getOptionLabel={option => option[optionLabel]}
         onChange={onChange}
         onBlur={field.onBlur}
         id={field.name}
         renderInput={params => <TextField {...params} label={label} variant={variant} error={Boolean(error)} />}
+        disabled={disabled}
       />
       {error && <FormHelperText>{error}</FormHelperText>}
     </FormControl>
@@ -47,7 +51,8 @@ FormAutoComplete.propTypes = {
   variant: PropTypes.string,
   margin: PropTypes.string,
   onChange: PropTypes.func,
-  optionLabel: PropTypes.string
+  optionLabel: PropTypes.string,
+  inputValue: PropTypes.string
 }
 
 export default FormAutoComplete
