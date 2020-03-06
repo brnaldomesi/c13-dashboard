@@ -30,7 +30,7 @@ export const UserNew = ({ history, createUser }) => {
       {
         data: values,
         success: () => {
-          enqueueSnackbar('User created!', { variant: SNACKBAR_TYPE.SUCCESS })
+          enqueueSnackbar('Check your email to activate your account!', { variant: SNACKBAR_TYPE.SUCCESS })
           history.push('/users')
         },
         fail: err => {
