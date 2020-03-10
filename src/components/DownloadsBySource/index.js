@@ -56,7 +56,6 @@ const DownloadsBySource = ({ downloadsBySource, loading }) => {
             </Tooltip>
           </>
         }
-        helperText="*Spotify data available as of 10.24.18"
       />
       <Panel.Content className={classes.content}>
         <Tabs tabs={tabs} activeKey={activeTab} onChange={setActiveTab} />

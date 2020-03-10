@@ -1,25 +1,26 @@
 import React, { useState } from 'react'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
+
 import Button from '@material-ui/core/Button'
 import CopyIcon from '@material-ui/icons/FileCopy'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import FormControl from '@material-ui/core/FormControl'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import FormGroup from '@material-ui/core/FormGroup'
+import FormLabel from '@material-ui/core/FormLabel'
+import Input from '@material-ui/core/Input'
+import InputLabel from '@material-ui/core/InputLabel'
 import PropTypes from 'prop-types'
 import Radio from '@material-ui/core/Radio'
 import RadioGroup from '@material-ui/core/RadioGroup'
-import Input from '@material-ui/core/Input'
-import InputLabel from '@material-ui/core/InputLabel'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import FormControl from '@material-ui/core/FormControl'
-import FormGroup from '@material-ui/core/FormGroup'
-import FormLabel from '@material-ui/core/FormLabel'
 import { SHOWS_DOMAIN } from 'config/constants'
 import { SketchPicker } from 'react-color'
+import Tooltip from '@material-ui/core/Tooltip'
 import { makeStyles } from '@material-ui/core/styles'
 import styles from './styles'
-import Tooltip from '@material-ui/core/Tooltip'
 
 const useStyles = makeStyles(styles)
 
@@ -35,7 +36,7 @@ const EmbedCodeModal = ({ handleHide, show, title, podcast, episode }) => {
     } catch (e) {}
   }
 
-  const [theme, setTheme] = useState('light')
+  const [theme, setTheme] = useState('dark')
   const [layout, setLayout] = useState('horizontal')
   const [playlistType, setPlaylistType] = useState('latest')
   const [playlistTag, setPlaylistTag] = useState('')

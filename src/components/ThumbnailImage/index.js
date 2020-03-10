@@ -1,11 +1,10 @@
-import React from 'react'
 import CardMedia from '@material-ui/core/CardMedia'
-import get from 'lodash/get'
-import PropTypes from 'prop-types'
-
 import { ImageUrlType } from 'utils/propTypes'
-import podcastPlaceholder from './podcast-placeholder.png'
+import PropTypes from 'prop-types'
+import React from 'react'
 import avatarPlaceholder from './avatar-placeholder.png'
+import get from 'lodash/get'
+import podcastPlaceholder from './podcast-placeholder.png'
 
 const ThumbnailImage = ({ className, imageUrls, title, type }) => {
   const url =

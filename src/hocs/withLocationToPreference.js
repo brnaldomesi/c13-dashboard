@@ -3,9 +3,11 @@ import { getUserPreference, updateUserPreference, userPreferenceSelector } from 
 
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
+import { profileSelector } from 'redux/modules/auth'
 
 const selector = createStructuredSelector({
-  userPreference: userPreferenceSelector
+  userPreference: userPreferenceSelector,
+  profile: profileSelector
 })
 
 const actions = {
@@ -19,7 +21,8 @@ const withLocationToPreference = WrappedComponent => {
       getUserPreference,
       match: { params },
       updateUserPreference,
-      userPreference
+      userPreference,
+      profile: { role }
     } = props
     const { networkId = null, podcastId = null, episodeId = null } = params
     useEffect(() => {
@@ -29,6 +32,7 @@ const withLocationToPreference = WrappedComponent => {
     useEffect(() => {
       if (
         userPreference &&
+        role !== 'NETWORK_USER' &&
         (userPreference.networkId !== networkId ||
           userPreference.seriesId !== podcastId ||
           userPreference.episodeId !== episodeId)
@@ -42,7 +46,7 @@ const withLocationToPreference = WrappedComponent => {
           }
         })
       }
-    }, [userPreference, updateUserPreference, networkId, podcastId, episodeId])
+    }, [userPreference, updateUserPreference, networkId, podcastId, episodeId, role])
 
     return <WrappedComponent {...props} />
   }

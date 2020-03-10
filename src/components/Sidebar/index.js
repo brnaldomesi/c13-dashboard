@@ -36,7 +36,19 @@ const Sidebar = ({ authLogout, open, toggle, profile }) => {
   const handleSectionToggle = useCallback(
     activeSection => {
       toggle(true)
-      setActiveSection(prevSection => (prevSection === activeSection ? null : activeSection))
+      setActiveSection(prevSection => {
+        if (prevSection === activeSection) {
+          if (activeSection === 'networks') {
+            return 'podcasts'
+          } else if (activeSection === 'podcasts') {
+            return 'episodes'
+          } else {
+            return null
+          }
+        } else {
+          return activeSection
+        }
+      })
     },
     [toggle, setActiveSection]
   )
@@ -47,7 +59,6 @@ const Sidebar = ({ authLogout, open, toggle, profile }) => {
     }
   }, [])
   const classes = useStyles({ open: open, sidebarItemheight: sidebarItemheight })
-
   return (
     // <Drawer open={open} onClose={handleToggle} classes={{ paper: classes.paper }}>
     <div className={classes.root}>
@@ -106,7 +117,6 @@ const Sidebar = ({ authLogout, open, toggle, profile }) => {
             <Divider />
             <Typography variant="caption" className={classes.info}>
               * Unless otherwise stated with <InfoIcon fontSize="inherit" />, all data is based on selected date range.
-              <br />* Spotify data available as of 10.24.18
             </Typography>
           </>
         )}

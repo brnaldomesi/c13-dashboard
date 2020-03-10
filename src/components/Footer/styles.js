@@ -16,9 +16,9 @@ export default theme => ({
   },
   link: {
     textDecoration: 'none',
-    color: 'white'
-  },
-  mainColor: {
-    color: theme.palette.primary.main
+    color: 'white',
+    '&:hover': {
+      textDecoration: 'none'
+    }
   }
 })

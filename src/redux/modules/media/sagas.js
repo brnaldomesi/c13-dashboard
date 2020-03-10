@@ -1,5 +1,6 @@
 import * as types from './types'
 
+import Cookies from 'js-cookie'
 import { apiCallSaga } from '../api'
 import fp from 'lodash/fp'
 import { takeLatest } from 'redux-saga/effects'
@@ -10,7 +11,14 @@ const getNetworks = apiCallSaga({
   allowedParamKeys: [],
   path: '/media/networks',
   selectorKey: 'networks',
-  payloadOnSuccess: fp.sortBy('name')
+  payloadOnSuccess: networks => {
+    const profile = JSON.parse(Cookies.get('userProfile'))
+    if (profile.role === 'NETWORK_USER') {
+      return networks.filter(network => network.networkId === profile.networkName)
+    } else {
+      return fp.sortBy('name')(networks)
+    }
+  }
 })
 
 const getEpisodes = apiCallSaga({

@@ -11,9 +11,11 @@ import Button from '@material-ui/core/Button'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import EmbedCodeModal from 'components/EmbedCodeModal'
 import Grid from '@material-ui/core/Grid'
+import { Link } from '@material-ui/core'
 import LoadingIndicator from 'components/LoadingIndicator'
 import MediaImage from 'components/MediaImage'
 import PropTypes from 'prop-types'
+import { Link as RouterLink } from 'react-router-dom'
 import { SHOWS_DOMAIN } from 'config/constants'
 import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
@@ -28,7 +30,7 @@ const useStyles = makeStyles(styles)
 
 const renderNetwork = (network, classes, minimized) => (
   <div className={classes.root}>
-    <MediaImage imageUrls={network.coverImgUrl} minimized={minimized} />
+    <MediaImage imageUrls={network.coverImgUrl} minimized={minimized} to={`/${network.networkId}`} />
     <div className={classes.content}>
       <Typography variant="h5" gutterBottom={minimized ? false : true}>
         {network.name}
@@ -46,9 +48,11 @@ const renderPodcast = (podcast, network, classes, copied, setCopied, showEmbedMo
         {podcast.name}
       </Typography>
       {network && (
-        <Typography variant="h6" gutterBottom={minimized ? false : true}>
-          {network.name}
-        </Typography>
+        <Link to={`/${network.networkId}`} component={RouterLink}>
+          <Typography variant="h6" gutterBottom={minimized ? false : true}>
+            {network.name}
+          </Typography>
+        </Link>
       )}
 
       <div className={classes.actions}>
@@ -91,10 +95,19 @@ const renderPodcast = (podcast, network, classes, copied, setCopied, showEmbedMo
   </div>
 )
 
-const renderEpisode = (episode, podcast, classes, showEmbedModal, setShowEmbedModal, minimized) => (
+const renderEpisode = (episode, podcast, network, classes, showEmbedModal, setShowEmbedModal, minimized) => (
   <div className={classes.root}>
-    <MediaImage imageUrls={podcast.coverImgUrl} minimized={minimized} />
+    <MediaImage
+      imageUrls={podcast.coverImgUrl}
+      minimized={minimized}
+      to={`/${network.networkId}/${podcast.seriesId}`}
+    />
     <div className={classes.content}>
+      <Link to={`/${network.networkId}/${podcast.seriesId}`} component={RouterLink}>
+        <Typography variant="h6" gutterBottom={minimized ? false : true}>
+          {podcast.name}
+        </Typography>
+      </Link>
       <Typography variant="h5" gutterBottom={minimized ? false : true}>
         {episode.name}
       </Typography>
@@ -150,7 +163,7 @@ const MediaInfo = ({ episode, network, podcast, episodesLoading, networksLoading
   if (isLoading) {
     return renderLoading(classes)
   } else if (episode) {
-    return renderEpisode(episode, podcast, classes, showEmbedModal, setShowEmbedModal, minimized)
+    return renderEpisode(episode, podcast, network, classes, showEmbedModal, setShowEmbedModal, minimized)
   } else if (podcast) {
     return renderPodcast(podcast, network, classes, copied, setCopied, showEmbedModal, setShowEmbedModal, minimized)
   } else if (network) {
