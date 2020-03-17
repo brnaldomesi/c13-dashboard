@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react'
 
+import BubbleMap from '../BubbleMap'
 import Button from '@material-ui/core/Button'
 import Checkbox from '@material-ui/core/Checkbox'
 import DownloadsChart from '../DownloadsChart'
 import { FormattedNumber } from 'react-intl'
 import Grid from '@material-ui/core/Grid'
-import HeatMap from '../HeatMap'
 import IconExport from 'icons/IconExport'
 import PropTypes from 'prop-types'
 import Table from '@material-ui/core/Table'
@@ -89,7 +89,7 @@ const DownloadsTabContent = ({ chartTotals = [], marketTotals = [], tabKey, view
         </Button>
       </div>
       <div className={classes.content}>
-        {tabKey === 'us' && <HeatMap chartsData={marketTotals} />}
+        {tabKey === 'us' && <BubbleMap chartsData={marketTotals} />}
         <Grid container spacing={2}>
           <Grid item xs={7}>
             <Table className={classes.table} size="small">

@@ -1,0 +1,702 @@
+[
+  {
+    "marketName": "WASHINGTON, DC (HAGRSTWN)",
+    "downloads": 222529,
+    "trend": -0.26880085468292236,
+    "marketChartData": [
+      {
+        "downloads": 38171,
+        "entryDate": "2019-12-02T00:00:00.000+0000"
+      },
+      {
+        "downloads": 31951,
+        "entryDate": "2019-12-09T00:00:00.000+0000"
+      },
+      {
+        "downloads": 30320,
+        "entryDate": "2019-12-16T00:00:00.000+0000"
+      },
+      {
+        "downloads": 21587,
+        "entryDate": "2019-12-23T00:00:00.000+0000"
+      },
+      {
+        "downloads": 37378,
+        "entryDate": "2019-12-30T00:00:00.000+0000"
+      },
+      {
+        "downloads": 38503,
+        "entryDate": "2020-01-06T00:00:00.000+0000"
+      },
+      {
+        "downloads": 24619,
+        "entryDate": "2020-01-13T00:00:00.000+0000"
+      }
+    ]
+  },
+  {
+    "marketName": "LOS ANGELES",
+    "downloads": 450317,
+    "trend": -0.27295640110969543,
+    "marketChartData": [
+      {
+        "downloads": 78770,
+        "entryDate": "2019-12-02T00:00:00.000+0000"
+      },
+      {
+        "downloads": 67362,
+        "entryDate": "2019-12-09T00:00:00.000+0000"
+      },
+      {
+        "downloads": 60894,
+        "entryDate": "2019-12-16T00:00:00.000+0000"
+      },
+      {
+        "downloads": 44063,
+        "entryDate": "2019-12-23T00:00:00.000+0000"
+      },
+      {
+        "downloads": 69642,
+        "entryDate": "2019-12-30T00:00:00.000+0000"
+      },
+      {
+        "downloads": 75603,
+        "entryDate": "2020-01-06T00:00:00.000+0000"
+      },
+      {
+        "downloads": 53983,
+        "entryDate": "2020-01-13T00:00:00.000+0000"
+      }
+    ]
+  },
+  {
+    "marketName": "NEW YORK",
+    "downloads": 305380,
+    "trend": -0.3264986276626587,
+    "marketChartData": [
+      {
+        "downloads": 53034,
+        "entryDate": "2019-12-02T00:00:00.000+0000"
+      },
+      {
+        "downloads": 41114,
+        "entryDate": "2019-12-09T00:00:00.000+0000"
+      },
+      {
+        "downloads": 36792,
+        "entryDate": "2019-12-16T00:00:00.000+0000"
+      },
+      {
+        "downloads": 30423,
+        "entryDate": "2019-12-23T00:00:00.000+0000"
+      },
+      {
+        "downloads": 54970,
+        "entryDate": "2019-12-30T00:00:00.000+0000"
+      },
+      {
+        "downloads": 53705,
+        "entryDate": "2020-01-06T00:00:00.000+0000"
+      },
+      {
+        "downloads": 35342,
+        "entryDate": "2020-01-13T00:00:00.000+0000"
+      }
+    ]
+  },
+  {
+    "marketName": "SALT LAKE CITY",
+    "downloads": 130022,
+    "trend": -0.2815497815608978,
+    "marketChartData": [
+      {
+        "downloads": 21972,
+        "entryDate": "2019-12-02T00:00:00.000+0000"
+      },
+      {
+        "downloads": 17739,
+        "entryDate": "2019-12-09T00:00:00.000+0000"
+      },
+      {
+        "downloads": 15360,
+        "entryDate": "2019-12-16T00:00:00.000+0000"
+      },
+      {
+        "downloads": 13153,
+        "entryDate": "2019-12-23T00:00:00.000+0000"
+      },
+      {
+        "downloads": 24816,
+        "entryDate": "2019-12-30T00:00:00.000+0000"
+      },
+      {
+        "downloads": 22268,
+        "entryDate": "2020-01-06T00:00:00.000+0000"
+      },
+      {
+        "downloads": 14714,
+        "entryDate": "2020-01-13T00:00:00.000+0000"
+      }
+    ]
+  },
+  {
+    "marketName": "CLEVELAND-AKRON (CANTON)",
+    "downloads": 86211,
+    "trend": -0.27499762177467346,
+    "marketChartData": [
+      {
+        "downloads": 15184,
+        "entryDate": "2019-12-02T00:00:00.000+0000"
+      },
+      {
+        "downloads": 11880,
+        "entryDate": "2019-12-09T00:00:00.000+0000"
+      },
+      {
+        "downloads": 10977,
+        "entryDate": "2019-12-16T00:00:00.000+0000"
+      },
+      {
+        "downloads": 8963,
+        "entryDate": "2019-12-23T00:00:00.000+0000"
+      },
+      {
+        "downloads": 14608,
+        "entryDate": "2019-12-30T00:00:00.000+0000"
+      },
+      {
+        "downloads": 15143,
+        "entryDate": "2020-01-06T00:00:00.000+0000"
+      },
+      {
+        "downloads": 9456,
+        "entryDate": "2020-01-13T00:00:00.000+0000"
+      }
+    ]
+  },
+  {
+    "marketName": "CHICAGO",
+    "downloads": 324331,
+    "trend": -0.31525734066963196,
+    "marketChartData": [
+      {
+        "downloads": 64292,
+        "entryDate": "2019-12-02T00:00:00.000+0000"
+      },
+      {
+        "downloads": 48589,
+        "entryDate": "2019-12-09T00:00:00.000+0000"
+      },
+      {
+        "downloads": 40787,
+        "entryDate": "2019-12-16T00:00:00.000+0000"
+      },
+      {
+        "downloads": 33443,
+        "entryDate": "2019-12-23T00:00:00.000+0000"
+      },
+      {
+        "downloads": 51933,
+        "entryDate": "2019-12-30T00:00:00.000+0000"
+      },
+      {
+        "downloads": 52852,
+        "entryDate": "2020-01-06T00:00:00.000+0000"
+      },
+      {
+        "downloads": 32435,
+        "entryDate": "2020-01-13T00:00:00.000+0000"
+      }
+    ]
+  },
+  {
+    "marketName": "ORLANDO-DAYTONA BCH-MELBRN",
+    "downloads": 98819,
+    "trend": -0.19352930784225464,
+    "marketChartData": [
+      {
+        "downloads": 17539,
+        "entryDate": "2019-12-02T00:00:00.000+0000"
+      },
+      {
+        "downloads": 14907,
+        "entryDate": "2019-12-09T00:00:00.000+0000"
+      },
+      {
+        "downloads": 12789,
+        "entryDate": "2019-12-16T00:00:00.000+0000"
+      },
+      {
+        "downloads": 11331,
+        "entryDate": "2019-12-23T00:00:00.000+0000"
+      },
+      {
+        "downloads": 16745,
+        "entryDate": "2019-12-30T00:00:00.000+0000"
+      },
+      {
+        "downloads": 15831,
+        "entryDate": "2020-01-06T00:00:00.000+0000"
+      },
+      {
+        "downloads": 9677,
+        "entryDate": "2020-01-13T00:00:00.000+0000"
+      }
+    ]
+  },
+  {
+    "marketName": "ATLANTA",
+    "downloads": 252237,
+    "trend": -0.33360108733177185,
+    "marketChartData": [
+      {
+        "downloads": 43480,
+        "entryDate": "2019-12-02T00:00:00.000+0000"
+      },
+      {
+        "downloads": 34742,
+        "entryDate": "2019-12-09T00:00:00.000+0000"
+      },
+      {
+        "downloads": 32562,
+        "entryDate": "2019-12-16T00:00:00.000+0000"
+      },
+      {
+        "downloads": 24883,
+        "entryDate": "2019-12-23T00:00:00.000+0000"
+      },
+      {
+        "downloads": 45788,
+        "entryDate": "2019-12-30T00:00:00.000+0000"
+      },
+      {
+        "downloads": 44496,
+        "entryDate": "2020-01-06T00:00:00.000+0000"
+      },
+      {
+        "downloads": 26286,
+        "entryDate": "2020-01-13T00:00:00.000+0000"
+      }
+    ]
+  },
+  {
+    "marketName": "HOUSTON",
+    "downloads": 168462,
+    "trend": -0.2905244827270508,
+    "marketChartData": [
+      {
+        "downloads": 30027,
+        "entryDate": "2019-12-02T00:00:00.000+0000"
+      },
+      {
+        "downloads": 25084,
+        "entryDate": "2019-12-09T00:00:00.000+0000"
+      },
+      {
+        "downloads": 22164,
+        "entryDate": "2019-12-16T00:00:00.000+0000"
+      },
+      {
+        "downloads": 16027,
+        "entryDate": "2019-12-23T00:00:00.000+0000"
+      },
+      {
+        "downloads": 26882,
+        "entryDate": "2019-12-30T00:00:00.000+0000"
+      },
+      {
+        "downloads": 28739,
+        "entryDate": "2020-01-06T00:00:00.000+0000"
+      },
+      {
+        "downloads": 19539,
+        "entryDate": "2020-01-13T00:00:00.000+0000"
+      }
+    ]
+  },
+  {
+    "marketName": "PHILADELPHIA",
+    "downloads": 126157,
+    "trend": -0.30533793568611145,
+    "marketChartData": [
+      {
+        "downloads": 21737,
+        "entryDate": "2019-12-02T00:00:00.000+0000"
+      },
+      {
+        "downloads": 17771,
+        "entryDate": "2019-12-09T00:00:00.000+0000"
+      },
+      {
+        "downloads": 15482,
+        "entryDate": "2019-12-16T00:00:00.000+0000"
+      },
+      {
+        "downloads": 12154,
+        "entryDate": "2019-12-23T00:00:00.000+0000"
+      },
+      {
+        "downloads": 23851,
+        "entryDate": "2019-12-30T00:00:00.000+0000"
+      },
+      {
+        "downloads": 21340,
+        "entryDate": "2020-01-06T00:00:00.000+0000"
+      },
+      {
+        "downloads": 13822,
+        "entryDate": "2020-01-13T00:00:00.000+0000"
+      }
+    ]
+  },
+  {
+    "marketName": "PHOENIX (PRESCOTT)",
+    "downloads": 104370,
+    "trend": -0.2653060853481293,
+    "marketChartData": [
+      {
+        "downloads": 18097,
+        "entryDate": "2019-12-02T00:00:00.000+0000"
+      },
+      {
+        "downloads": 15296,
+        "entryDate": "2019-12-09T00:00:00.000+0000"
+      },
+      {
+        "downloads": 13382,
+        "entryDate": "2019-12-16T00:00:00.000+0000"
+      },
+      {
+        "downloads": 10842,
+        "entryDate": "2019-12-23T00:00:00.000+0000"
+      },
+      {
+        "downloads": 18703,
+        "entryDate": "2019-12-30T00:00:00.000+0000"
+      },
+      {
+        "downloads": 16671,
+        "entryDate": "2020-01-06T00:00:00.000+0000"
+      },
+      {
+        "downloads": 11379,
+        "entryDate": "2020-01-13T00:00:00.000+0000"
+      }
+    ]
+  },
+  {
+    "marketName": "DENVER",
+    "downloads": 190562,
+    "trend": -0.24035508930683136,
+    "marketChartData": [
+      {
+        "downloads": 31689,
+        "entryDate": "2019-12-02T00:00:00.000+0000"
+      },
+      {
+        "downloads": 26009,
+        "entryDate": "2019-12-09T00:00:00.000+0000"
+      },
+      {
+        "downloads": 25797,
+        "entryDate": "2019-12-16T00:00:00.000+0000"
+      },
+      {
+        "downloads": 19454,
+        "entryDate": "2019-12-23T00:00:00.000+0000"
+      },
+      {
+        "downloads": 35075,
+        "entryDate": "2019-12-30T00:00:00.000+0000"
+      },
+      {
+        "downloads": 31815,
+        "entryDate": "2020-01-06T00:00:00.000+0000"
+      },
+      {
+        "downloads": 20723,
+        "entryDate": "2020-01-13T00:00:00.000+0000"
+      }
+    ]
+  },
+  {
+    "marketName": "NASHVILLE",
+    "downloads": 89717,
+    "trend": -0.3260214030742645,
+    "marketChartData": [
+      {
+        "downloads": 15274,
+        "entryDate": "2019-12-02T00:00:00.000+0000"
+      },
+      {
+        "downloads": 11905,
+        "entryDate": "2019-12-09T00:00:00.000+0000"
+      },
+      {
+        "downloads": 11852,
+        "entryDate": "2019-12-16T00:00:00.000+0000"
+      },
+      {
+        "downloads": 8733,
+        "entryDate": "2019-12-23T00:00:00.000+0000"
+      },
+      {
+        "downloads": 16058,
+        "entryDate": "2019-12-30T00:00:00.000+0000"
+      },
+      {
+        "downloads": 15985,
+        "entryDate": "2020-01-06T00:00:00.000+0000"
+      },
+      {
+        "downloads": 9910,
+        "entryDate": "2020-01-13T00:00:00.000+0000"
+      }
+    ]
+  },
+  {
+    "marketName": "DALLAS-FT. WORTH",
+    "downloads": 325681,
+    "trend": -0.27990999817848206,
+    "marketChartData": [
+      {
+        "downloads": 57312,
+        "entryDate": "2019-12-02T00:00:00.000+0000"
+      },
+      {
+        "downloads": 46672,
+        "entryDate": "2019-12-09T00:00:00.000+0000"
+      },
+      {
+        "downloads": 43983,
+        "entryDate": "2019-12-16T00:00:00.000+0000"
+      },
+      {
+        "downloads": 35059,
+        "entryDate": "2019-12-23T00:00:00.000+0000"
+      },
+      {
+        "downloads": 53719,
+        "entryDate": "2019-12-30T00:00:00.000+0000"
+      },
+      {
+        "downloads": 54143,
+        "entryDate": "2020-01-06T00:00:00.000+0000"
+      },
+      {
+        "downloads": 34793,
+        "entryDate": "2020-01-13T00:00:00.000+0000"
+      }
+    ]
+  },
+  {
+    "marketName": "PORTLAND, OR",
+    "downloads": 113531,
+    "trend": -0.3204402029514313,
+    "marketChartData": [
+      {
+        "downloads": 20197,
+        "entryDate": "2019-12-02T00:00:00.000+0000"
+      },
+      {
+        "downloads": 17647,
+        "entryDate": "2019-12-09T00:00:00.000+0000"
+      },
+      {
+        "downloads": 14199,
+        "entryDate": "2019-12-16T00:00:00.000+0000"
+      },
+      {
+        "downloads": 10539,
+        "entryDate": "2019-12-23T00:00:00.000+0000"
+      },
+      {
+        "downloads": 19782,
+        "entryDate": "2019-12-30T00:00:00.000+0000"
+      },
+      {
+        "downloads": 19624,
+        "entryDate": "2020-01-06T00:00:00.000+0000"
+      },
+      {
+        "downloads": 11543,
+        "entryDate": "2020-01-13T00:00:00.000+0000"
+      }
+    ]
+  },
+  {
+    "marketName": "SEATTLE-TACOMA",
+    "downloads": 161834,
+    "trend": -0.26211971044540405,
+    "marketChartData": [
+      {
+        "downloads": 28362,
+        "entryDate": "2019-12-02T00:00:00.000+0000"
+      },
+      {
+        "downloads": 22672,
+        "entryDate": "2019-12-09T00:00:00.000+0000"
+      },
+      {
+        "downloads": 19827,
+        "entryDate": "2019-12-16T00:00:00.000+0000"
+      },
+      {
+        "downloads": 16712,
+        "entryDate": "2019-12-23T00:00:00.000+0000"
+      },
+      {
+        "downloads": 28426,
+        "entryDate": "2019-12-30T00:00:00.000+0000"
+      },
+      {
+        "downloads": 29794,
+        "entryDate": "2020-01-06T00:00:00.000+0000"
+      },
+      {
+        "downloads": 16041,
+        "entryDate": "2020-01-13T00:00:00.000+0000"
+      }
+    ]
+  },
+  {
+    "marketName": "SAN FRANCISCO-OAK-SAN JOSE",
+    "downloads": 189920,
+    "trend": -0.32400140166282654,
+    "marketChartData": [
+      {
+        "downloads": 33061,
+        "entryDate": "2019-12-02T00:00:00.000+0000"
+      },
+      {
+        "downloads": 27658,
+        "entryDate": "2019-12-09T00:00:00.000+0000"
+      },
+      {
+        "downloads": 25557,
+        "entryDate": "2019-12-16T00:00:00.000+0000"
+      },
+      {
+        "downloads": 18552,
+        "entryDate": "2019-12-23T00:00:00.000+0000"
+      },
+      {
+        "downloads": 31761,
+        "entryDate": "2019-12-30T00:00:00.000+0000"
+      },
+      {
+        "downloads": 32855,
+        "entryDate": "2020-01-06T00:00:00.000+0000"
+      },
+      {
+        "downloads": 20476,
+        "entryDate": "2020-01-13T00:00:00.000+0000"
+      }
+    ]
+  },
+  {
+    "marketName": "MINNEAPOLIS-ST. PAUL",
+    "downloads": 154658,
+    "trend": -0.3247073292732239,
+    "marketChartData": [
+      {
+        "downloads": 27504,
+        "entryDate": "2019-12-02T00:00:00.000+0000"
+      },
+      {
+        "downloads": 20569,
+        "entryDate": "2019-12-09T00:00:00.000+0000"
+      },
+      {
+        "downloads": 19611,
+        "entryDate": "2019-12-16T00:00:00.000+0000"
+      },
+      {
+        "downloads": 15774,
+        "entryDate": "2019-12-23T00:00:00.000+0000"
+      },
+      {
+        "downloads": 27671,
+        "entryDate": "2019-12-30T00:00:00.000+0000"
+      },
+      {
+        "downloads": 26733,
+        "entryDate": "2020-01-06T00:00:00.000+0000"
+      },
+      {
+        "downloads": 16796,
+        "entryDate": "2020-01-13T00:00:00.000+0000"
+      }
+    ]
+  },
+  {
+    "marketName": "DETROIT",
+    "downloads": 159233,
+    "trend": -0.19981805980205536,
+    "marketChartData": [
+      {
+        "downloads": 29170,
+        "entryDate": "2019-12-02T00:00:00.000+0000"
+      },
+      {
+        "downloads": 26528,
+        "entryDate": "2019-12-09T00:00:00.000+0000"
+      },
+      {
+        "downloads": 21490,
+        "entryDate": "2019-12-16T00:00:00.000+0000"
+      },
+      {
+        "downloads": 14905,
+        "entryDate": "2019-12-23T00:00:00.000+0000"
+      },
+      {
+        "downloads": 21740,
+        "entryDate": "2019-12-30T00:00:00.000+0000"
+      },
+      {
+        "downloads": 26784,
+        "entryDate": "2020-01-06T00:00:00.000+0000"
+      },
+      {
+        "downloads": 18616,
+        "entryDate": "2020-01-13T00:00:00.000+0000"
+      }
+    ]
+  },
+  {
+    "marketName": "BOSTON (MANCHESTER)",
+    "downloads": 154883,
+    "trend": -0.3002927601337433,
+    "marketChartData": [
+      {
+        "downloads": 25483,
+        "entryDate": "2019-12-02T00:00:00.000+0000"
+      },
+      {
+        "downloads": 21473,
+        "entryDate": "2019-12-09T00:00:00.000+0000"
+      },
+      {
+        "downloads": 17500,
+        "entryDate": "2019-12-16T00:00:00.000+0000"
+      },
+      {
+        "downloads": 14718,
+        "entryDate": "2019-12-23T00:00:00.000+0000"
+      },
+      {
+        "downloads": 29656,
+        "entryDate": "2019-12-30T00:00:00.000+0000"
+      },
+      {
+        "downloads": 27764,
+        "entryDate": "2020-01-06T00:00:00.000+0000"
+      },
+      {
+        "downloads": 18289,
+        "entryDate": "2020-01-13T00:00:00.000+0000"
+      }
+    ]
+  }
+]
