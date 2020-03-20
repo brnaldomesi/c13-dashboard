@@ -50,18 +50,27 @@ const getOptions = chartsData => ({
   },
 
   colorAxis: {
-    min: Math.min.apply(Math, chartsData.map(({ downloads }) => downloads)),
-    max: Math.max.apply(Math, chartsData.map(({ downloads }) => downloads)),
-    type: 'logarithmic',
-    allowNegativeLog: true
+    minColor: 'white',
+    maxColor: theme.cadence.mapMax,
+    stops: [
+      [0, 'white'],
+      [0.00039, theme.cadence.mapMin],
+      [0.0039, theme.cadence.mapStep1],
+      [0.0078, theme.cadence.mapStep2],
+      [0.078, theme.cadence.mapStep3],
+      [0.1, theme.cadence.mapStep4],
+      [0.2, theme.cadence.mapStep5],
+      [0.3, theme.cadence.mapStep6],
+      [1, theme.cadence.mapMax]
+    ]
   },
 
   series: [
     {
       name: 'Basemap',
       mapData: mapData,
-      borderColor: 'white',
-      nullColor: theme.cadence.mapNullColor,
+      borderColor: 'gray',
+      nullColor: 'white',
       showInLegend: false
     },
     {
