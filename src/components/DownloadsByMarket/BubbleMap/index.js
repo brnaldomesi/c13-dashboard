@@ -69,7 +69,7 @@ const getOptions = chartsData => ({
     {
       name: 'Basemap',
       mapData: mapData,
-      borderColor: 'gray',
+      borderColor: 'white',
       nullColor: 'white',
       showInLegend: false
     },
