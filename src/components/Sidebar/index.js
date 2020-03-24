@@ -2,6 +2,7 @@ import { IconCollapse, IconExpand, IconMail, IconNotification } from 'icons'
 import React, { useCallback, useState } from 'react'
 
 import Divider from '@material-ui/core/Divider'
+import Drawer from '@material-ui/core/Drawer'
 import InfoIcon from '@material-ui/icons/Info'
 import List from '@material-ui/core/List'
 import LogoutIcon from '@material-ui/icons/PowerSettingsNew'

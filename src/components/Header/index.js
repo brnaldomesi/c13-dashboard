@@ -14,7 +14,7 @@ import { withStyles } from '@material-ui/core'
 
 export const Header = ({ classes, isAuthenticated }) => (
   <AppBar position="fixed" color="default" className={classes.root}>
-    <Toolbar disableGutters>
+    <Toolbar disableGutters className={classes.toolbar}>
       <div className={classes.menuButton} />
       <Logo />
       {isAuthenticated && (

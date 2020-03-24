@@ -47,5 +47,8 @@ export default theme => ({
   },
   spacer: {
     flex: 1
+  },
+  toolbar: {
+    flexWrap: 'wrap'
   }
 })

@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 
 import Footer from 'components/Footer'
 import PropTypes from 'prop-types'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+import { createStructuredSelector } from 'reselect'
+import { isAuthenticatedSelector } from 'redux/modules/auth'
 import styles from './styles'
 import { withStyles } from '@material-ui/core/styles'
 
@@ -14,7 +18,7 @@ class Content extends Component {
   }
 
   render() {
-    const { classes, className, children, domRef } = this.props
+    const { classes, className, children, domRef, isAuthenticated } = this.props
 
     return (
       <div className={className}>
@@ -22,10 +26,21 @@ class Content extends Component {
         <div className={classes.root} ref={domRef}>
           {children}
         </div>
-        <Footer />
+        {isAuthenticated && <Footer />}
       </div>
     )
   }
 }
 
-export default withStyles(styles)(Content)
+Content.propTypes = {
+  isAuthenticated: PropTypes.bool
+}
+
+const selector = createStructuredSelector({
+  isAuthenticated: isAuthenticatedSelector
+})
+
+export default compose(
+  connect(selector),
+  withStyles(styles)
+)(Content)
