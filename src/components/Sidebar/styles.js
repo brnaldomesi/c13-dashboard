@@ -1,4 +1,8 @@
 export default theme => ({
+  paper: {
+    backgroundColor: theme.cadence.sidebarBg,
+    width: theme.cadence.sidebarWidth
+  },
   root: {
     backgroundColor: theme.cadence.sidebarBg,
     width: ({ open }) => (open ? theme.cadence.sidebarWidth : theme.cadence.miniSidebarWidth),

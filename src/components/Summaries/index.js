@@ -26,7 +26,7 @@ const Summaries = ({ getSummaries, loading, summaries, userPreference, minimized
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
-        <Grid item xs={4}>
+        <Grid item xs={12} sm={4}>
           <Panel>
             {minimized ? (
               <Panel.Header
@@ -76,7 +76,7 @@ const Summaries = ({ getSummaries, loading, summaries, userPreference, minimized
             )}
           </Panel>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={12} sm={4}>
           <Panel>
             {minimized ? (
               <Panel.Header
@@ -116,7 +116,7 @@ const Summaries = ({ getSummaries, loading, summaries, userPreference, minimized
             )}
           </Panel>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={12} sm={4}>
           <Panel>
             {minimized ? (
               <Panel.Header

@@ -11,6 +11,10 @@ export default theme => ({
   sticky: {
     position: 'sticky',
     top: theme.spacing(11),
-    zIndex: 1
+    zIndex: 1,
+    [theme.breakpoints.down('xs')]: {
+      top: theme.spacing(20) - 2,
+      position: 'inherit'
+    }
   }
 })

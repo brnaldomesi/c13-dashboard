@@ -2,7 +2,8 @@ import { fade } from '@material-ui/core/styles'
 
 export default theme => ({
   root: {
-    position: 'relative'
+    position: 'relative',
+    padding: theme.spacing(0, 1)
   },
   inputWrapper: {
     position: 'relative',

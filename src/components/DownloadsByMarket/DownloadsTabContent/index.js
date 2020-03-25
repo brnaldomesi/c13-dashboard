@@ -91,7 +91,7 @@ const DownloadsTabContent = ({ chartTotals = [], marketTotals = [], tabKey, view
       <div className={classes.content}>
         {tabKey === 'us' && <BubbleMap chartsData={marketTotals} />}
         <Grid container spacing={2}>
-          <Grid item xs={7}>
+          <Grid item xs={12} sm={7}>
             <Table className={classes.table} size="small">
               <TableHead>
                 <TableRow>
@@ -134,7 +134,7 @@ const DownloadsTabContent = ({ chartTotals = [], marketTotals = [], tabKey, view
               </TableBody>
             </Table>
           </Grid>
-          <Grid item xs={5}>
+          <Grid item xs={12} sm={5}>
             <DownloadsChart chartsData={chartsData} key={tabKey} />
           </Grid>
         </Grid>

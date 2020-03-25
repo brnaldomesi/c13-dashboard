@@ -86,7 +86,7 @@ const getOptions = chartsData => ({
         format: ''
       },
       name: 'Downloads',
-      maxSize: '10%',
+      maxSize: '5%',
       states: {
         hover: {
           color: theme.cadence.mapHover

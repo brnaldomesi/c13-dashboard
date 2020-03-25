@@ -20,5 +20,12 @@ export default theme => ({
     '&:hover': {
       textDecoration: 'none'
     }
+  },
+  footerLogo: {
+    [theme.breakpoints.down('xs')]: {
+      position: 'absolute',
+      top: 0,
+      left: theme.spacing(1)
+    }
   }
 })

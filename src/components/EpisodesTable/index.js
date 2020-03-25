@@ -1,31 +1,33 @@
-import React, { useCallback } from 'react'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
 import { FormattedDate, FormattedNumber } from 'react-intl'
-import { makeStyles } from '@material-ui/core/styles'
-import { withRouter } from 'react-router-dom'
+import React, { useCallback } from 'react'
+import { episodesRankingsLoadingSelector, episodesRankingsSelector } from 'redux/modules/media'
+import { escapeCsvColumnText, getHmsDuration } from 'utils/helpers'
+
 import Button from '@material-ui/core/Button'
-import fp from 'lodash/fp'
-import get from 'lodash/get'
+import IconExport from 'icons/IconExport'
+import LoadingIndicator from 'components/LoadingIndicator'
+import Panel from 'components/Panel'
+import Paper from '@material-ui/core/Paper'
 import PropTypes from 'prop-types'
+import SortableTableHead from 'components/SortableTableHead'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
+import TableContainer from '@material-ui/core/TableContainer'
 import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
 import Typography from '@material-ui/core/Typography'
-
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+import { createStructuredSelector } from 'reselect'
 import { downloadCSV } from 'utils/exporting'
-import { episodesRankingsSelector, episodesRankingsLoadingSelector } from 'redux/modules/media'
-import { escapeCsvColumnText, getHmsDuration } from 'utils/helpers'
-import IconExport from 'icons/IconExport'
-import Panel from 'components/Panel'
-import SortableTableHead from 'components/SortableTableHead'
+import fp from 'lodash/fp'
+import get from 'lodash/get'
+import { makeStyles } from '@material-ui/core/styles'
 import styles from './styles'
 import withPaginationHandler from 'hocs/withPaginationHandler'
+import { withRouter } from 'react-router-dom'
 import withSortHandler from 'hocs/withSortHandler'
-import LoadingIndicator from 'components/LoadingIndicator'
 
 const useStyles = makeStyles(styles)
 
@@ -141,50 +143,52 @@ const EpisodesTable = ({
             <LoadingIndicator isStatic size={32} />
           </div>
         ) : (
-          <Table className={classes.table} size="small">
-            <SortableTableHead columns={columns} onRequestSort={onRequestSort} order={order} orderBy={orderBy} />
-            <TableBody>
-              {paginatedList.map(episode => (
-                <TableRow
-                  key={episode.episodeId}
-                  hover
-                  className={classes.row}
-                  onClick={handleRowClick(episode.episodeId)}>
-                  <TableCell className={classes.cell}>{episode.name}</TableCell>
+          <TableContainer component={Paper}>
+            <Table className={classes.table} size="small">
+              <SortableTableHead columns={columns} onRequestSort={onRequestSort} order={order} orderBy={orderBy} />
+              <TableBody>
+                {paginatedList.map(episode => (
+                  <TableRow
+                    key={episode.episodeId}
+                    hover
+                    className={classes.row}
+                    onClick={handleRowClick(episode.episodeId)}>
+                    <TableCell className={classes.cell}>{episode.name}</TableCell>
 
-                  <TableCell className={classes.cell}>
-                    <FormattedDate format="numericDate" value={episode.publishDate} />
-                  </TableCell>
+                    <TableCell className={classes.cell}>
+                      <FormattedDate format="numericDate" value={episode.publishDate} />
+                    </TableCell>
 
-                  <TableCell className={classes.figure}>
-                    <FormattedNumber value={get(episode, 'downloads.dayOneDownloads')} />
-                    {' / '}
-                    <Typography variant="body2" color="primary" component="span">
-                      <FormattedNumber value={get(episode, 'rankings.dayOneDownloads')} />
-                    </Typography>
-                  </TableCell>
+                    <TableCell className={classes.figure}>
+                      <FormattedNumber value={get(episode, 'downloads.dayOneDownloads')} />
+                      {' / '}
+                      <Typography variant="body2" color="primary" component="span">
+                        <FormattedNumber value={get(episode, 'rankings.dayOneDownloads')} />
+                      </Typography>
+                    </TableCell>
 
-                  <TableCell className={classes.figure}>
-                    <FormattedNumber value={get(episode, 'downloads.weekOneDownloads')} />
-                    {' / '}
-                    <Typography variant="body2" color="primary" component="span">
-                      <FormattedNumber value={get(episode, 'rankings.weekOneDownloads')} />
-                    </Typography>
-                  </TableCell>
+                    <TableCell className={classes.figure}>
+                      <FormattedNumber value={get(episode, 'downloads.weekOneDownloads')} />
+                      {' / '}
+                      <Typography variant="body2" color="primary" component="span">
+                        <FormattedNumber value={get(episode, 'rankings.weekOneDownloads')} />
+                      </Typography>
+                    </TableCell>
 
-                  <TableCell className={classes.figure}>
-                    <FormattedNumber value={get(episode, 'downloads.totalDownloads')} />
-                    {' / '}
-                    <Typography variant="body2" color="primary" component="span">
-                      <FormattedNumber value={get(episode, 'rankings.totalDownloads')} />
-                    </Typography>
-                  </TableCell>
+                    <TableCell className={classes.figure}>
+                      <FormattedNumber value={get(episode, 'downloads.totalDownloads')} />
+                      {' / '}
+                      <Typography variant="body2" color="primary" component="span">
+                        <FormattedNumber value={get(episode, 'rankings.totalDownloads')} />
+                      </Typography>
+                    </TableCell>
 
-                  <TableCell className={classes.figure}>{getHmsDuration(get(episode, 'duration'))}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+                    <TableCell className={classes.figure}>{getHmsDuration(get(episode, 'duration'))}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         )}
       </Panel.Content>
       <Panel.Footer>

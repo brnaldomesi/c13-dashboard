@@ -17,6 +17,9 @@ export default theme => ({
     marginTop: ({ minimized }) => (minimized ? 0 : theme.spacing(4)),
     position: ({ minimized }) => (minimized ? 'absolute' : 'relative'),
     right: ({ minimized }) => (minimized ? theme.spacing(4) : 'unset'),
-    top: ({ minimized }) => (minimized ? theme.spacing(3) : 'unset')
+    top: ({ minimized }) => (minimized ? theme.spacing(3) : 'unset'),
+    [theme.breakpoints.down('md')]: {
+      display: 'contents'
+    }
   }
 })

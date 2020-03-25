@@ -49,6 +49,8 @@ export default theme => ({
     flex: 1
   },
   toolbar: {
-    flexWrap: 'wrap'
+    [theme.breakpoints.down('xs')]: {
+      flexWrap: 'wrap'
+    }
   }
 })

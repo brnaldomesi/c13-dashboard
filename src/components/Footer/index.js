@@ -11,7 +11,9 @@ import { withStyles } from '@material-ui/core'
 export const Footer = ({ classes }) => (
   <Toolbar disableGutters className={classes.root}>
     <div className={classes.menuButton} />
-    <Logo />
+    <div className={classes.footerLogo}>
+      <Logo />
+    </div>
     <div className={classes.linksGroup}>
       <Typography align="center">CONTACT US</Typography>
       <Link href="mailto:test@example.com">
