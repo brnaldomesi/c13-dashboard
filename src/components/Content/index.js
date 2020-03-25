@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import Footer from 'components/Footer'
 import PropTypes from 'prop-types'
+import cn from 'classnames'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
@@ -22,7 +23,11 @@ class Content extends Component {
 
     return (
       <div className={className}>
-        <div className={classes.toolbar} />
+        {isAuthenticated ? (
+          <div className={cn(classes.toolbar, classes.authedToolbar)} />
+        ) : (
+          <div className={classes.toolbar} />
+        )}
         <div className={classes.root} ref={domRef}>
           {children}
         </div>

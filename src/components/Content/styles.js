@@ -6,8 +6,8 @@ export default theme => ({
     alignItems: 'flex-start',
     backgroundColor: theme.cadence.contentBg
   },
-  toolbar: {
-    ...theme.mixins.toolbar,
+  toolbar: theme.mixins.toolbar,
+  authedToolbar: {
     [theme.breakpoints.down('xs')]: {
       minHeight: theme.spacing(17)
     }
