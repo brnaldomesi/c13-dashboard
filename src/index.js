@@ -1,21 +1,34 @@
 import 'core-js/stable'
 import 'regenerator-runtime/runtime'
-import React from 'react'
-import ReactDOM from 'react-dom'
+import './styles/styles.scss'
+
+import * as serviceWorker from './serviceWorker'
+
+import { SNACKBAR_AUTOHIDE_TIMEOUT, SNACKBAR_MAX_STACK } from 'config/constants'
+import store, { history } from './redux/store'
+
+import DateFnsUtils from '@date-io/date-fns'
 import { IntlProvider } from 'react-intl'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import { Provider } from 'react-redux'
-import { SnackbarProvider } from 'notistack'
-import DateFnsUtils from '@date-io/date-fns'
-
-import { SNACKBAR_MAX_STACK, SNACKBAR_AUTOHIDE_TIMEOUT } from 'config/constants'
-import * as serviceWorker from './serviceWorker'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import ReactGA from 'react-ga'
 import Routes from './routes'
-import store, { history } from './redux/store'
+import { SnackbarProvider } from 'notistack'
 import { ThemeProvider } from '@material-ui/core/styles'
 import intlConfig from 'config/intl'
 import theme from './config/theme'
-import './styles/styles.scss'
+
+const trackingID =
+  process.env.NODE_ENV === 'production'
+    ? 'UA-105095778-10'
+    : process.env.NODE_ENV === 'development'
+    ? 'UA-105095778-12'
+    : 'UA-105095778-11'
+
+ReactGA.initialize(trackingID)
+ReactGA.pageview(window.location.pathname + window.location.search)
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
