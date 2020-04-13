@@ -215,6 +215,6 @@ const selector = createStructuredSelector({
 export default compose(
   withRouter,
   connect(selector),
-  withSortHandler({ listPropName: 'episodes' }),
+  withSortHandler({ listPropName: 'episodes', orderParam: 'desc', orderByParam: 'publishDate' }),
   withPaginationHandler({ listPropName: 'sortProps.sortedList' })
 )(EpisodesTable)

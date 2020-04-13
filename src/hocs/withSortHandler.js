@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+
 import get from 'lodash/get'
 
 const desc = (a, b, orderBy) => {
@@ -25,10 +26,10 @@ const getSorting = (order, orderBy) => {
   return order === 'desc' ? (a, b) => desc(a, b, orderBy) : (a, b) => -desc(a, b, orderBy)
 }
 
-const withSortHandler = ({ listPropName }) => WrappedComponent => {
+const withSortHandler = ({ listPropName, orderParam, orderByParam }) => WrappedComponent => {
   const SortHandlerWrapper = props => {
-    const [order, setOrder] = useState('asc')
-    const [orderBy, setOrderBy] = useState('name')
+    const [order, setOrder] = useState(orderParam ? orderParam : 'asc')
+    const [orderBy, setOrderBy] = useState(orderByParam ? orderByParam : 'name')
 
     const handleRequestSort = property => {
       const isDesc = orderBy === property && order === 'desc'
