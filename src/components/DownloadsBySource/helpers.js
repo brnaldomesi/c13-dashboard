@@ -49,7 +49,7 @@ export const downloadsSourceMap = {
   'Safari Mobile': 'Safari'
 }
 
-export const downloadsSourceTotalColorMap = {
+export const downloadsSourceColorMap = {
   Apple: '#832ac4',
   Others: '#ffffff',
   Google: '#1a73e8',
@@ -94,7 +94,7 @@ export const getDownloadsTotalData = sourceData => {
   const data = sourceData.map(item => {
     const sources = item.sourceList.reduce((acc, source) => {
       const key = downloadsSourceMap[source.sourceName] || source.sourceName
-      const color = downloadsSourceTotalColorMap[key]
+      const color = downloadsSourceColorMap[key]
       const sourceNameItem = {}
 
       sourceNameItem['name'] = key
@@ -134,7 +134,7 @@ export const getDownloadsPercentageData = percentages => {
   }, {})
   return Object.keys(data)
     .sort()
-    .map(key => [key, data[key]])
+    .map(key => ({ name: key, y: data[key], color: downloadsSourceColorMap[key] }))
 }
 
 const sortByDownloads = fp.compose(

@@ -1,10 +1,10 @@
-import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
 import * as Highcharts from 'highcharts'
+
 import HighchartsReact from 'highcharts-react-official'
 import PropTypes from 'prop-types'
-
+import React from 'react'
 import { getDownloadsPercentageData } from '../helpers'
+import { makeStyles } from '@material-ui/core/styles'
 import styles from './styles'
 import theme from 'config/theme'
 
@@ -26,7 +26,7 @@ const getOptions = data => ({
     enabled: false
   },
   tooltip: {
-    pointFormat: '<b>Percentage</b>:{point.y:.1f}%'
+    pointFormat: '<b>Percentage</b>:{point.percentage:.1f}%'
   },
   accessibility: {
     point: {
