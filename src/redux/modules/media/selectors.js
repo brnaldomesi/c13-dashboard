@@ -28,7 +28,7 @@ export const networksRankingsSelector = state => {
 export const episodesRankingsSelector = state => {
   const episodes = episodesSelector(state)
   const mediaRankingTables = mediaRankingTablesSelector(state)
-  return episodes.map(episode => {
+  const episodesWithRanking = episodes.map(episode => {
     const downloads = find(mediaRankingTables, { mediaId: episode.episodeId })
     return {
       ...episode,
@@ -36,6 +36,8 @@ export const episodesRankingsSelector = state => {
       rankings: downloads ? getRankings(downloads, mediaRankingTables) : null
     }
   })
+
+  return episodesWithRanking.filter(episodeWithRanking => episodeWithRanking.downloads)
 }
 
 export const networksRankingsLoadingSelector = state =>
