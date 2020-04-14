@@ -40,7 +40,7 @@ const EmbedCodeModal = ({ handleHide, show, title, podcast, episode }) => {
   const [layout, setLayout] = useState('horizontal')
   const [playlistType, setPlaylistType] = useState('latest')
   const [playlistTag, setPlaylistTag] = useState('')
-  const [coverImage, setCoverImage] = useState('')
+  const [coverImage, setCoverImage] = useState('series')
   const [useCustomColor, setUseCustomColor] = useState('false')
   const [customColor, setCustomColor] = useState(initialCustomColor)
   const [showColorPicker, setShowColorPicker] = useState('false')
@@ -57,6 +57,9 @@ const EmbedCodeModal = ({ handleHide, show, title, podcast, episode }) => {
   }
   const handleLayoutChange = event => {
     setLayout(event.target.value)
+    if (event.target.value !== 'horizontal' && coverImage === 'none') {
+      setCoverImage('series')
+    }
   }
   const handleCoverImageChange = event => {
     setCoverImage(event.target.value)
@@ -128,9 +131,10 @@ const EmbedCodeModal = ({ handleHide, show, title, podcast, episode }) => {
   }
 
   const sneakPreviewParam = sneakPreview === 'true' ? '&enableSneakPreview=true' : ''
-  const coverImageParam = coverImage === 'true' ? '&hideCoverImage=true' : ''
+  const coverImageParam = coverImage === 'none' ? '&hideCoverImage=true' : ''
+  const useEpisodeImageParam = coverImage === 'episode' ? '&useEpisodeImage=true' : ''
 
-  const url = `https://${SHOWS_DOMAIN}/player/${podcast.slug}${episodePath}?theme=${theme}&layout=${layout}${playlistParam}${playlistTagParam}${coverImageParam}${colorParam}${sneakPreviewParam}`
+  const url = `https://${SHOWS_DOMAIN}/player/${podcast.slug}${episodePath}?theme=${theme}&layout=${layout}${playlistParam}${playlistTagParam}${coverImageParam}${useEpisodeImageParam}${colorParam}${sneakPreviewParam}`
   const embedCode = `<iframe style='width:${iframeWidth};height:${iframeHeight}' src='${url}'></iframe>`
 
   const colorBoxStyle = {
@@ -228,15 +232,28 @@ const EmbedCodeModal = ({ handleHide, show, title, podcast, episode }) => {
             </RadioGroup>
             {playlistTagSection}
           </FormControl>
-          <FormControl
-            component="fieldset"
-            className={classes.formControl}
-            margin="dense"
-            disabled={disableNonHorizontalFields}>
+          <FormControl component="fieldset" className={classes.formControl} margin="dense">
             <FormLabel component="legend">Cover Image</FormLabel>
             <RadioGroup aria-label="coverImage" name="coverImage1" value={coverImage} onChange={handleCoverImageChange}>
-              <FormControlLabel className={classes.formControlLabel} value="" control={<Radio />} label="Show" />
-              <FormControlLabel className={classes.formControlLabel} value="true" control={<Radio />} label="Hide" />
+              <FormControlLabel
+                className={classes.formControlLabel}
+                value="series"
+                control={<Radio />}
+                label="Series"
+              />
+              <FormControlLabel
+                className={classes.formControlLabel}
+                value="episode"
+                control={<Radio />}
+                label="Episode (if available)"
+              />
+              <FormControlLabel
+                disabled={disableNonHorizontalFields}
+                className={classes.formControlLabel}
+                value="none"
+                control={<Radio />}
+                label="None"
+              />
             </RadioGroup>
           </FormControl>
           <FormControl component="fieldset" className={classes.formControl} margin="dense">
