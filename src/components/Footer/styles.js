@@ -14,13 +14,7 @@ export default theme => ({
     transform: 'translateX(-50%)',
     textAlign: 'cneter'
   },
-  link: {
-    textDecoration: 'none',
-    color: 'white',
-    '&:hover': {
-      textDecoration: 'none'
-    }
-  },
+  link: theme.mixins.link,
   footerLogo: {
     [theme.breakpoints.down('xs')]: {
       position: 'absolute',

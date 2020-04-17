@@ -23,13 +23,6 @@ export default createMuiTheme({
     miniSidebarWidth: 57,
     mapHover: '#a4edba',
     mapMin: '#3daafe',
-    // mapStep1: '#01477E',
-    // mapStep2: '#0168b8',
-    // mapStep3: '#015da4',
-    // mapStep4: '#015494',
-    // mapStep5: '#3ca9fd',
-    // mapStep6: '#3ca9fd',
-
     mapStep1: '#016cbf',
     mapStep2: '#015da4',
     mapStep3: '#004c87',
@@ -37,5 +30,14 @@ export default createMuiTheme({
     mapStep5: '#012541',
     mapStep6: '#001321',
     mapMax: '#000204'
+  },
+  mixins: {
+    link: {
+      textDecoration: 'none',
+      color: 'white',
+      '&:hover': {
+        textDecoration: 'none'
+      }
+    }
   }
 })
