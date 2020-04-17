@@ -87,31 +87,6 @@ const DatePreferences = ({ updateUserPreference, userPreference }) => {
                 {({ values, handleChange, setFieldValue, handleSubmit, isSubmitting }) => (
                   <form onSubmit={handleSubmit}>
                     <Grid container spacing={4} className={classes.row}>
-                      <Grid item xs={4} className={classes.col}>
-                        <Field
-                          name="intervalPeriod"
-                          label="View Data"
-                          component={FormSelect}
-                          options={periodOptions}
-                          fullWidth
-                          className={classes.field}
-                        />
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={values.lifeTimeIntervalFlag}
-                              onChange={handleChange}
-                              name="lifeTimeIntervalFlag"
-                              value={true}
-                              color="primary"
-                            />
-                          }
-                          label="All"
-                        />
-                      </Grid>
-                      <Grid item className={classes.col}>
-                        <div className={classes.divider} />
-                      </Grid>
                       <Grid item xs className={classes.col}>
                         <Grid container spacing={4}>
                           <Grid item xs={6}>
@@ -153,6 +128,31 @@ const DatePreferences = ({ updateUserPreference, userPreference }) => {
                             </Button>
                           </Grid>
                         </Grid>
+                      </Grid>
+                      <Grid item className={classes.col}>
+                        <div className={classes.divider} />
+                      </Grid>
+                      <Grid item xs={4} className={classes.col}>
+                        <Field
+                          name="intervalPeriod"
+                          label="View Data"
+                          component={FormSelect}
+                          options={periodOptions}
+                          fullWidth
+                          className={classes.field}
+                        />
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={values.lifeTimeIntervalFlag}
+                              onChange={handleChange}
+                              name="lifeTimeIntervalFlag"
+                              value={true}
+                              color="primary"
+                            />
+                          }
+                          label="All"
+                        />
                       </Grid>
                     </Grid>
                     {isSubmitting && <LoadingIndicator />}
