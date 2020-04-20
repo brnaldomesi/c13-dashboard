@@ -4,7 +4,7 @@ import HighchartsReact from 'highcharts-react-official'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { getDownloadsTotalData } from '../helpers'
-import { getUTCDatefromMilliseconds } from 'utils/helpers'
+import { getUTCDateStringFromMilliseconds } from 'utils/helpers'
 import { makeStyles } from '@material-ui/core/styles'
 import styles from './styles'
 import theme from 'config/theme'
@@ -30,7 +30,7 @@ const getOptions = totalData => ({
       }
     },
     categories: totalData.data.map(item => {
-      return getUTCDatefromMilliseconds(Date.parse(item.date), 'M/d/yy')
+      return getUTCDateStringFromMilliseconds(Date.parse(item.date), 'M/d/yy')
     })
   },
   yAxis: {

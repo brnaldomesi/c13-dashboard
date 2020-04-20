@@ -1,24 +1,26 @@
 import React, { useState } from 'react'
 
 import Button from '@material-ui/core/Button'
+import CloseIcon from '@material-ui/icons/Close'
 import CopyIcon from '@material-ui/icons/FileCopy'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
 import FormControl from '@material-ui/core/FormControl'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormLabel from '@material-ui/core/FormLabel'
+import IconButton from '@material-ui/core/IconButton'
 import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
+import MuiDialogTitle from '@material-ui/core/DialogTitle'
 import PropTypes from 'prop-types'
 import Radio from '@material-ui/core/Radio'
 import RadioGroup from '@material-ui/core/RadioGroup'
 import { SHOWS_DOMAIN } from 'config/constants'
 import { SketchPicker } from 'react-color'
 import Tooltip from '@material-ui/core/Tooltip'
+import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import styles from './styles'
 
@@ -189,6 +191,20 @@ const EmbedCodeModal = ({ handleHide, show, title, podcast, episode }) => {
       ''
     )
 
+  const DialogTitle = props => {
+    const { children, onClose, ...other } = props
+    return (
+      <MuiDialogTitle disableTypography {...other}>
+        <Typography variant="h6">{children}</Typography>
+        {onClose ? (
+          <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+            <CloseIcon />
+          </IconButton>
+        ) : null}
+      </MuiDialogTitle>
+    )
+  }
+
   return (
     <Dialog
       className={classes.root}
@@ -197,7 +213,9 @@ const EmbedCodeModal = ({ handleHide, show, title, podcast, episode }) => {
       maxWidth="lg"
       aria-labelledby="confirm-modal-title"
       aria-describedby="confirm-modal-description">
-      <DialogTitle id="confirm-modal-title">{title}</DialogTitle>
+      <DialogTitle id="confirm-modal-title" onClose={handleClose}>
+        {title}
+      </DialogTitle>
       <DialogContent>
         <FormGroup row={true} className={classes.mainForm}>
           <FormControl component="fieldset" className={classes.formControl} margin="dense">
@@ -285,11 +303,6 @@ const EmbedCodeModal = ({ handleHide, show, title, podcast, episode }) => {
         </div>
         <iframe title="C13 Embedded Player" src={url} style={iframeStyle} className={iframeClass}></iframe>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} color="primary">
-          Close
-        </Button>
-      </DialogActions>
     </Dialog>
   )
 }

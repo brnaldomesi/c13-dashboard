@@ -85,7 +85,7 @@ export const getHmsDuration = seconds => {
 
 export const escapeCsvColumnText = str => (/[,"]/.test(str) ? `"${str.replace(/"/g, '""')}"` : str)
 
-export const getUTCDatefromMilliseconds = (milliseconds, format) => {
+export const getUTCDateStringFromMilliseconds = (milliseconds, format) => {
   const dTimezone = new Date()
   const offset = dTimezone.getTimezoneOffset() / 60
   const date = new Date(milliseconds)

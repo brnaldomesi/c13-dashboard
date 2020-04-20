@@ -91,5 +91,10 @@ export default theme => ({
   formCustomColorLabel: {
     fontWeight: 'normal !important',
     color: '#fff'
+  },
+  closeButton: {
+    position: 'absolute',
+    right: theme.spacing(1),
+    top: theme.spacing(1)
   }
 })

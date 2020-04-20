@@ -10,7 +10,7 @@ import Panel from 'components/Panel'
 import PropTypes from 'prop-types'
 import { downloadCSV } from 'utils/exporting'
 import fp from 'lodash/fp'
-import { getUTCDatefromMilliseconds } from 'utils/helpers'
+import { getUTCDateStringFromMilliseconds } from 'utils/helpers'
 import { makeStyles } from '@material-ui/core/styles'
 import styles from './styles'
 import theme from 'config/theme'
@@ -38,7 +38,7 @@ const getOptions = totals => ({
         color: theme.palette.text.primary
       },
       formatter: function() {
-        return getUTCDatefromMilliseconds(this.value, 'M/d/yy')
+        return getUTCDateStringFromMilliseconds(this.value, 'M/d/yy')
       }
     }
   },
