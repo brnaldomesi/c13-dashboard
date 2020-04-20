@@ -1,3 +1,4 @@
+import dfFormat from 'date-fns/format'
 import fp from 'lodash/fp'
 
 export const parseQueryString = string =>
@@ -83,3 +84,10 @@ export const getHmsDuration = seconds => {
 }
 
 export const escapeCsvColumnText = str => (/[,"]/.test(str) ? `"${str.replace(/"/g, '""')}"` : str)
+
+export const getUTCDatefromMilliseconds = (milliseconds, format) => {
+  const dTimezone = new Date()
+  const offset = dTimezone.getTimezoneOffset() / 60
+  const date = new Date(milliseconds)
+  return dfFormat(date.setHours(date.getHours() + offset), format)
+}

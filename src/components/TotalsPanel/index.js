@@ -8,9 +8,9 @@ import IconExport from 'icons/IconExport'
 import LoadingIndicator from 'components/LoadingIndicator'
 import Panel from 'components/Panel'
 import PropTypes from 'prop-types'
-import dfFormat from 'date-fns/format'
 import { downloadCSV } from 'utils/exporting'
 import fp from 'lodash/fp'
+import { getUTCDatefromMilliseconds } from 'utils/helpers'
 import { makeStyles } from '@material-ui/core/styles'
 import styles from './styles'
 import theme from 'config/theme'
@@ -38,7 +38,7 @@ const getOptions = totals => ({
         color: theme.palette.text.primary
       },
       formatter: function() {
-        return dfFormat(this.value, 'M/d/yy')
+        return getUTCDatefromMilliseconds(this.value, 'M/d/yy')
       }
     }
   },

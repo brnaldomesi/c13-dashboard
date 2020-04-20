@@ -81,7 +81,8 @@ const Dashboard = ({
     getTopTrendings,
     getDownloadsBySource,
     getDownloadsByMarket,
-    getDownloadsByRegion
+    getDownloadsByRegion,
+    userPreference
   ])
 
   useEffect(() => {
