@@ -83,6 +83,26 @@ const getOptions = totalData => ({
       events: {
         legendItemClick: function() {
           return false
+        },
+        mouseOver: function() {
+          const hoveredItem = this.legendItem.element
+          const highlightColor = 'chartreuse'
+          this.legendGroup.parentGroup.element.childNodes.forEach(function(itemGroup) {
+            const text = itemGroup.firstChild
+            if (text === hoveredItem) {
+              itemGroup.style.opacity = 1
+              text.style.fill = highlightColor
+            } else {
+              itemGroup.style.opacity = 0.2
+            }
+          })
+        },
+        mouseOut: function() {
+          this.legendGroup.parentGroup.element.childNodes.forEach(function(itemGroup) {
+            const text = itemGroup.firstChild
+            itemGroup.style.opacity = 1
+            text.style.fill = 'white'
+          })
         }
       }
     }
