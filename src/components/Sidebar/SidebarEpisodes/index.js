@@ -8,13 +8,15 @@ import List from '@material-ui/core/List'
 import PropTypes from 'prop-types'
 import SidebarItem from '../SidebarItem'
 import SidebarSubItem from '../SidebarSubItem'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { episodesSelector } from 'redux/modules/media'
 import get from 'lodash/get'
 import { userPreferenceSelector } from 'redux/modules/profiles'
+import withSortHandler from 'hocs/withSortHandler'
 
-const SidebarEpisodes = ({ className, text, episodes, open, onToggle, userPreference }) => {
+const SidebarEpisodes = ({ className, text, episodes, open, onToggle, userPreference, sortProps: { sortedList } }) => {
   const handleToggle = useCallback(() => onToggle('episodes'), [onToggle])
   const handleClickItem = useCallback(() => onToggle('episodes'), [onToggle])
   const networkId = get(userPreference, 'networkId')
@@ -33,7 +35,7 @@ const SidebarEpisodes = ({ className, text, episodes, open, onToggle, userPrefer
               onClick={handleClickItem}
               to={`/${networkId}/${podcastId}`}
             />
-            {episodes.map(episode => (
+            {sortedList.map(episode => (
               <SidebarSubItem
                 text={
                   <>
@@ -70,4 +72,7 @@ const selector = createStructuredSelector({
   userPreference: userPreferenceSelector
 })
 
-export default connect(selector)(SidebarEpisodes)
+export default compose(
+  connect(selector),
+  withSortHandler({ listPropName: 'episodes', orderParam: 'desc', orderByParam: 'publishDate' })
+)(SidebarEpisodes)
