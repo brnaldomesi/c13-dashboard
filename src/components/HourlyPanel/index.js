@@ -1,10 +1,11 @@
 import * as Highcharts from 'highcharts'
 
 import React, { useMemo } from 'react'
-import { getESTDateStringFromMilliseconds, numberWithCommas } from 'utils/helpers'
 
 import HighchartsReact from 'highcharts-react-official'
 import PropTypes from 'prop-types'
+import dfFormat from 'date-fns/format'
+import { numberWithCommas } from 'utils/helpers'
 import theme from 'config/theme'
 
 const getOptions = last48Hours => ({
@@ -28,7 +29,7 @@ const getOptions = last48Hours => ({
       }
     },
     categories: last48Hours.map(item => {
-      return getESTDateStringFromMilliseconds(item.date, 'h a')
+      return dfFormat(Date.parse(item.date), 'h a')
     }),
     tickInterval: 3
   },
@@ -50,10 +51,10 @@ const getOptions = last48Hours => ({
     formatter: function() {
       return (
         '<b>' +
-        getESTDateStringFromMilliseconds(this.points[0].key, 'E MMM d yyyy') +
+        dfFormat(Date.parse(this.points[0].key), 'E MMM d yyyy') +
         '</b><br/>' +
         '<b>' +
-        getESTDateStringFromMilliseconds(this.points[0].key, 'h a') +
+        dfFormat(Date.parse(this.points[0].key), 'h a') +
         '</b><br/>' +
         '<b>Downloads: </b><b style="color: ' +
         theme.palette.primary.main +

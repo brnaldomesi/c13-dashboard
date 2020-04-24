@@ -85,22 +85,21 @@ export const getHmsDuration = seconds => {
 
 export const escapeCsvColumnText = str => (/[,"]/.test(str) ? `"${str.replace(/"/g, '""')}"` : str)
 
-const stdTimezoneOffset = date => {
-  const jan = new Date(date.getFullYear(), 0, 1)
-  const jul = new Date(date.getFullYear(), 6, 1)
-  return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset())
-}
+// const stdTimezoneOffset = date => {
+//   const jan = new Date(date.getFullYear(), 0, 1)
+//   const jul = new Date(date.getFullYear(), 6, 1)
+//   return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset())
+// }
 
-const isDstObserved = date => {
-  return date.getTimezoneOffset() < stdTimezoneOffset(date)
-}
+// const isDstObserved = date => {
+//   return date.getTimezoneOffset() < stdTimezoneOffset(date)
+// }
 
 export const getESTDateStringFromMilliseconds = (milliseconds, format) => {
   const dTimezone = new Date()
   const offset = dTimezone.getTimezoneOffset() / 60
-  const estOffset = isDstObserved(dTimezone) ? 4 : 5
   const date = new Date(milliseconds)
-  return dfFormat(date.setHours(date.getHours() + offset - estOffset), format)
+  return dfFormat(date.setHours(date.getHours() + offset), format)
 }
 
 export const numberWithCommas = x => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')

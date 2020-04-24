@@ -31,6 +31,7 @@ const getOptions = totalData => ({
     },
     categories: totalData.data.map(item => {
       return getESTDateStringFromMilliseconds(Date.parse(item.date), 'M/d/yy')
+      //return dfFormat(Date.parse(item.date), 'M/d/yy')
     })
   },
   yAxis: {
