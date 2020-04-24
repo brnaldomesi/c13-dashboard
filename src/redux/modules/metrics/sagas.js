@@ -51,6 +51,13 @@ const getDownloadsByRegion = apiCallSaga({
   selectorKey: 'downloadsByRegion'
 })
 
+const getLast48Hours = apiCallSaga({
+  type: types.GET_LAST_48_HOURS,
+  method: 'get',
+  allowedParamKeys: [],
+  path: '/metrics/last48Hours',
+  selectorKey: 'getLast48Hours'
+})
 export default function* rootSaga() {
   yield takeLatest(types.GET_SUMMARIES, getSummaries)
   yield takeLatest(types.GET_TOTALS_AND_TRENDS, getTotalsAndTrends)
@@ -58,4 +65,5 @@ export default function* rootSaga() {
   yield takeLatest(types.GET_DOWNLOADS_BY_SOURCE, getDownloadsBySource)
   yield takeLatest(types.GET_DOWNLOADS_BY_MARKET, getDownloadsByMarket)
   yield takeLatest(types.GET_DOWNLOADS_BY_REGION, getDownloadsByRegion)
+  yield takeLatest(types.GET_LAST_48_HOURS, getLast48Hours)
 }

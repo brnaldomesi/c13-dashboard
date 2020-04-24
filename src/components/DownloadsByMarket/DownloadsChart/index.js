@@ -4,7 +4,7 @@ import React, { useMemo } from 'react'
 
 import HighchartsReact from 'highcharts-react-official'
 import PropTypes from 'prop-types'
-import { getUTCDateStringFromMilliseconds } from 'utils/helpers'
+import { getESTDateStringFromMilliseconds } from 'utils/helpers'
 import { makeStyles } from '@material-ui/core/styles'
 import styles from './styles'
 import theme from 'config/theme'
@@ -39,7 +39,7 @@ const getOptions = chartsData => ({
         color: theme.palette.text.primary
       },
       formatter: function() {
-        return getUTCDateStringFromMilliseconds(this.value, 'M/d/yy')
+        return getESTDateStringFromMilliseconds(this.value, 'M/d/yy')
       }
     }
   },

@@ -1,21 +1,11 @@
 import * as Highcharts from 'highcharts'
 
-import React, { useCallback, useMemo } from 'react'
+import React, { useMemo } from 'react'
 
-import Button from '@material-ui/core/Button'
 import HighchartsReact from 'highcharts-react-official'
-import IconExport from 'icons/IconExport'
-import LoadingIndicator from 'components/LoadingIndicator'
-import Panel from 'components/Panel'
 import PropTypes from 'prop-types'
-import { downloadCSV } from 'utils/exporting'
-import fp from 'lodash/fp'
-import { getUTCDateStringFromMilliseconds } from 'utils/helpers'
-import { makeStyles } from '@material-ui/core/styles'
-import styles from './styles'
+import { getESTDateStringFromMilliseconds } from 'utils/helpers'
 import theme from 'config/theme'
-
-const useStyles = makeStyles(styles)
 
 const getOptions = totals => ({
   chart: {
@@ -38,7 +28,7 @@ const getOptions = totals => ({
         color: theme.palette.text.primary
       },
       formatter: function() {
-        return getUTCDateStringFromMilliseconds(this.value, 'M/d/yy')
+        return getESTDateStringFromMilliseconds(this.value, 'M/d/yy')
       }
     }
   },
@@ -108,46 +98,12 @@ const getOptions = totals => ({
   ]
 })
 
-const csvHeader = 'Week,Listens'
-
-const getCSVData = fp.compose(
-  fp.join('\n'),
-  items => [csvHeader, ...items],
-  fp.map(item => [new Date(item.date).toDateString(), item.count].join(',')),
-  fp.defaultTo([]),
-  fp.get('chartData')
-)
-
-const TotalsPanel = ({ loading, totals }) => {
-  const classes = useStyles()
+const TotalsPanel = ({ totals }) => {
   const options = useMemo(() => getOptions(totals), [totals])
-
-  const handleExport = useCallback(() => {
-    const csv = getCSVData(totals)
-    downloadCSV(csv, 'totalDownloadsChartData.csv')
-  }, [totals])
-
-  return (
-    <div className={classes.root}>
-      <Panel>
-        <Panel.Header
-          title="Total"
-          action={
-            <Button className={classes.export} startIcon={<IconExport />} onClick={handleExport}>
-              Export
-            </Button>
-          }
-        />
-        <Panel.Content>
-          {loading ? <LoadingIndicator /> : <HighchartsReact highcharts={Highcharts} options={options} />}
-        </Panel.Content>
-      </Panel>
-    </div>
-  )
+  return <HighchartsReact highcharts={Highcharts} options={options} />
 }
 
 TotalsPanel.propTypes = {
-  loading: PropTypes.bool,
   totals: PropTypes.object
 }
 
