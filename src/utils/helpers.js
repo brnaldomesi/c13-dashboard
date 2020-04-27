@@ -1,5 +1,7 @@
-import dfFormat from 'date-fns/format'
+import 'moment-timezone'
+
 import fp from 'lodash/fp'
+import moment from 'moment'
 
 export const parseQueryString = string =>
   fp.compose(
@@ -85,21 +87,12 @@ export const getHmsDuration = seconds => {
 
 export const escapeCsvColumnText = str => (/[,"]/.test(str) ? `"${str.replace(/"/g, '""')}"` : str)
 
-// const stdTimezoneOffset = date => {
-//   const jan = new Date(date.getFullYear(), 0, 1)
-//   const jul = new Date(date.getFullYear(), 6, 1)
-//   return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset())
-// }
+export const getESTDateStr = (localDate, format) => {
+  return moment.tz(localDate, 'America/New_York').format(format)
+}
 
-// const isDstObserved = date => {
-//   return date.getTimezoneOffset() < stdTimezoneOffset(date)
-// }
-
-export const getESTDateStringFromMilliseconds = (milliseconds, format) => {
-  const dTimezone = new Date()
-  const offset = dTimezone.getTimezoneOffset() / 60
-  const date = new Date(milliseconds)
-  return dfFormat(date.setHours(date.getHours() + offset), format)
+export const getUTCDateStr = (localDate, format) => {
+  return moment.tz(localDate, 'UTC').format(format)
 }
 
 export const numberWithCommas = x => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')

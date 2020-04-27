@@ -20,7 +20,7 @@ import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { downloadCSV } from 'utils/exporting'
 import fp from 'lodash/fp'
-import { getESTDateStringFromMilliseconds } from 'utils/helpers'
+import { getESTDateStr } from 'utils/helpers'
 import { makeStyles } from '@material-ui/core/styles'
 import styles from './styles'
 import { userPreferenceSelector } from 'redux/modules/profiles'
@@ -66,8 +66,8 @@ const TotalAndHourly = ({
     fp.map(item =>
       [
         activeTab === tabs[0].key
-          ? getESTDateStringFromMilliseconds(item.date, 'E MMM d yyyy')
-          : getESTDateStringFromMilliseconds(item.date, 'E MMM d yyyy h a'),
+          ? getESTDateStr(item.date, 'ddd MMM D YYYY')
+          : getESTDateStr(item.date, 'ddd MMM D YYYY h a'),
         item.count
       ].join(',')
     ),

@@ -4,7 +4,7 @@ import React, { useMemo } from 'react'
 
 import HighchartsReact from 'highcharts-react-official'
 import PropTypes from 'prop-types'
-import { getESTDateStringFromMilliseconds } from 'utils/helpers'
+import { getUTCDateStr } from 'utils/helpers'
 import theme from 'config/theme'
 
 const getOptions = totals => ({
@@ -28,7 +28,7 @@ const getOptions = totals => ({
         color: theme.palette.text.primary
       },
       formatter: function() {
-        return getESTDateStringFromMilliseconds(this.value, 'M/d/yy')
+        return getUTCDateStr(this.value, 'M/D/YY')
       }
     }
   },
@@ -93,7 +93,7 @@ const getOptions = totals => ({
     {
       type: 'area',
       name: 'Total Downloads',
-      data: totals ? totals.chartData.map(item => [new Date(item.date).getTime(), item.count]) : []
+      data: totals ? totals.chartData.map(item => [+getUTCDateStr(item.date, 'x'), item.count]) : []
     }
   ]
 })
