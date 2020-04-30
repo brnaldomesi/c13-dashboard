@@ -1,7 +1,7 @@
-import { handleActions } from 'redux-actions'
-import fp from 'lodash/fp'
-
 import * as types from './types'
+
+import fp from 'lodash/fp'
+import { handleActions } from 'redux-actions'
 
 const getCookieVars = fp.compose(
   fp.fromPairs,

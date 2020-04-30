@@ -1,10 +1,10 @@
+import { REQUEST_PENDING, REQUEST_REJECTED, REQUEST_SUCCESS } from './types'
+
+import { combineReducers } from 'redux'
 import get from 'lodash/get'
+import { handleActions } from 'redux-actions'
 import set from 'lodash/set'
 import unset from 'lodash/unset'
-import { combineReducers } from 'redux'
-import { handleActions } from 'redux-actions'
-
-import { REQUEST_SUCCESS, REQUEST_REJECTED, REQUEST_PENDING } from './types'
 
 export const requests = handleActions(
   {

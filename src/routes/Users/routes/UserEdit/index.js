@@ -10,7 +10,7 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { formSubmit } from 'utils/form'
 import pick from 'lodash/pick'
-import { updateUser } from 'redux/modules/profiles'
+import { updateUser } from 'redux/modules/users'
 import { useSnackbar } from 'notistack'
 import { withRouter } from 'react-router-dom'
 

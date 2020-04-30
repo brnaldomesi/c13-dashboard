@@ -8,7 +8,7 @@ import { SNACKBAR_TYPE } from 'config/constants'
 import Typography from '@material-ui/core/Typography'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { createUser } from 'redux/modules/profiles'
+import { createUser } from 'redux/modules/users'
 import { formSubmit } from 'utils/form'
 import { useSnackbar } from 'notistack'
 import { withRouter } from 'react-router-dom'
@@ -28,7 +28,13 @@ export const UserNew = ({ history, createUser }) => {
     return formSubmit(
       createUser,
       {
-        data: values,
+        data: {
+          ...values,
+          networkId: values.networkId.networkID
+        },
+        componentData: {
+          networkName: values.networkId.networkName
+        },
         success: () => {
           enqueueSnackbar('Check your email to activate your account!', { variant: SNACKBAR_TYPE.SUCCESS })
           history.push('/users')

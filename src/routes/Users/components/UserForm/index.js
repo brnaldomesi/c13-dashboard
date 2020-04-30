@@ -18,7 +18,7 @@ import { createStructuredSelector } from 'reselect'
 import { getPodcasts } from 'redux/modules/media'
 import { networksSelector } from 'redux/modules/media'
 import { useSnackbar } from 'notistack'
-import { userRolesSelector } from 'redux/modules/profiles'
+import { userRolesSelector } from 'redux/modules/users'
 
 export const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -92,7 +92,7 @@ const UserForm = ({
   const handleNetworkChange = (event, network) => {
     if (network !== null) {
       const networkId = network.networkID
-      setFieldValue('networkId', networkId)
+      setFieldValue('networkId', network)
       getPodcasts({
         networkId,
         success: res => {

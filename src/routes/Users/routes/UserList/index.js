@@ -5,7 +5,7 @@ import {
   userDeletingSelector,
   usersListLoadingSelector,
   usersListSelector
-} from 'redux/modules/profiles'
+} from 'redux/modules/users'
 
 import Box from '@material-ui/core/Box'
 import Container from '@material-ui/core/Container'
@@ -52,10 +52,12 @@ export const Users = ({ getUsersList, users, history, usersLoading, userDeleting
   const sortedUsersList = getSortedUsersList(users)
 
   useEffect(() => {
-    getUsersList({
-      fail: () => enqueueSnackbar('Failed to load users!', { variant: SNACKBAR_TYPE.ERROR })
-    })
-  }, [getUsersList, enqueueSnackbar])
+    if (users.length === 0) {
+      getUsersList({
+        fail: () => enqueueSnackbar('Failed to load users!', { variant: SNACKBAR_TYPE.ERROR })
+      })
+    }
+  }, [getUsersList, enqueueSnackbar, users])
 
   return (
     <Container maxWidth="xl">
