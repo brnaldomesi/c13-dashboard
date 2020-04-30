@@ -102,8 +102,6 @@ export const Users = ({ getUsersList, users, history, usersLoading, userDeleting
                   id: rowData.userID,
                   success: () => {
                     enqueueSnackbar('User deleted!', { variant: SNACKBAR_TYPE.SUCCESS })
-                    history.push('/empty')
-                    history.push('/users')
                   },
                   fail: err => {
                     enqueueSnackbar(err.data.message, { variant: SNACKBAR_TYPE.ERROR })
