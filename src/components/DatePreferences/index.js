@@ -24,9 +24,9 @@ import styles from './styles'
 const useStyles = makeStyles(styles)
 
 const periodOptions = [
-  { value: 'MONTH', label: 'Monthly' },
+  { value: 'DAY', label: 'Daily' },
   { value: 'WEEK', label: 'Weekly' },
-  { value: 'DAY', label: 'Daily' }
+  { value: 'MONTH', label: 'Monthly' }
 ]
 
 const getPeriodLabel = value =>
