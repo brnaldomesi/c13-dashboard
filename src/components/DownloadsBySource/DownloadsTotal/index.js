@@ -10,7 +10,6 @@ import styles from './styles'
 import theme from 'config/theme'
 
 const useStyles = makeStyles(styles)
-
 const getOptions = totalData => ({
   chart: {
     type: 'column',
@@ -57,7 +56,7 @@ const getOptions = totalData => ({
         .get('rgba')
     },
     itemHoverStyle: {
-      color: theme.palette.text.primary
+      color: 'chartreuse'
     }
   },
   credits: {
@@ -86,12 +85,10 @@ const getOptions = totalData => ({
         },
         mouseOver: function() {
           const hoveredItem = this.legendItem.element
-          const highlightColor = 'chartreuse'
           this.legendGroup.parentGroup.element.childNodes.forEach(function(itemGroup) {
             const text = itemGroup.firstChild
             if (text === hoveredItem) {
-              itemGroup.style.opacity = 1
-              text.style.fill = highlightColor
+              text.style.fill = 'chartreuse'
             } else {
               itemGroup.style.opacity = 0.2
             }
@@ -114,13 +111,38 @@ const getOptions = totalData => ({
   }))
 })
 
+const chartCallback = chart => {
+  const series = chart.series
+  series.forEach(function(s) {
+    const legendItem = s.legendItem
+    const hoveredElement = legendItem.element
+
+    legendItem.on('mouseover', function() {
+      chart.series.forEach(item => {
+        const element = item.legendItem.element
+        if (element !== hoveredElement) {
+          element.parentElement.style.opacity = 0.2
+        }
+      })
+    })
+
+    legendItem.on('mouseout', function() {
+      chart.series.forEach(item => {
+        const element = item.legendItem.element
+        element.parentElement.style.opacity = 1
+      })
+    })
+  })
+}
+
 const DownloadsTotal = ({ sourceData }) => {
   const classes = useStyles()
   const totalData = getDownloadsTotalData(sourceData)
   const options = getOptions(totalData)
+
   return (
     <div className={classes.root}>
-      <HighchartsReact highcharts={Highcharts} options={options} />
+      <HighchartsReact highcharts={Highcharts} options={options} callback={chartCallback} />
     </div>
   )
 }
