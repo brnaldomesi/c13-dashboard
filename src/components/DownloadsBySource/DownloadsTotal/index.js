@@ -1,5 +1,11 @@
 import * as Highcharts from 'highcharts'
 
+import {
+  highlightLegendItemByLegend,
+  highlightLegendItemBySeriesMouseHover,
+  highlightLegendItemBySeriesMouseOut
+} from 'utils/highcharts'
+
 import HighchartsReact from 'highcharts-react-official'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -84,22 +90,10 @@ const getOptions = totalData => ({
           return false
         },
         mouseOver: function() {
-          const hoveredItem = this.legendItem.element
-          this.legendGroup.parentGroup.element.childNodes.forEach(function(itemGroup) {
-            const text = itemGroup.firstChild
-            if (text === hoveredItem) {
-              text.style.fill = 'chartreuse'
-            } else {
-              itemGroup.style.opacity = 0.2
-            }
-          })
+          highlightLegendItemBySeriesMouseHover(this)
         },
         mouseOut: function() {
-          this.legendGroup.parentGroup.element.childNodes.forEach(function(itemGroup) {
-            const text = itemGroup.firstChild
-            itemGroup.style.opacity = 1
-            text.style.fill = 'white'
-          })
+          highlightLegendItemBySeriesMouseOut(this)
         }
       }
     }
@@ -112,27 +106,7 @@ const getOptions = totalData => ({
 })
 
 const chartCallback = chart => {
-  const series = chart.series
-  series.forEach(function(s) {
-    const legendItem = s.legendItem
-    const hoveredElement = legendItem.element
-
-    legendItem.on('mouseover', function() {
-      chart.series.forEach(item => {
-        const element = item.legendItem.element
-        if (element !== hoveredElement) {
-          element.parentElement.style.opacity = 0.2
-        }
-      })
-    })
-
-    legendItem.on('mouseout', function() {
-      chart.series.forEach(item => {
-        const element = item.legendItem.element
-        element.parentElement.style.opacity = 1
-      })
-    })
-  })
+  highlightLegendItemByLegend(chart.series)
 }
 
 const DownloadsTotal = ({ sourceData }) => {

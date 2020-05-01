@@ -1,5 +1,11 @@
 import * as Highcharts from 'highcharts'
 
+import {
+  highlightLegendItemByLegend,
+  highlightLegendItemBySeriesMouseHover,
+  highlightLegendItemBySeriesMouseOut
+} from 'utils/highcharts'
+
 import HighchartsReact from 'highcharts-react-official'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -41,7 +47,17 @@ const getOptions = data => ({
       },
       center: ['50%', '50%'],
       size: '100%',
-      showInLegend: true
+      showInLegend: true,
+      point: {
+        events: {
+          mouseOver: function() {
+            highlightLegendItemBySeriesMouseHover(this)
+          },
+          mouseOut: function() {
+            highlightLegendItemBySeriesMouseOut(this)
+          }
+        }
+      }
     }
   },
   legend: {
@@ -59,7 +75,7 @@ const getOptions = data => ({
         .get('rgba')
     },
     itemHoverStyle: {
-      color: theme.palette.text.primary
+      color: 'chartreuse'
     }
   },
   series: [
@@ -72,13 +88,17 @@ const getOptions = data => ({
   ]
 })
 
+const chartCallback = chart => {
+  highlightLegendItemByLegend(chart.series[0].data, chart)
+}
+
 const DownloadsPercentage = ({ percentages }) => {
   const classes = useStyles()
   const data = getDownloadsPercentageData(percentages)
   const options = getOptions(data)
   return (
     <div className={classes.root}>
-      <HighchartsReact highcharts={Highcharts} options={options} />
+      <HighchartsReact highcharts={Highcharts} options={options} callback={chartCallback} />
     </div>
   )
 }
