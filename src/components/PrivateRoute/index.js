@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { getMediaRankingTables, getNetworks } from 'redux/modules/media'
-import { getUserRoles, userRolesSelector } from 'redux/modules/users'
+import { getUserRoles, getUsersList, userRolesSelector, usersListSelector } from 'redux/modules/users'
 
 import MainLayout from 'components/MainLayout'
 import PropTypes from 'prop-types'
@@ -14,7 +14,16 @@ import { isAuthenticatedOrRedir } from 'hocs/withAuth'
 import { profileSelector } from 'redux/modules/auth'
 
 const PrivateRoute = props => {
-  const { getActivePodcasts, getNetworks, getMediaRankingTables, profile, getUserPreference, getUserRoles } = props
+  const {
+    getActivePodcasts,
+    getNetworks,
+    getMediaRankingTables,
+    profile,
+    getUserPreference,
+    getUserRoles,
+    getUsersList,
+    users
+  } = props
 
   useEffect(() => {
     getActivePodcasts()
@@ -36,6 +45,12 @@ const PrivateRoute = props => {
     }
   }, [getUserRoles, profile.role])
 
+  useEffect(() => {
+    if (profile.role === 'ADMIN' && users.length === 0) {
+      getUsersList()
+    }
+  }, [getUsersList, profile.role, users])
+
   return (
     <MainLayout>
       <Route {...props} />
@@ -47,7 +62,8 @@ PrivateRoute.propTypes = {
   getMediaRankingTables: PropTypes.func.isRequired,
   getNetworks: PropTypes.func.isRequired,
   getUserPreference: PropTypes.func,
-  getUserRoles: PropTypes.func
+  getUserRoles: PropTypes.func,
+  getUsersList: PropTypes.func
 }
 
 const actions = {
@@ -55,12 +71,14 @@ const actions = {
   getMediaRankingTables,
   getNetworks,
   getUserPreference,
-  getUserRoles
+  getUserRoles,
+  getUsersList
 }
 
 const selector = createStructuredSelector({
   profile: profileSelector,
-  roles: userRolesSelector
+  roles: userRolesSelector,
+  users: usersListSelector
 })
 
 export default compose(

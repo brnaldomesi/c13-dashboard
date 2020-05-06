@@ -96,6 +96,14 @@ const confirmAndDeleteUser = function*(action) {
   }
 }
 
+const editPrivileges = apiCallSaga({
+  type: types.EDIT_PRIVILEGES,
+  method: 'patch',
+  allowedParamKeys: [],
+  path: ({ payload }) => `/profiles/editPrivileges`,
+  selectorKey: 'editPrivileges'
+})
+
 export default function* rootSaga() {
   yield takeLatest(types.GET_USERS_LIST, getUsersList)
   yield takeLatest(types.GET_USER_ROLES, getUserRoles)
@@ -103,4 +111,5 @@ export default function* rootSaga() {
   yield takeLatest(types.UPDATE_USER, updateUser)
   yield takeLatest(types.DELETE_USER, deleteUser)
   yield takeLatest(types.CONFIRM_AND_DELETE_USER, confirmAndDeleteUser)
+  yield takeLatest(types.EDIT_PRIVILEGES, editPrivileges)
 }

@@ -52,10 +52,18 @@ const getPodcasts = apiCallSaga({
   selectorKey: 'podcasts'
 })
 
+const getPodcastsByNetwork = apiCallSaga({
+  type: types.GET_PODCASTS_BY_NETWORK,
+  method: 'get',
+  path: ({ payload }) => `/media/series?networkId=${payload.networkId}&profileId=${payload.profileId}`,
+  selectorKey: 'podcastsByNetwork'
+})
+
 export default function* rootSaga() {
   yield takeLatest(types.GET_EPISODES, getEpisodes)
   yield takeLatest(types.GET_MEDIA_RANKING_TABLES, getMediaRankingTables)
   yield takeLatest(types.GET_NETWORKS, getNetworks)
   yield takeLatest(types.GET_ACTIVE_PODCASTS, getActivePodcasts)
   yield takeLatest(types.GET_PODCASTS, getPodcasts)
+  yield takeLatest(types.GET_PODCASTS_BY_NETWORK, getPodcastsByNetwork)
 }

@@ -7,10 +7,12 @@ export const networksSelector = dataSelector('networks', [])
 export const episodesSelector = dataSelector('episodes', [])
 export const mediaRankingTablesSelector = dataSelector('mediaRankingTables', [])
 export const activePodcastsSelector = dataSelector('activePodcasts', [])
+export const podcastsByNetworkSelector = dataSelector('podcastsByNetwork')
 
 export const networksLoadingSelector = isRequestPending('networks', 'get')
 export const episodesLoadingSelector = isRequestPending('episodes', 'get')
 export const mediaRankingTablesLoadingSelector = isRequestPending('mediaRankingTables', 'get')
+export const podcastsByNetworkLoadingSelector = isRequestPending('podcastsByNetwork', 'get')
 
 export const networksRankingsSelector = state => {
   const networks = networksSelector(state)

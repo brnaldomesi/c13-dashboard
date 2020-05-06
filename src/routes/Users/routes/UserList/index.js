@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react'
 import {
   confirmAndDeleteUser,
   getUsersList,
@@ -12,6 +11,7 @@ import Container from '@material-ui/core/Container'
 import LoadingIndicator from 'components/LoadingIndicator'
 import MaterialTable from 'material-table'
 import PropTypes from 'prop-types'
+import React from 'react'
 import { SNACKBAR_TYPE } from 'config/constants'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
@@ -50,14 +50,6 @@ const getSortedUsersList = users => {
 export const Users = ({ getUsersList, users, history, usersLoading, userDeleting, confirmAndDeleteUser }) => {
   const { enqueueSnackbar } = useSnackbar()
   const sortedUsersList = getSortedUsersList(users)
-
-  useEffect(() => {
-    if (users.length === 0) {
-      getUsersList({
-        fail: () => enqueueSnackbar('Failed to load users!', { variant: SNACKBAR_TYPE.ERROR })
-      })
-    }
-  }, [getUsersList, enqueueSnackbar, users])
 
   return (
     <Container maxWidth="xl">

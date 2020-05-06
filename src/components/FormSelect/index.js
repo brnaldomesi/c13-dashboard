@@ -25,7 +25,8 @@ const FormSelect = ({
   optionLabel,
   optionValue,
   multiple,
-  disabled
+  disabled,
+  selectAllOption
 }) => {
   const error = form.touched[field.name] && form.errors[field.name]
   const inputLabel = useRef(null)
@@ -50,6 +51,11 @@ const FormSelect = ({
         displayEmpty={!!placeholder}
         labelWidth={labelWidth}
         disabled={disabled}>
+        {selectAllOption && options.length > 0 && (
+          <MenuItem key="selectAll" value="selectAll">
+            Select all
+          </MenuItem>
+        )}
         {placeholder && <MenuItem value="">{placeholder}</MenuItem>}
         {options &&
           options.map((option, index) => {
@@ -87,7 +93,8 @@ FormSelect.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   optionLabel: PropTypes.string,
   optionValue: PropTypes.string,
-  multiple: PropTypes.bool
+  multiple: PropTypes.bool,
+  selectAllOption: PropTypes.bool
 }
 
 FormSelect.defaultProps = {

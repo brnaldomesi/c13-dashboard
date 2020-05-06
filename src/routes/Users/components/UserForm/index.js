@@ -1,7 +1,7 @@
 import * as Yup from 'yup'
 
 import { Box, Button } from '@material-ui/core'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 import { Field } from 'formik'
 import FormAutoComplete from 'components/FormAutoComplete'
@@ -46,14 +46,6 @@ const networksValidator = value => {
   }
 }
 
-const podcastsValidator = value => {
-  if (value.length === 0) {
-    return 'Podcast is required'
-  } else {
-    return undefined
-  }
-}
-
 const getRolesOptions = roles =>
   roles.map(value => ({
     value: value,
@@ -69,15 +61,27 @@ const UserForm = ({
   networks,
   networkDropdownState,
   getPodcasts,
-  roles
+  roles,
+  podcastsByNetwork
 }) => {
   const { email: initialEmail, networkId: initialNetwork } = initialValues
   const emailValidator = useMemo(() => emailValidationCreator(initialEmail), [initialEmail])
   const { enqueueSnackbar } = useSnackbar()
   const networksOptions = useMemo(() => getNetworksOptions(networks), [networks])
   const [networkDropdownOpen, setNetworkDropdownOpen] = useState(networkDropdownState.visibility)
-  const [podcasts, setPodcasts] = useState([])
+  const [podcasts, setPodcasts] = useState(podcastsByNetwork ? podcastsByNetwork.allSeries : [])
   const rolesOptions = useMemo(() => getRolesOptions(roles), [roles])
+
+  useEffect(() => {
+    if (podcastsByNetwork && podcastsByNetwork.allSeries.length > 0) {
+      setPodcasts(podcastsByNetwork.allSeries)
+      const entitledSeries = podcastsByNetwork.entitledSeries
+      if (entitledSeries.length > 0) {
+        setFieldValue('seriesIds', entitledSeries.map(podcast => podcast.seriesId))
+      }
+    }
+  }, [setFieldValue, podcastsByNetwork])
+
   const handleRoleChange = event => {
     const value = event.target.value
     setFieldValue('role', value)
@@ -110,7 +114,16 @@ const UserForm = ({
   }
 
   const handlePodcastsChange = event => {
-    setFieldValue('seriesIds', event.target.value)
+    const values = event.target.value
+    if (values.includes('selectAll')) {
+      if (values.length - 1 === podcasts.length) {
+        setFieldValue('seriesIds', [])
+      } else {
+        setFieldValue('seriesIds', podcasts.map(podcast => podcast.seriesId))
+      }
+    } else {
+      setFieldValue('seriesIds', event.target.value)
+    }
   }
 
   const emptyPodcasts = () => {
@@ -175,26 +188,23 @@ const UserForm = ({
                 inputValue={initialNetwork.networkName}
               />
             </Grid>
-            {!networkDropdownState.disabled && (
-              <Grid item sm={6}>
-                <Field
-                  multiple
-                  id="seriesIds"
-                  name="seriesIds"
-                  label="Podcasts"
-                  component={FormSelect}
-                  options={podcasts}
-                  onChange={handlePodcastsChange}
-                  validate={podcastsValidator}
-                  optionLabel="seriesName"
-                  optionValue="seriesId"
-                  fullWidth
-                  variant="outlined"
-                  margin="normal"
-                  disabled={networkDropdownState.disabled}
-                />
-              </Grid>
-            )}
+            <Grid item sm={6}>
+              <Field
+                multiple
+                id="seriesIds"
+                name="seriesIds"
+                label="Podcasts"
+                component={FormSelect}
+                options={podcasts}
+                onChange={handlePodcastsChange}
+                optionLabel="seriesName"
+                optionValue="seriesId"
+                fullWidth
+                variant="outlined"
+                margin="normal"
+                selectAllOption
+              />
+            </Grid>
           </Grid>
         )}
         <Grid container justify="flex-end" spacing={2}>
@@ -220,7 +230,8 @@ UserForm.propTypes = {
   isSubmitting: PropTypes.bool,
   networks: PropTypes.array,
   networkDropdownState: PropTypes.object,
-  getPodcasts: PropTypes.func
+  getPodcasts: PropTypes.func,
+  podcastsByNetwork: PropTypes.object
 }
 
 const selector = createStructuredSelector({
