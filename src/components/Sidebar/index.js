@@ -115,7 +115,12 @@ const Sidebar = ({ authLogout, open, toggle, profile, matchsXs }) => {
             className={classes.list}
           />
           <List>
-            <SidebarItem icon={IconMail} text={open ? 'Feedback' : ''} to="/feedback" onClick={expandSideBar} />
+            <SidebarItem
+              icon={IconMail}
+              text={open ? 'Feedback' : ''}
+              href="mailto:feedback@cadence13.com"
+              onClick={expandSideBar}
+            />
           </List>
           {open && <Divider />}
           {profile.role === 'ADMIN' && (
@@ -173,10 +178,4 @@ const selector = createStructuredSelector({
   profile: profileSelector
 })
 
-export default compose(
-  userIsAuthenticated,
-  connect(
-    selector,
-    actions
-  )
-)(Sidebar)
+export default compose(userIsAuthenticated, connect(selector, actions))(Sidebar)
