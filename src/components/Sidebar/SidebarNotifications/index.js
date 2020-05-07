@@ -72,7 +72,7 @@ const SidebarNotifications = ({ icon, text, onClick, open }) => {
   return (
     <ListItem button onClick={toggleNotificationsModal}>
       <ListItemIcon>
-        <Badge variant={open ? '' : 'dot'} badgeContent={unreadNotificationsCount} color="secondary">
+        <Badge variant={open ? 'standard' : 'dot'} badgeContent={unreadNotificationsCount} color="secondary">
           <Icon />
         </Badge>
       </ListItemIcon>
