@@ -15,14 +15,16 @@ const useStyles = makeStyles(styles)
 const SidebarItem = ({ icon, text, to, href, onClick, open, hasSubItems }) => {
   const Icon = icon
   const classes = useStyles()
+  let classString = classes.root
   let linkComponent = undefined
   if (to) {
     linkComponent = Link
   } else if (href) {
     linkComponent = MaterialUILink
+    classString = `${classString} ${classes.link}`
   }
   return (
-    <ListItem button component={linkComponent} href={href} to={to} onClick={onClick} className={classes.root}>
+    <ListItem button component={linkComponent} href={href} to={to} onClick={onClick} className={classString}>
       <ListItemIcon>
         <Icon />
       </ListItemIcon>
