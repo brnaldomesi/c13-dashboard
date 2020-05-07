@@ -13,6 +13,7 @@ import PropTypes from 'prop-types'
 import SidebarEpisodes from './SidebarEpisodes'
 import SidebarItem from './SidebarItem'
 import SidebarNetworks from './SidebarNetworks'
+import SidebarNotifications from './SidebarNotifications'
 import SidebarPodcasts from './SidebarPodcasts'
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount'
 import { Typography } from '@material-ui/core'
@@ -87,11 +88,11 @@ const Sidebar = ({ authLogout, open, toggle, profile, matchsXs }) => {
           )}
 
           <List className={classes.clearfix} ref={measuredRef}>
-            <SidebarItem
+            <SidebarNotifications
               icon={IconNotification}
               text={open ? 'Notifications' : ''}
-              to="/notifications"
               onClick={expandSideBar}
+              open={open}
             />
           </List>
           {open && <Divider />}
