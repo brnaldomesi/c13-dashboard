@@ -11,6 +11,7 @@ import Grid from '@material-ui/core/Grid'
 import IconArrowDropDown from '@material-ui/icons/ArrowDropDown'
 import IconArrowDropUp from '@material-ui/icons/ArrowDropUp'
 import PropTypes from 'prop-types'
+import StopIcon from '@material-ui/icons/Stop'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -43,6 +44,27 @@ const columns = [
   }
 ]
 
+const colors = [
+  'orange',
+  'green',
+  'blue',
+  'purple',
+  'red',
+  'yellow',
+  'white',
+  'lime',
+  'aqua',
+  'maroon',
+  'olive',
+  'teal',
+  'silver',
+  'firebrick',
+  'violet',
+  'deeppink'
+]
+
+const defaultColor = 'gray'
+
 const TopTrendings = ({ trendingList, mediaType, loading, sortProps: { onRequestSort, order, orderBy } }) => {
   const classes = useStyles()
   const [viewMore, setViewMore] = useState(false)
@@ -50,7 +72,8 @@ const TopTrendings = ({ trendingList, mediaType, loading, sortProps: { onRequest
     setViewMore(viewMore => !viewMore)
   }, [setViewMore])
   const hasManyItems = trendingList.length > 5
-  const finalTrendingList = viewMore || !hasManyItems ? trendingList : trendingList.slice(0, 5)
+  let finalTrendingList = viewMore || !hasManyItems ? trendingList : trendingList.slice(0, 5)
+  finalTrendingList = finalTrendingList.map((item, idx) => ({ ...item, color: colors[idx] || defaultColor }))
 
   return (
     <Panel className={classes.root}>
@@ -69,7 +92,10 @@ const TopTrendings = ({ trendingList, mediaType, loading, sortProps: { onRequest
                   {finalTrendingList.map(trendingItem => (
                     <TableRow key={trendingItem.mediaId} hover className={classes.row}>
                       <TableCell className={classes.cell}>
-                        <Typography variant="body1">{trendingItem.mediaName}</Typography>
+                        <Typography variant="body1">
+                          <StopIcon style={{ color: trendingItem.color }} className={classes.colorSwatch}></StopIcon>
+                          {trendingItem.mediaName}
+                        </Typography>
                       </TableCell>
 
                       <TableCell className={classes.figure}>
@@ -143,7 +169,4 @@ const selector = createStructuredSelector({
   loading: topTrendingsLoadingSelector
 })
 
-export default compose(
-  connect(selector),
-  withSortHandler({ listPropName: 'trendingList' })
-)(TopTrendings)
+export default compose(connect(selector), withSortHandler({ listPropName: 'trendingList' }))(TopTrendings)

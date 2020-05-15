@@ -46,6 +46,7 @@ const getOptions = topTrendings => ({
       type: 'pie',
       name: 'Downloads',
       innerSize: '65%',
+      colors: topTrendings.map(item => item.color || 'gray'),
       data: topTrendings.map(item => [item.mediaName, item.downloads])
     }
   ]

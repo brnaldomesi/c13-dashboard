@@ -33,5 +33,9 @@ export default theme => ({
   },
   chart: {
     width: 300
+  },
+  colorSwatch: {
+    verticalAlign: 'middle',
+    marginRight: theme.spacing(0.25)
   }
 })
