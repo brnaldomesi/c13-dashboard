@@ -68,7 +68,7 @@ const Dashboard = ({
     if (!episodeId) {
       getMediaRankingTables()
       getTopTrendings({ params: { amount: 10 } })
-      getDownloadsBySource({ params: { entryCount: 10 } })
+      getDownloadsBySource({ params: { entryCount: 50 } })
       getDownloadsByMarket({ params: { entryCount: 210 } })
       getDownloadsByRegion({ params: { entryCount: 213 } })
     }
@@ -132,11 +132,4 @@ const actions = {
   getUserSeries
 }
 
-export default compose(
-  connect(
-    selector,
-    actions
-  ),
-  withLocationToPreference,
-  withStyles(styles)
-)(Dashboard)
+export default compose(connect(selector, actions), withLocationToPreference, withStyles(styles))(Dashboard)

@@ -90,7 +90,7 @@ export const downloadsSourceColorMap = {
 }
 
 export const getDownloadsTotalData = sourceData => {
-  const sourceNames = []
+  const sourceNameMap = {}
   const data = sourceData.map(item => {
     const sources = item.sourceList.reduce((acc, source) => {
       const key = downloadsSourceMap[source.sourceName] || source.sourceName
@@ -99,8 +99,15 @@ export const getDownloadsTotalData = sourceData => {
 
       sourceNameItem['name'] = key
       sourceNameItem['color'] = color
-      if (fp.some(sourceNameItem)(sourceNames) === false) {
-        sourceNames.push(sourceNameItem)
+
+      if (!sourceNameMap[key]) {
+        sourceNameMap[key] = {
+          name: key,
+          color: color,
+          downloads: source.downloads
+        }
+      } else {
+        sourceNameMap[key].downloads += source.downloads
       }
 
       if (acc[key]) {
@@ -115,6 +122,9 @@ export const getDownloadsTotalData = sourceData => {
       sources
     }
   })
+
+  const sourceNames = sortByDownloads(Object.values(sourceNameMap)).slice(0, 10)
+
   return {
     data,
     sourceNames
@@ -133,7 +143,8 @@ export const getDownloadsPercentageData = percentages => {
     return acc
   }, {})
   return Object.keys(data)
-    .sort()
+    .sort((j, k) => data[k] - data[j])
+    .slice(0, 10)
     .map(key => ({ name: key, y: data[key], color: downloadsSourceColorMap[key] }))
 }
 
