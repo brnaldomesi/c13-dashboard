@@ -58,7 +58,6 @@ if (localStorage) {
 const SidebarNotifications = ({ icon, text, onClick, open }) => {
   const [showNotificationsModal, setShowNotificationsModal] = useState(false)
   const [unreadNotificationsCount, setUnreadNotificationsCount] = useState(numUnreadNotifications)
-  const [notificationList, setNotifications] = useState(notifications)
   const Icon = icon
 
   const toggleNotificationsModal = e => {
