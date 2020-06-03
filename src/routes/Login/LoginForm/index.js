@@ -1,5 +1,6 @@
 import Button from '@material-ui/core/Button'
 import { Field } from 'formik'
+import FormCheckbox from 'components/FormCheckbox'
 import FormInput from 'components/FormInput'
 import Link from '@material-ui/core/Link'
 import LoadingIndicator from 'components/LoadingIndicator'
@@ -25,6 +26,13 @@ const LoginForm = ({ classes, errors, handleSubmit, isSubmitting }) => (
       placeholder="Password"
       component={FormInput}
       fullWidth
+      className={classes.field}
+    />
+    <Field
+      name="remeberme"
+      label="Remeber Me"
+      toggleValues={[false, true]}
+      component={FormCheckbox}
       className={classes.field}
     />
     {errors.globalError && (
