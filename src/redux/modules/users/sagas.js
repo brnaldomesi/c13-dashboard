@@ -101,7 +101,7 @@ const deactivateUser = apiCallSaga({
   type: types.DEACTIVATE_USER,
   method: 'put',
   allowedParamKeys: [],
-  path: ({ payload }) => `/profile/${payload.id}/status`,
+  path: ({ payload }) => `/profiles/${payload.id}/status`,
   selectorKey: 'user',
   success: function*(payload, action) {
     yield put(deactivateUserSuccess({ res: payload, action }))

@@ -77,6 +77,7 @@ export default handleActions(
       }
     ) => {
       const deactivatedUser = state.usersList.find(user => user.userID === id)
+      deactivatedUser.status = 'DISABLED'
 
       return {
         ...state,
