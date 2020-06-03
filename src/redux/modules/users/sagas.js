@@ -3,6 +3,7 @@ import * as types from './types'
 import { call, put, race, takeLatest } from 'redux-saga/effects'
 import {
   createUserSuccess,
+  deactivateUserSuccess,
   deleteUserSuccess,
   getUserRolesSuccess,
   getUsersListFail,
@@ -96,6 +97,41 @@ const confirmAndDeleteUser = function*(action) {
   }
 }
 
+const deactivateUser = apiCallSaga({
+  type: types.DEACTIVATE_USER,
+  method: 'put',
+  allowedParamKeys: [],
+  path: ({ payload }) => `/profile/${payload.id}/status`,
+  selectorKey: 'user',
+  success: function*(payload, action) {
+    yield put(deactivateUserSuccess({ res: payload, action }))
+  }
+})
+
+const confirmDeactivate = function*() {
+  const confirmProm = bindCallbackToPromise()
+  const cancelProm = bindCallbackToPromise()
+  yield put(
+    show('confirmModal', {
+      onConfirm: confirmProm.cb,
+      onCancel: cancelProm.cb,
+      title: 'Are you sure you want to deactivate this user?'
+    })
+  )
+  const result = yield race({
+    confirmed: call(confirmProm.promise),
+    canceled: call(cancelProm.promise)
+  })
+  return Object.keys(result).includes('confirmed') ? true : false
+}
+
+const confirmAndDeactivateUser = function*(action) {
+  const confirmed = yield call(confirmDeactivate)
+  if (confirmed) {
+    yield call(deactivateUser, action)
+  }
+}
+
 const editPrivileges = apiCallSaga({
   type: types.EDIT_PRIVILEGES,
   method: 'patch',
@@ -111,5 +147,7 @@ export default function* rootSaga() {
   yield takeLatest(types.UPDATE_USER, updateUser)
   yield takeLatest(types.DELETE_USER, deleteUser)
   yield takeLatest(types.CONFIRM_AND_DELETE_USER, confirmAndDeleteUser)
+  yield takeLatest(types.DEACTIVATE_USER, deactivateUser)
+  yield takeLatest(types.CONFIRM_AND_DEACTIVATE_USER, confirmAndDeactivateUser)
   yield takeLatest(types.EDIT_PRIVILEGES, editPrivileges)
 }

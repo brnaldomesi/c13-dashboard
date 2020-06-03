@@ -1,4 +1,5 @@
 import {
+  confirmAndDeactivateUser,
   confirmAndDeleteUser,
   getUsersList,
   userDeletingSelector,
@@ -47,7 +48,15 @@ const getSortedUsersList = users => {
   return users
 }
 
-export const Users = ({ getUsersList, users, history, usersLoading, userDeleting, confirmAndDeleteUser }) => {
+export const Users = ({
+  getUsersList,
+  users,
+  history,
+  usersLoading,
+  userDeleting,
+  confirmAndDeleteUser,
+  confirmAndDeactivateUser
+}) => {
   const { enqueueSnackbar } = useSnackbar()
   const sortedUsersList = getSortedUsersList(users)
 
@@ -87,6 +96,22 @@ export const Users = ({ getUsersList, users, history, usersLoading, userDeleting
               }
             },
             {
+              icon: 'block',
+              tooltip: 'Deactivate User',
+              onClick: (event, rowData) => {
+                confirmAndDeactivateUser({
+                  id: rowData.userID,
+                  data: { status: 'DISABLED' },
+                  success: () => {
+                    enqueueSnackbar('User deactivated!', { variant: SNACKBAR_TYPE.SUCCESS })
+                  },
+                  fail: err => {
+                    enqueueSnackbar(err.data.message, { variant: SNACKBAR_TYPE.ERROR })
+                  }
+                })
+              }
+            },
+            {
               icon: 'delete',
               tooltip: 'Delete User',
               onClick: (event, rowData) => {
@@ -117,7 +142,8 @@ Users.propTypes = {
   history: PropTypes.object.isRequired,
   getUsersList: PropTypes.func.isRequired,
   usersLoading: PropTypes.bool,
-  confirmAndDeleteUser: PropTypes.func.isRequired
+  confirmAndDeleteUser: PropTypes.func.isRequired,
+  confirmAndDeactivateUser: PropTypes.func.isRequired
 }
 
 const selector = createStructuredSelector({
@@ -128,7 +154,8 @@ const selector = createStructuredSelector({
 
 const actions = {
   getUsersList,
-  confirmAndDeleteUser
+  confirmAndDeleteUser,
+  confirmAndDeactivateUser
 }
 
 export default compose(

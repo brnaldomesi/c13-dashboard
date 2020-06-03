@@ -65,7 +65,24 @@ export default handleActions(
     ) => ({
       ...state,
       usersList: state.usersList.filter(user => user.userID !== id)
-    })
+    }),
+    [types.DEACTIVATE_USER_SUCCESS]: (
+      state,
+      {
+        payload: {
+          action: {
+            payload: { id }
+          }
+        }
+      }
+    ) => {
+      const deactivatedUser = state.usersList.find(user => user.userID === id)
+
+      return {
+        ...state,
+        usersList: state.usersList.map(user => (user.userID === id ? deactivatedUser : user))
+      }
+    }
   },
   getInitialState()
 )
