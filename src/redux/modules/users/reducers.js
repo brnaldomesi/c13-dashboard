@@ -1,5 +1,5 @@
 import * as types from './types'
-
+import concat from 'lodash/concat'
 import { handleActions } from 'redux-actions'
 
 const getInitialState = () => ({
@@ -38,9 +38,8 @@ export default handleActions(
         email: res.email,
         userRole: res.role
       }
-      state.usersList.push(addedUser)
 
-      return state
+      return { ...state, usersList: concat(state.usersList, [addedUser]) }
     },
     [types.UPDATE_USER_SUCCESS]: (state, { payload }) => {
       const updatedUser = state.usersList.find(user => user.userID === payload.profileId)
